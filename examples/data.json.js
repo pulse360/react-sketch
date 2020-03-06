@@ -1,5 +1,5 @@
 export default {
-    "objects": [
+    [
         {
             "type": "line",
             "originX": "center",
