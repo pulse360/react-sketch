@@ -21,7 +21,7 @@ const internals = ['fabric', 'canvas']
 
 module.exports = {
   entry: {
-    src: './src',
+    src: './src/components/index.js',
   },
   performance: {
     hints: false,
