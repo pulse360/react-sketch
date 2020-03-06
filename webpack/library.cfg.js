@@ -37,6 +37,7 @@ module.exports = {
   cache: true,
   module: {
     rules: [
+      { test: /\.css$/, loader: 'style-loader!css-loader' },
       {
         test: /\.(js|jsx)$/,
         include: [Paths.srcPath],
