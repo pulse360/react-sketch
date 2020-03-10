@@ -1,9 +1,9 @@
 import React from 'react'
-import { Dashboard } from '../src/components'
+import { SketchBoard } from '../src/components'
 
 class SketchFieldDemo extends React.Component {
   render() {
-    return <Dashboard />
+    return <SketchBoard />
   }
 }
 
