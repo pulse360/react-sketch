@@ -73,7 +73,7 @@ class SketchBoard extends React.Component {
       unit: 'px',
     })
     pdf.addImage(image, 'JPEG', 0, 0, 630, 450)
-    pdf.save('download.pdf')
+    this.props.onSavePdf(pdf)
   }
 
   _removeMe = (index) => {
