@@ -19,7 +19,6 @@ import PanToolIcon from '@material-ui/icons/PanTool'
 import ZoomInIcon from '@material-ui/icons/ZoomIn'
 import ZoomOutIcon from '@material-ui/icons/ZoomOut'
 import BorderColorIcon from '@material-ui/icons/BorderColor'
-import jsPDF from 'jsPDF'
 
 class SketchBoard extends React.Component {
   constructor(props) {
@@ -66,14 +65,7 @@ class SketchBoard extends React.Component {
   }
 
   _download = () => {
-    const image = this._sketch.toDataURL()
-
-    const pdf = new jsPDF({
-      orientation: 'l',
-      unit: 'px',
-    })
-    pdf.addImage(image, 'JPEG', 0, 0, 630, 450)
-    this.props.onSavePdf(pdf)
+    this.props.onSaveCanvas(JSON.stringify(this._sketch.toJSON()))
   }
 
   _removeMe = (index) => {
@@ -288,6 +280,7 @@ class SketchBoard extends React.Component {
               forceValue
               onChange={this._onSketchChange}
               tool={this.state.tool}
+              defaultValue={this.props.defaultValue}
             />
           </div>
           <div style={{ width: 0 }}>
