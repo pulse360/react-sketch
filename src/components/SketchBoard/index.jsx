@@ -5,20 +5,8 @@ import 'flexboxgrid'
 import './styles.css'
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles'
 import color from '@material-ui/core/colors/blueGrey'
-import { SketchField, Appbar, ToolsUI, Colors, Images, Background } from '../'
+import { SketchField, Appbar, ToolsUI, FillColor, Images, Background, ToolsPanel } from '../'
 import Tools from '../Tools'
-
-import IconButton from '@material-ui/core/IconButton'
-import CreateIcon from '@material-ui/icons/Create'
-import RemoveIcon from '@material-ui/icons/Remove'
-import CallMadeIcon from '@material-ui/icons/CallMade'
-import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank'
-import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked'
-import OpenWithIcon from '@material-ui/icons/OpenWith'
-import PanToolIcon from '@material-ui/icons/PanTool'
-import ZoomInIcon from '@material-ui/icons/ZoomIn'
-import ZoomOutIcon from '@material-ui/icons/ZoomOut'
-import BorderColorIcon from '@material-ui/icons/BorderColor'
 
 class SketchBoard extends React.Component {
   constructor(props) {
@@ -42,12 +30,26 @@ class SketchBoard extends React.Component {
       originX: 'left',
       originY: 'top',
       expandTools: false,
-      expandColors: false,
+      expandFillColor: false,
       expandBack: false,
       expandImages: false,
       text: 'a text, cool!',
       enableCopyPaste: false,
+      anchorEl: null,
+      fillOpen: false,
     }
+  }
+
+  openPopup = (key) => {
+    this.setState(() => ({
+      [key]: !this.state[key],
+    }))
+  }
+
+  setAnchorEl = (event) => {
+    this.setState({
+      anchorEl: event.currentTarget,
+    })
   }
 
   _selectTool = (tool) => {
@@ -59,13 +61,11 @@ class SketchBoard extends React.Component {
   }
 
   _save = () => {
-    let drawings = this.state.drawings
-    drawings.push(this._sketch.toDataURL())
-    this.setState({ drawings: drawings })
+    this.props.onSaveCanvas(JSON.stringify(this._sketch.toJSON()))
   }
 
   _download = () => {
-    this.props.onSaveCanvas(JSON.stringify(this._sketch.toJSON()))
+    // this.props.onSaveCanvas(JSON.stringify(this._sketch.toJSON()))
   }
 
   _removeMe = (index) => {
@@ -174,6 +174,8 @@ class SketchBoard extends React.Component {
       <MuiThemeProvider theme={theme}>
         <div className='wrapper'>
           <Appbar
+            openPopup={this.openPopup}
+            setAnchorEl={(event) => this.setAnchorEl(event)}
             canUndo={this.state.canUndo}
             canRedo={this.state.canRedo}
             save={this._save}
@@ -202,7 +204,14 @@ class SketchBoard extends React.Component {
             text={this.state.text}
             addText={this._addText}
           />
-          <Colors
+          <FillColor
+            open={this.state.fillOpen}
+            handleOpen={(e) => this.setState({ fillOpen: !this.state.fillOpen })}
+            color={this.state.fillColor}
+            changeColor={(color) => this.setState({ fillColor: color.hex })}
+            anchorEl={this.state.anchorEl}
+          />
+          {/* <Colors
             open={this.state.expandColors}
             handleOpen={(e) => this.setState({ expandColors: !this.state.expandColors })}
             lineColor={this.state.lineColor}
@@ -211,7 +220,7 @@ class SketchBoard extends React.Component {
             changeFillWithColor={(e) => this.setState({ fillWithColor: !this.state.fillWithColor })}
             fillColor={this.state.fillColor}
             changeFillColor={(color) => this.setState({ fillColor: color.hex })}
-          />
+          /> */}
           <Background
             open={this.state.expandBack}
             handleOpen={(e) => this.setState({ expandBack: !this.state.expandBack })}
@@ -237,38 +246,7 @@ class SketchBoard extends React.Component {
             addImage={(image) => this._sketch.addImg(image)}
           />
           <div className='bottom'>
-            <div className='left-toolbar'>
-              <IconButton onClick={() => this._selectTool('pencil')}>
-                <CreateIcon color='primary' />
-              </IconButton>
-              <IconButton onClick={() => this._selectTool('line')}>
-                <RemoveIcon color='primary' />
-              </IconButton>
-              <IconButton onClick={() => this._selectTool('arrow')}>
-                <CallMadeIcon color='primary' />
-              </IconButton>
-              <IconButton onClick={() => this._selectTool('rectangle')}>
-                <CheckBoxOutlineBlankIcon color='primary' />
-              </IconButton>
-              <IconButton onClick={() => this._selectTool('circle')}>
-                <RadioButtonUncheckedIcon color='primary' />
-              </IconButton>
-              <IconButton onClick={() => this._selectTool('select')}>
-                <OpenWithIcon color='primary' />
-              </IconButton>
-              <IconButton onClick={() => this._selectTool('pan')}>
-                <PanToolIcon color='primary' />
-              </IconButton>
-              <IconButton onClick={(e) => this._sketch.zoom(1.25)}>
-                <ZoomInIcon color='primary' />
-              </IconButton>
-              <IconButton onClick={(e) => this._sketch.zoom(0.8)}>
-                <ZoomOutIcon color='primary' />
-              </IconButton>
-              <IconButton onClick={() => this._selectTool('highlighter')}>
-                <BorderColorIcon color='primary' />
-              </IconButton>
-            </div>
+            <ToolsPanel selectTool={(tool) => this._selectTool(tool)} />
             <SketchField
               name='sketch'
               className='canvas-area'

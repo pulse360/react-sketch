@@ -1,0 +1,31 @@
+.appbar-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  width: 40px;
+  height: 40px;
+  background: #ffffff;
+  border: 1px solid #ebebeb;
+  cursor: pointer;
+  outline: none;
+}
+
+.appbar-button:hover {
+  background-color: #e6e6e6;
+}
+
+.appbar-button:first-child {
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
+}
+
+.appbar-button:last-child {
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+}
+
+.appbar-button:disabled {
+  background-color: #5e5e5e;
+  cursor: not-allowed;
+}
