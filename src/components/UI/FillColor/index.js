@@ -1,10 +1,21 @@
 import React from 'react'
 import { CirclePicker } from 'react-color'
-import { Popover } from '@material-ui/core'
+import { Popover, FormControlLabel, Switch } from '@material-ui/core'
 
-const FillColor = ({ open, handleOpen, changeColor, color, anchorEl }) => {
+const style = {
+  padding: 20,
+}
+
+const FillColor = ({ open, handleOpen, changeColor, color, anchorEl, onFillWithColorChange, fillWithColor }) => {
+  const onChangeColor = (color) => {
+    changeColor(color)
+    onFillWithColorChange(true)
+    handleOpen()
+  }
+
   return (
     <Popover
+      PaperProps={{ style }}
       anchorOrigin={{
         vertical: 'bottom',
         horizontal: 'left',
@@ -19,8 +30,15 @@ const FillColor = ({ open, handleOpen, changeColor, color, anchorEl }) => {
       onClose={handleOpen}
       transition
     >
-      <label htmlFor='lineColor'>Line</label>
-      <CirclePicker id='lineColor' color={color} onChange={changeColor} />
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <label htmlFor='lineColor'>Fill</label>
+        <FormControlLabel
+          style={{ margin: 0 }}
+          label='Transparent'
+          control={<Switch checked={!fillWithColor} onChange={() => onFillWithColorChange(!fillWithColor)} />}
+        />
+      </div>
+      <CirclePicker id='lineColor' color={color} onChange={onChangeColor} />
     </Popover>
   )
 }

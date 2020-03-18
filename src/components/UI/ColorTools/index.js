@@ -12,11 +12,11 @@ const ColorTools = ({ setAnchorEl, open }) => {
 
   return (
     <div className='color-tools'>
-      <AppbarButton onClick={(event) => handleClick(event, 'fillOpen')}>
+      <AppbarButton onClick={(event) => handleClick(event, 'expandFillColor')}>
         <FillColorIcon />
       </AppbarButton>
       <FillColor />
-      <AppbarButton onClick={setAnchorEl}>
+      <AppbarButton onClick={(event) => handleClick(event, 'expandStrokeColor')}>
         <StrokeColorIcon />
       </AppbarButton>
       <AppbarButton onClick={setAnchorEl}>
@@ -25,4 +25,5 @@ const ColorTools = ({ setAnchorEl, open }) => {
     </div>
   )
 }
+
 export default ColorTools

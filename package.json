@@ -129,7 +129,8 @@
     "webpack": "^4.25.1",
     "webpack-cli": "^3.1.2",
     "webpack-dev-server": "^3.1.10",
-    "weinre": "^2.0.0-pre-I0Z7U9OV"
+    "weinre": "^2.0.0-pre-I0Z7U9OV",
+    "hex-to-rgba": "2.0.1"
   },
   "dependencies": {
     "prop-types": "^15.6.2",

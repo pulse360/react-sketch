@@ -5,7 +5,7 @@ import 'flexboxgrid'
 import './styles.css'
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles'
 import color from '@material-ui/core/colors/blueGrey'
-import { SketchField, Appbar, ToolsUI, FillColor, Images, Background, ToolsPanel } from '../'
+import { SketchField, Appbar, ToolsUI, FillColor, Background, ToolsPanel, StrokeColor } from '../'
 import Tools from '../Tools'
 
 class SketchBoard extends React.Component {
@@ -31,6 +31,7 @@ class SketchBoard extends React.Component {
       originY: 'top',
       expandTools: false,
       expandFillColor: false,
+      expandStrokeColor: false,
       expandBack: false,
       expandImages: false,
       text: 'a text, cool!',
@@ -134,7 +135,10 @@ class SketchBoard extends React.Component {
     }
   }
 
-  _addText = () => this._sketch.addText(this.state.text)
+  _addText = () => {
+    this._selectTool('select')
+    this._sketch.addText(this.state.text)
+  }
 
   componentDidMount = () => {
     ;(function(console) {
@@ -174,6 +178,7 @@ class SketchBoard extends React.Component {
       <MuiThemeProvider theme={theme}>
         <div className='wrapper'>
           <Appbar
+            selectTool={this._selectTool}
             openPopup={this.openPopup}
             setAnchorEl={(event) => this.setAnchorEl(event)}
             canUndo={this.state.canUndo}
@@ -205,10 +210,23 @@ class SketchBoard extends React.Component {
             addText={this._addText}
           />
           <FillColor
-            open={this.state.fillOpen}
-            handleOpen={(e) => this.setState({ fillOpen: !this.state.fillOpen })}
+            open={this.state.expandFillColor}
+            handleOpen={(e) => this.setState({ expandFillColor: !this.state.expandFillColor })}
             color={this.state.fillColor}
             changeColor={(color) => this.setState({ fillColor: color.hex })}
+            anchorEl={this.state.anchorEl}
+            fillWithColor={this.state.fillWithColor}
+            onFillWithColorChange={(bool) =>
+              this.setState({
+                fillWithColor: bool,
+              })
+            }
+          />
+          <StrokeColor
+            open={this.state.expandStrokeColor}
+            handleOpen={(e) => this.setState({ expandStrokeColor: !this.state.expandStrokeColor })}
+            color={this.state.lineColor}
+            changeColor={(color) => this.setState({ lineColor: color.hex })}
             anchorEl={this.state.anchorEl}
           />
           {/* <Colors
@@ -240,13 +258,11 @@ class SketchBoard extends React.Component {
             changeStretchedY={(e) => this.setState({ stretchedY: !this.state.stretchedY })}
             onDrop={this._onBackgroundImageDrop}
           />
-          <Images
-            open={this.state.expandImages}
-            handleOpen={(e) => this.setState({ expandImages: !this.state.expandImages })}
-            addImage={(image) => this._sketch.addImg(image)}
-          />
           <div className='bottom'>
-            <ToolsPanel selectTool={(tool) => this._selectTool(tool)} />
+            <ToolsPanel
+              selectTool={(tool) => this._selectTool(tool)}
+              addImage={(image) => this._sketch.addImg(image)}
+            />
             <SketchField
               name='sketch'
               className='canvas-area'

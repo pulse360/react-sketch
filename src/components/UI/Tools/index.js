@@ -11,7 +11,8 @@ import Typography from '@material-ui/core/Typography/Typography'
 import Drawer from '@material-ui/core/Drawer'
 
 const styles = {
-  margin: '10px 10px 5px 0',
+  width: 500,
+  padding: 30,
 }
 
 const ToolsComponent = ({
@@ -27,8 +28,7 @@ const ToolsComponent = ({
   text,
   addText,
 }) => (
-  <Drawer anchor='right' open={open} onClose={handleOpen}>
-    <Typography id='slider'>Line Weight</Typography>
+  <Drawer anchor='right' open={open} onClose={handleOpen} PaperProps={{ style: styles }}>
     <div className='row'>
       <div className='col-lg-7'>
         <TextField label='Text' helperText='Add text to Sketch' onChange={changeText} value={text} />

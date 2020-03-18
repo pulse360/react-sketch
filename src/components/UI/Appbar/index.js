@@ -40,19 +40,17 @@ const Appbar = ({
   changeLineWidth,
   setAnchorEl,
   openPopup,
+  selectTool,
 }) => (
   <div style={styles}>
     <SaveTools save={save} clear={clear} />
     <HistoryTools undo={undo} redo={redo} canRedo={canRedo} canUndo={canUndo} />
     <ColorTools setAnchorEl={setAnchorEl} open={openPopup} />
     <IconButton color='primary' onClick={toolsOpen}>
-      <CopyIcon />
+      Add text
     </IconButton>
-    <IconButton color='primary' onClick={imagesOpen}>
-      <InsertPhotoSharpIcon />
-    </IconButton>
-    <IconButton color='primary' onClick={colorsOpen}>
-      <ColorLensSharpIcon />
+    <IconButton color='primary' onClick={() => selectTool('select')}>
+      Select
     </IconButton>
     <IconButton color='primary' onClick={backgroundOpen}>
       <CropOriginalSharpIcon />
@@ -60,18 +58,6 @@ const Appbar = ({
     <IconButton color='primary' disabled={enableCopyPaste} onClick={copyPasteClick}>
       <CopyIcon />
     </IconButton>
-    <IconButton color='primary' disabled={enableRemoveSelected} onClick={removeSelected}>
-      <RemoveIcon />
-    </IconButton>
-    <IconButton color='primary' disabled={!canUndo} onClick={undo}>
-      <UndoIcon />
-    </IconButton>
-    <IconButton color='primary' disabled={!canRedo} onClick={redo}>
-      <RedoIcon />
-    </IconButton>
-    {/* <IconButton color='primary' onClick={save}>
-      <SaveIcon />
-    </IconButton> */}
   </div>
 )
 
