@@ -26,6 +26,9 @@ const ToolsPanel = ({ selectTool, addImage }) => {
       <IconButton onClick={() => selectTool('circle')}>
         <CircleleIcon />
       </IconButton>
+      <IconButton onClick={() => selectTool('eraser')}>
+        <CircleleIcon />
+      </IconButton>
       <DropZone
         accept='image/*'
         multiple={false}

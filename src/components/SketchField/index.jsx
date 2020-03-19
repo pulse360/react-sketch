@@ -66,6 +66,7 @@ class SketchField extends PureComponent {
     this._tools[Tool.Pan] = new Pan(fabricCanvas)
     this._tools[Tool.Eraser] = new Eraser(fabricCanvas)
     this._tools[Tool.Highlighter] = new Highlighter(fabricCanvas)
+    this._tools[Tool.Eraser] = new Eraser(fabricCanvas)
   }
 
   enableTouchScroll = () => {
@@ -162,10 +163,10 @@ class SketchField extends PureComponent {
       const objects = canvas.getObjects()
       let newObj = objects[objects.length - 1]
 
-      if (this.props.tool === Tool.Eraser) {
-        newObj.selectable = false
-        newObj.type = 'eraser'
-      }
+      // if (this.props.tool === Tool.Eraser) {
+      //   newObj.selectable = false
+      //   newObj.type = 'eraser'
+      // }
 
       if (newObj && newObj.__version === 1) {
         newObj.__originalState = newObj.toJSON()
@@ -480,10 +481,17 @@ class SketchField extends PureComponent {
   }
 
   render = () => {
-    let { className } = this.props
+    let { className, width, height, style } = this.props
+
+    let canvasDivStyle = Object.assign(
+      {},
+      style ? style : {},
+      width ? { width: width } : {},
+      height ? { height: height } : { height: 512 }
+    )
 
     return (
-      <div className={className} ref={(c) => (this._container = c)}>
+      <div className={className} ref={(c) => (this._container = c)} style={canvasDivStyle}>
         <canvas id={uuid4()} ref={(c) => (this._canvas = c)}>
           Sorry, Canvas HTML5 element is not supported by your browser :(
         </canvas>

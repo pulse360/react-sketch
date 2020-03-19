@@ -2,9 +2,8 @@ import React from 'react'
 import { FillColorIcon, StrokeColorIcon, BackgroundImage } from '../SVG'
 import AppbarButton from '../AppbarButton'
 import './styles.css'
-import FillColor from '../FillColor'
 
-const ColorTools = ({ setAnchorEl, open }) => {
+const ColorButtons = ({ setAnchorEl, open, fillColor, lineColor }) => {
   const handleClick = (event, key) => {
     setAnchorEl(event)
     open(key)
@@ -13,17 +12,20 @@ const ColorTools = ({ setAnchorEl, open }) => {
   return (
     <div className='color-tools'>
       <AppbarButton onClick={(event) => handleClick(event, 'expandFillColor')}>
+        {fillColor !== 'transparent' && (
+          <div className='color-tools__color-indicator' style={{ backgroundColor: fillColor }}></div>
+        )}
         <FillColorIcon />
       </AppbarButton>
-      <FillColor />
       <AppbarButton onClick={(event) => handleClick(event, 'expandStrokeColor')}>
+        <div className='color-tools__color-indicator' style={{ backgroundColor: lineColor }}></div>
         <StrokeColorIcon />
       </AppbarButton>
-      <AppbarButton onClick={setAnchorEl}>
+      <AppbarButton onClick={(event) => handleClick(event, 'expandBackground')}>
         <BackgroundImage />
       </AppbarButton>
     </div>
   )
 }
 
-export default ColorTools
+export default ColorButtons

@@ -1,0 +1,16 @@
+.color-tools {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 20px;
+}
+
+.color-tools__color-indicator {
+  position: absolute;
+  bottom: 5px;
+  left: 5px;
+  width: 10px;
+  height: 10px;
+  border: solid #ffffff 2px;
+  border-radius: 50%;
+}

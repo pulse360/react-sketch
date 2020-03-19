@@ -8,9 +8,6 @@ class Select extends FabricCanvasTool {
     canvas.isDrawingMode = false
     canvas.selection = true
     canvas.forEachObject((o) => {
-      if (o.type === 'eraser') {
-        return
-      }
       o.selectable = o.evented = true
     })
   }

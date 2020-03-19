@@ -5,7 +5,7 @@ import 'flexboxgrid'
 import './styles.css'
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles'
 import color from '@material-ui/core/colors/blueGrey'
-import { SketchField, Appbar, ToolsUI, FillColor, Background, ToolsPanel, StrokeColor } from '../'
+import { SketchField, Appbar, ToolsUI, FillColor, BackgroundImage, ToolsPanel, StrokeColor } from '../'
 import Tools from '../Tools'
 
 class SketchBoard extends React.Component {
@@ -20,24 +20,16 @@ class SketchBoard extends React.Component {
       tool: Tools.Pencil,
       enableRemoveSelected: false,
       fillWithColor: false,
-      fillWithBackgroundColor: false,
-      drawings: [],
       canUndo: false,
       canRedo: false,
-      stretched: true,
-      stretchedX: false,
-      stretchedY: false,
-      originX: 'left',
-      originY: 'top',
       expandTools: false,
       expandFillColor: false,
       expandStrokeColor: false,
-      expandBack: false,
+      expandBackground: false,
       expandImages: false,
       text: 'a text, cool!',
       enableCopyPaste: false,
       anchorEl: null,
-      fillOpen: false,
     }
   }
 
@@ -96,7 +88,6 @@ class SketchBoard extends React.Component {
     this._sketch.setBackgroundFromDataUrl('')
     this.setState({
       backgroundColor: 'transparent',
-      fillWithBackgroundColor: false,
       canUndo: this._sketch.canUndo(),
       canRedo: this._sketch.canRedo(),
     })
@@ -178,6 +169,10 @@ class SketchBoard extends React.Component {
       <MuiThemeProvider theme={theme}>
         <div className='wrapper'>
           <Appbar
+            fillColor={this.state.fillWithColor ? this.state.fillColor : 'transparent'}
+            lineColor={this.state.lineColor}
+            zoomIn={() => this._sketch.zoom(1.25)}
+            zoomOut={() => this._sketch.zoom(0.8)}
             selectTool={this._selectTool}
             openPopup={this.openPopup}
             setAnchorEl={(event) => this.setAnchorEl(event)}
@@ -189,8 +184,6 @@ class SketchBoard extends React.Component {
             redo={this._redo}
             undo={this._undo}
             enableCopyPaste={!this.state.enableCopyPaste}
-            enableRemoveSelected={!this.state.enableRemoveSelected}
-            removeSelected={this._removeSelected}
             copyPasteClick={(e) => {
               this._sketch.copy()
               this._sketch.paste()
@@ -198,7 +191,6 @@ class SketchBoard extends React.Component {
             toolsOpen={() => this.setState({ expandTools: !this.state.expandTools })}
             colorsOpen={() => this.setState({ expandColors: !this.state.expandColors })}
             backgroundOpen={() => this.setState({ expandBack: !this.state.expandBack })}
-            imagesOpen={() => this.setState({ expandImages: !this.state.expandImages })}
             lineWidth={this.state.lineWidth}
             changeLineWidth={(e, v) => this.setState({ lineWidth: v })}
           />
@@ -229,34 +221,12 @@ class SketchBoard extends React.Component {
             changeColor={(color) => this.setState({ lineColor: color.hex })}
             anchorEl={this.state.anchorEl}
           />
-          {/* <Colors
-            open={this.state.expandColors}
-            handleOpen={(e) => this.setState({ expandColors: !this.state.expandColors })}
-            lineColor={this.state.lineColor}
-            changeLineColor={(color) => this.setState({ lineColor: color.hex })}
-            fillWithColor={this.state.fillWithColor}
-            changeFillWithColor={(e) => this.setState({ fillWithColor: !this.state.fillWithColor })}
-            fillColor={this.state.fillColor}
-            changeFillColor={(color) => this.setState({ fillColor: color.hex })}
-          /> */}
-          <Background
-            open={this.state.expandBack}
-            handleOpen={(e) => this.setState({ expandBack: !this.state.expandBack })}
-            fillWithBackgroundColor={this.state.fillWithBackgroundColor}
-            changeFillWithBackgroundColor={(e) =>
-              this.setState({
-                fillWithBackgroundColor: !this.state.fillWithBackgroundColor,
-              })
-            }
-            backgroundColor={this.state.backgroundColor}
-            changeBackgroundColor={(color) => this.setState({ backgroundColor: color.hex })}
-            stretched={this.state.stretched}
-            changeStretched={(e) => this.setState({ stretched: !this.state.stretched })}
-            stretchedX={this.state.stretchedX}
-            changeStretchedX={(e) => this.setState({ stretchedX: !this.state.stretchedX })}
-            stretchedY={this.state.stretchedY}
-            changeStretchedY={(e) => this.setState({ stretchedY: !this.state.stretchedY })}
-            onDrop={this._onBackgroundImageDrop}
+          <BackgroundImage
+            open={this.state.expandBackground}
+            handleOpen={(e) => this.setState({ expandBackground: !this.state.expandBackground })}
+            color={this.state.backgroundColor}
+            changeColor={(color) => this.setState({ backgroundColor: color.hex })}
+            anchorEl={this.state.anchorEl}
           />
           <div className='bottom'>
             <ToolsPanel
@@ -270,17 +240,14 @@ class SketchBoard extends React.Component {
               lineColor={this.state.lineColor}
               lineWidth={this.state.lineWidth}
               fillColor={this.state.fillWithColor ? this.state.fillColor : 'transparent'}
-              backgroundColor={this.state.fillWithBackgroundColor ? this.state.backgroundColor : 'transparent'}
+              backgroundColor={this.state.backgroundColor}
               forceValue
               onChange={this._onSketchChange}
               tool={this.state.tool}
               defaultValue={this.props.defaultValue}
+              width='100%'
+              height='100%'
             />
-          </div>
-          <div style={{ width: 0 }}>
-            <div className='col-xs-7 col-sm-7 col-md-9 col-lg-9'>
-              <div className='col-xs-5 col-sm-5 col-md-3 col-lg-3'></div>
-            </div>
           </div>
         </div>
       </MuiThemeProvider>

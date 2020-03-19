@@ -1,6 +1,7 @@
 import React from 'react'
 import { CirclePicker } from 'react-color'
 import { Popover, FormControlLabel, Switch } from '@material-ui/core'
+import './styles.css'
 
 const style = {
   padding: 20,
@@ -31,7 +32,9 @@ const FillColor = ({ open, handleOpen, changeColor, color, anchorEl, onFillWithC
       transition
     >
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        <label htmlFor='lineColor'>Fill</label>
+        <label htmlFor='lineColor' className='fill-color__label'>
+          Fill color
+        </label>
         <FormControlLabel
           style={{ margin: 0 }}
           label='Transparent'

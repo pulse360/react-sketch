@@ -1,40 +1,40 @@
 import SketchField from './SketchField'
 import Appbar from './UI/Appbar'
 import ToolsUI from './UI/Tools'
-import Colors from './UI/Colors'
-import Background from './UI/Background'
+import BackgroundImage from './UI/BackgroundImage'
 import ToolsPanel from './UI/ToolsPanel'
 import SketchBoard from './SketchBoard'
-import SaveTools from './UI/SaveTools'
-import HistoryTools from './UI/HistoryTools'
-import ColorTools from './UI/ColorTools'
+import SaveButtons from './UI/SaveButtons'
+import HistoryButtons from './UI/HistoryButtons'
+import ColorButtons from './UI/ColorButtons'
 import FillColor from './UI/FillColor'
 import StrokeColor from './UI/StrokeColor'
+import ZoomButtons from './UI/ZoomButtons'
 
 export { SketchField }
 export { Appbar }
 export { ToolsUI }
-export { Colors }
-export { Background }
+export { BackgroundImage }
 export { SketchBoard }
 export { ToolsPanel }
-export { SaveTools }
-export { HistoryTools }
-export { ColorTools }
+export { SaveButtons }
+export { HistoryButtons }
+export { ColorButtons }
 export { FillColor }
 export { StrokeColor }
+export { ZoomButtons }
 
 export default {
   SketchField,
   Appbar,
   ToolsUI,
-  Colors,
-  Background,
+  BackgroundImage,
   SketchBoard,
   ToolsPanel,
-  SaveTools,
-  HistoryTools,
-  ColorTools,
+  SaveButtons,
+  HistoryButtons,
+  ColorButtons,
   FillColor,
   StrokeColor,
+  ZoomButtons,
 }

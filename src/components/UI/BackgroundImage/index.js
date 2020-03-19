@@ -7,7 +7,7 @@ const style = {
   padding: 20,
 }
 
-const StrokeColor = ({ open, handleOpen, changeColor, color, anchorEl }) => {
+const BackgroundImage = ({ open, handleOpen, anchorEl, changeColor, color }) => {
   const onChangeColor = (color) => {
     changeColor(color)
     handleOpen()
@@ -24,18 +24,18 @@ const StrokeColor = ({ open, handleOpen, changeColor, color, anchorEl }) => {
         vertical: 'top',
         horizontal: 'left',
       }}
-      id='stroke-color'
+      id='fill-color'
       open={open}
       anchorEl={anchorEl}
       onClose={handleOpen}
       transition
     >
-      <label htmlFor='strokeColor' className='stroke-color__label'>
-        Line color
+      <label htmlFor='lineColor' className='background-image__label'>
+        Background image
       </label>
-      <CirclePicker id='strokeColor' color={color} onChange={onChangeColor} />
+      <CirclePicker id='lineColor' color={color} onChange={onChangeColor} />
     </Popover>
   )
 }
 
-export default StrokeColor
+export default BackgroundImage
