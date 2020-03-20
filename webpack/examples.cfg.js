@@ -23,13 +23,22 @@ const config = {
   cache: true,
   module: {
     rules: [
-      { test: /\.html$/, loader: 'html-loader', include: [Paths.examplesPath], exclude: /base\.html$/ },
-      { test: /\.css$/, loader: 'style-loader!css-loader' },
+      { test: /\.html$/, loader: 'html-loader', exclude: /base\.html$/ },
       {
         test: /\.(js|jsx)$/,
-        include: [Paths.srcPath, Paths.examplesPath],
         exclude: /(node_modules|bower_components|lib)/,
         loaders: ['babel-loader'],
+      },
+      {
+        test: /\.css$/i,
+        use: ['style-loader', 'css-loader'],
+      },
+      {
+        test: /\.(png|jpe?g|gif|svg|eot|ttf|woff|woff2)$/i,
+        loader: 'url-loader',
+        options: {
+          limit: 8192,
+        },
       },
     ],
   },

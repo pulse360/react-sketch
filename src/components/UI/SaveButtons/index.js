@@ -1,17 +1,29 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { SaveIcon, CleareIcon } from '../SVG'
 import AppbarButton from '../AppbarButton'
+import ConfirmClear from './ConfirmClear'
 import './styles.css'
 
-const SaveTools = ({ save, clear }) => (
-  <div className='save-tools'>
-    <AppbarButton onClick={save}>
-      <SaveIcon />
-    </AppbarButton>
-    <AppbarButton onClick={clear}>
-      <CleareIcon />
-    </AppbarButton>
-  </div>
-)
+class SaveButtons extends Component {
+  state = {
+    open: false,
+  }
 
-export default SaveTools
+  render() {
+    const { save, clear } = this.props
+
+    return (
+      <div className='save-tools'>
+        <AppbarButton onClick={save}>
+          <SaveIcon />
+        </AppbarButton>
+        <ConfirmClear open={this.state.open} clear={clear} onClose={() => this.setState({ open: false })} />
+        <AppbarButton onClick={() => this.setState({ open: true })}>
+          <CleareIcon />
+        </AppbarButton>
+      </div>
+    )
+  }
+}
+
+export default SaveButtons

@@ -30,6 +30,7 @@ class SketchBoard extends React.Component {
       text: 'a text, cool!',
       enableCopyPaste: false,
       anchorEl: null,
+      fullScreen: false,
     }
   }
 
@@ -154,6 +155,12 @@ class SketchBoard extends React.Component {
     })(console)
   }
 
+  componentDidUpdate(prevState) {
+    if (prevState !== this.state) {
+      this.props.getFullScreenStatus(this.state.fullScreen)
+    }
+  }
+
   render = () => {
     const theme = createMuiTheme({
       typography: {
@@ -169,6 +176,8 @@ class SketchBoard extends React.Component {
       <MuiThemeProvider theme={theme}>
         <div className='wrapper'>
           <Appbar
+            handleFullScreen={() => this.setState({ fullScreen: !this.state.fullScreen })}
+            fullScreen={this.state.fullScreen}
             fillColor={this.state.fillWithColor ? this.state.fillColor : 'transparent'}
             lineColor={this.state.lineColor}
             zoomIn={() => this._sketch.zoom(1.25)}
@@ -192,7 +201,7 @@ class SketchBoard extends React.Component {
             colorsOpen={() => this.setState({ expandColors: !this.state.expandColors })}
             backgroundOpen={() => this.setState({ expandBack: !this.state.expandBack })}
             lineWidth={this.state.lineWidth}
-            changeLineWidth={(e, v) => this.setState({ lineWidth: v })}
+            changeLineWidth={(value) => this.setState({ lineWidth: value })}
           />
           <ToolsUI
             open={this.state.expandTools}
