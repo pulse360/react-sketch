@@ -36,6 +36,7 @@ const Appbar = ({
   lineColor,
   fullScreen,
   handleFullScreen,
+  getFullScreenStatus
 }) => (
   <div style={styles}>
     <SaveButtons save={save} clear={clear} />
@@ -51,7 +52,13 @@ const Appbar = ({
     {/* <IconButton color='primary' disabled={enableCopyPaste} onClick={copyPasteClick}>
       <CopyIcon />
     </IconButton> */}
-    <ZoomButtons zoomIn={zoomIn} zoomOut={zoomOut} fullScreen={fullScreen} handleFullScreen={handleFullScreen} />
+    <ZoomButtons
+      zoomIn={zoomIn}
+      zoomOut={zoomOut}
+      fullScreen={fullScreen}
+      handleFullScreen={handleFullScreen}
+      getFullScreenStatus={getFullScreenStatus}
+    />
   </div>
 )
 

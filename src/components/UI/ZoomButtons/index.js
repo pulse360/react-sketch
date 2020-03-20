@@ -3,7 +3,13 @@ import { ZoomIn, ZoomOut, HalfScreen, FullScreen } from '../SVG'
 import AppbarButton from '../AppbarButton'
 import './styles.css'
 
-const ZoomButton = ({ zoomIn, zoomOut, fullScreen, handleFullScreen }) => {
+const ZoomButton = ({ zoomIn, zoomOut, fullScreen, handleFullScreen, getFullScreenStatus }) => {
+
+  const handleClick = () => {
+    handleFullScreen()
+    getFullScreenStatus()
+  }
+
   return (
     <div className='zoom-tools'>
       <AppbarButton onClick={zoomIn}>
@@ -12,7 +18,7 @@ const ZoomButton = ({ zoomIn, zoomOut, fullScreen, handleFullScreen }) => {
       <AppbarButton onClick={zoomOut}>
         <ZoomOut />
       </AppbarButton>
-      <AppbarButton onClick={handleFullScreen}>{fullScreen ? <HalfScreen /> : <FullScreen />}</AppbarButton>
+      <AppbarButton onClick={handleClick}>{fullScreen ? <HalfScreen /> : <FullScreen />}</AppbarButton>
     </div>
   )
 }

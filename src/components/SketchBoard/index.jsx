@@ -155,12 +155,6 @@ class SketchBoard extends React.Component {
     })(console)
   }
 
-  componentDidUpdate(prevState) {
-    if (prevState !== this.state) {
-      this.props.getFullScreenStatus(this.state.fullScreen)
-    }
-  }
-
   render = () => {
     const theme = createMuiTheme({
       typography: {
@@ -176,6 +170,7 @@ class SketchBoard extends React.Component {
       <MuiThemeProvider theme={theme}>
         <div className='wrapper'>
           <Appbar
+            getFullScreenStatus={this.props.getFullScreenStatus}
             handleFullScreen={() => this.setState({ fullScreen: !this.state.fullScreen })}
             fullScreen={this.state.fullScreen}
             fillColor={this.state.fillWithColor ? this.state.fillColor : 'transparent'}
