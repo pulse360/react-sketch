@@ -481,18 +481,16 @@ class SketchField extends PureComponent {
   }
 
   render = () => {
-    let { className, width, height, style } = this.props
+    let { className } = this.props
 
-    let canvasDivStyle = Object.assign(
-      {},
-      style ? style : {},
-      width ? { width: width } : {},
-      height ? { height: height } : { height: 512 }
-    )
+    let canvasDivStyle = {
+      width: '100%',
+      height: '100%'
+    }
 
     return (
       <div className={className} ref={(c) => (this._container = c)} style={canvasDivStyle}>
-        <canvas id={uuid4()} ref={(c) => (this._canvas = c)}>
+        <canvas id={uuid4()} ref={(c) => (this._canvas = c)} style={canvasDivStyle}>
           Sorry, Canvas HTML5 element is not supported by your browser :(
         </canvas>
       </div>

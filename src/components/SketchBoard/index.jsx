@@ -170,7 +170,7 @@ class SketchBoard extends React.Component {
       <MuiThemeProvider theme={theme}>
         <div className='wrapper'>
           <Appbar
-            getFullScreenStatus={() => this.props.getFullScreenStatus(this.state.fullScreen)}
+            getFullScreenStatus={() => this.props.getFullScreenStatus(!this.state.fullScreen)}
             handleFullScreen={() => this.setState({ fullScreen: !this.state.fullScreen })}
             fullScreen={this.state.fullScreen}
             fillColor={this.state.fillWithColor ? this.state.fillColor : 'transparent'}
@@ -249,8 +249,6 @@ class SketchBoard extends React.Component {
               onChange={this._onSketchChange}
               tool={this.state.tool}
               defaultValue={this.props.defaultValue}
-              width='100%'
-              height='100%'
             />
           </div>
         </div>
