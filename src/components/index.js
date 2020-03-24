@@ -11,6 +11,7 @@ import FillColor from './UI/FillColor'
 import StrokeColor from './UI/StrokeColor'
 import ZoomButtons from './UI/ZoomButtons'
 import Slider from './UI/Slider'
+import Tabs from './UI/Tabs'
 
 export { SketchField }
 export { Appbar }
@@ -25,6 +26,7 @@ export { FillColor }
 export { StrokeColor }
 export { ZoomButtons }
 export { Slider }
+export { Tabs }
 
 export default {
   SketchField,
@@ -40,4 +42,5 @@ export default {
   StrokeColor,
   ZoomButtons,
   Slider,
+  Tabs,
 }

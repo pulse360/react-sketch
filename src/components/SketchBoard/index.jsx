@@ -5,8 +5,9 @@ import 'flexboxgrid'
 import './styles.css'
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles'
 import color from '@material-ui/core/colors/blueGrey'
-import { SketchField, Appbar, ToolsUI, FillColor, BackgroundImage, ToolsPanel, StrokeColor } from '../'
+import { SketchField, Appbar, ToolsUI, FillColor, BackgroundImage, ToolsPanel, StrokeColor, Tabs } from '../'
 import Tools from '../Tools'
+// import jsPDF from 'jspdf'
 
 class SketchBoard extends React.Component {
   constructor(props) {
@@ -31,6 +32,9 @@ class SketchBoard extends React.Component {
       enableCopyPaste: false,
       anchorEl: null,
       fullScreen: false,
+      sketchValue: [],
+      currentTabID: 'tab_1',
+      tabs: [{ data: [], id: 'tab_1', name: 'Tab #1' }],
     }
   }
 
@@ -55,7 +59,37 @@ class SketchBoard extends React.Component {
   }
 
   _save = () => {
-    this.props.onSaveCanvas(JSON.stringify(this._sketch.toJSON()))
+    // this.props.onSaveCanvas(JSON.stringify(this._sketch.toJSON()))
+    // var doc = new jsPDF()
+    // console.log(this._sketch)
+    // doc.text('Hello world!', 20, 20)
+    // doc.text('This is client-side Javascript, pumping out a PDF.', 20, 30)
+    // doc.addPage('a5', 'l')
+    // doc.text('Do you like that?', 20, 20)
+    // doc.save('a4.pdf')
+    // const image = this._sketch.toDataURL('image/jpeg', 1.0)
+    // const pdf = new jsPDF({
+    //   orientation: 'p',
+    //   unit: 'px',
+    //   format: 'a4',
+    // })
+    // pdf.addImage(image, 'JPEG', 0, 0)
+    // pdf.save('pdf')
+    // И создаем из него картиику в base64
+    // const image = {
+    //   data: this._sketch.toDataURL('image/jpeg', 1.0),
+    //   height: this._sketch._fc.height,
+    //   width: this._sketch._fc.width,
+    // }
+    // const dpi = document.getElementById('dpi').offsetHeight
+    // const widthMM = (image.width * 25.4) / dpi
+    // const heightMM = (image.height * 25.4) / dpi
+    // var doc = new jsPDF({
+    //   orientation: 'p',
+    //   unit: 'mm',
+    // })
+    // doc.addImage(image.data, 'JPEG', 0, 0, 210, 298)
+    // doc.save('save')
   }
 
   _download = () => {
@@ -87,6 +121,7 @@ class SketchBoard extends React.Component {
   _clear = () => {
     this._sketch.clear()
     this._sketch.setBackgroundFromDataUrl('')
+    this._onSketchChange()
     this.setState({
       backgroundColor: 'transparent',
       canUndo: this._sketch.canUndo(),
@@ -98,7 +133,41 @@ class SketchBoard extends React.Component {
     this._sketch.removeSelected()
   }
 
+  addTab = () => {
+    if (this.state.tabs.length === 9) {
+      return
+    }
+
+    this.setState(({ tabs }) => {
+      const newTabID = `tab_${tabs.length + 1}`
+
+      const newTab = {
+        data: [],
+        id: newTabID,
+        name: `Tab #${tabs.length + 1}`,
+      }
+
+      return { tabs: [...tabs, newTab], currentTabID: newTabID, sketchValue: [] }
+    })
+  }
+
+  onTabClick = (tab) => {
+    this.setState(({ tabs }) => {
+      const indx = tabs.findIndex((el) => el.id === tab.id)
+      return {
+        currentTabID: tab.id,
+        sketchValue: tabs[indx].data,
+      }
+    })
+  }
+
   _onSketchChange = () => {
+    this.setState(({ tabs, currentTabID }) => {
+      const indx = tabs.findIndex((el) => el.id === currentTabID)
+      const newItem = { ...tabs[indx], data: JSON.stringify(this._sketch.toJSON()) }
+      return { tabs: [...tabs.slice(0, indx), newItem, ...tabs.slice(indx + 1)] }
+    })
+
     let prev = this.state.canUndo
     let now = this._sketch.canUndo()
     if (prev !== now) {
@@ -175,9 +244,14 @@ class SketchBoard extends React.Component {
             fullScreen={this.state.fullScreen}
             fillColor={this.state.fillWithColor ? this.state.fillColor : 'transparent'}
             lineColor={this.state.lineColor}
-            zoomIn={() => this._sketch.zoom(1.25)}
-            zoomOut={() => this._sketch.zoom(0.8)}
-            selectTool={this._selectTool}
+            zoomIn={() => {
+              this._sketch.zoom(1.25)
+              this._onSketchChange()
+            }}
+            zoomOut={() => {
+              this._sketch.zoom(0.8)
+              this._onSketchChange()
+            }}
             openPopup={this.openPopup}
             setAnchorEl={(event) => this.setAnchorEl(event)}
             canUndo={this.state.canUndo}
@@ -188,11 +262,10 @@ class SketchBoard extends React.Component {
             redo={this._redo}
             undo={this._undo}
             enableCopyPaste={!this.state.enableCopyPaste}
-            copyPasteClick={(e) => {
-              this._sketch.copy()
-              this._sketch.paste()
-            }}
-            toolsOpen={() => this.setState({ expandTools: !this.state.expandTools })}
+            // copyPasteClick={(e) => {
+            //   this._sketch.copy()
+            //   this._sketch.paste()
+            // }}
             colorsOpen={() => this.setState({ expandColors: !this.state.expandColors })}
             backgroundOpen={() => this.setState({ expandBack: !this.state.expandBack })}
             lineWidth={this.state.lineWidth}
@@ -236,6 +309,7 @@ class SketchBoard extends React.Component {
             <ToolsPanel
               selectTool={(tool) => this._selectTool(tool)}
               addImage={(image) => this._sketch.addImg(image)}
+              addText={this._addText}
             />
             <SketchField
               name='sketch'
@@ -248,9 +322,16 @@ class SketchBoard extends React.Component {
               forceValue
               onChange={this._onSketchChange}
               tool={this.state.tool}
-              defaultValue={this.props.defaultValue}
+              defaultValue={this.state.sketchValue}
+              fullScreen={this.state.fullScreen}
             />
           </div>
+          <Tabs
+            tabs={this.state.tabs}
+            onTabClick={this.onTabClick}
+            onAddTab={this.addTab}
+            currentTabID={this.state.currentTabID}
+          />
         </div>
       </MuiThemeProvider>
     )

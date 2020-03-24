@@ -2,12 +2,26 @@ import React from 'react'
 import DropZone from 'react-dropzone'
 import './styles.css'
 
-import { PencilIcon, ArrowIcon, LineIcon, HighlighterIcon, RectangleIcon, CircleleIcon, PastImageIcon } from '../SVG'
+import {
+  PencilIcon,
+  ArrowIcon,
+  LineIcon,
+  HighlighterIcon,
+  RectangleIcon,
+  CircleleIcon,
+  PastImageIcon,
+  EraserIcon,
+  SelectIcon,
+  AddTextIcon,
+} from '../SVG'
 import IconButton from '../LeftPanelButton'
 
-const ToolsPanel = ({ selectTool, addImage }) => {
+const ToolsPanel = ({ selectTool, addImage, addText }) => {
   return (
     <div className='left-toolbar'>
+      <IconButton onClick={() => selectTool('select')}>
+        <SelectIcon />
+      </IconButton>
       <IconButton onClick={() => selectTool('pencil')}>
         <PencilIcon />
       </IconButton>
@@ -26,8 +40,8 @@ const ToolsPanel = ({ selectTool, addImage }) => {
       <IconButton onClick={() => selectTool('circle')}>
         <CircleleIcon />
       </IconButton>
-      <IconButton onClick={() => selectTool('eraser')}>
-        <CircleleIcon />
+      <IconButton onClick={addText}>
+        <AddTextIcon />
       </IconButton>
       <DropZone
         accept='image/*'
@@ -44,6 +58,9 @@ const ToolsPanel = ({ selectTool, addImage }) => {
       >
         <PastImageIcon />
       </DropZone>
+      <IconButton onClick={() => selectTool('eraser')}>
+        <EraserIcon />
+      </IconButton>
     </div>
   )
 }

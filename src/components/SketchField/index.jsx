@@ -30,7 +30,7 @@ class SketchField extends PureComponent {
     widthCorrection: PropTypes.number,
     heightCorrection: PropTypes.number,
     onChange: PropTypes.func,
-    defaultValue: PropTypes.object,
+    defaultValue: PropTypes.string,
     width: PropTypes.number,
     height: PropTypes.number,
     className: PropTypes.string,
@@ -148,12 +148,12 @@ class SketchField extends PureComponent {
 
   _onMouseOut = (e) => {
     this._selectedTool.doMouseOut(e)
-    if (this.props.onChange) {
-      let onChange = this.props.onChange
-      setTimeout(() => {
-        onChange(e.e)
-      }, 10)
-    }
+    // if (this.props.onChange) {
+    //   let onChange = this.props.onChange
+    //   setTimeout(() => {
+    //     onChange(e.e)
+    //   }, 10)
+    // }
   }
 
   _onMouseUp = (e) => {
@@ -478,6 +478,10 @@ class SketchField extends PureComponent {
     if (this.props.backgroundColor !== prevProps.backgroundColor) {
       this._backgroundColor(this.props.backgroundColor)
     }
+
+    if (this.props.defaultValue !== prevProps.defaultValue) {
+      this.fromJSON(this.props.defaultValue)
+    }
   }
 
   render = () => {
@@ -485,12 +489,12 @@ class SketchField extends PureComponent {
 
     let canvasDivStyle = {
       width: '100%',
-      height: '100%'
+      height: '100%',
     }
 
     return (
       <div className={className} ref={(c) => (this._container = c)} style={canvasDivStyle}>
-        <canvas id={uuid4()} ref={(c) => (this._canvas = c)} style={canvasDivStyle}>
+        <canvas id={uuid4()} ref={(c) => (this._canvas = c)}>
           Sorry, Canvas HTML5 element is not supported by your browser :(
         </canvas>
       </div>

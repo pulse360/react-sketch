@@ -22,33 +22,25 @@ const Appbar = ({
   undo,
   enableCopyPaste,
   copyPasteClick,
-  toolsOpen,
   colorsOpen,
   backgroundOpen,
   lineWidth,
   changeLineWidth,
   setAnchorEl,
   openPopup,
-  selectTool,
   zoomIn,
   zoomOut,
   fillColor,
   lineColor,
   fullScreen,
   handleFullScreen,
-  getFullScreenStatus
+  getFullScreenStatus,
 }) => (
   <div style={styles}>
     <SaveButtons save={save} clear={clear} />
     <HistoryButtons undo={undo} redo={redo} canRedo={canRedo} canUndo={canUndo} />
     <Slider value={lineWidth} onChange={changeLineWidth} />
     <ColorButtons setAnchorEl={setAnchorEl} open={openPopup} fillColor={fillColor} lineColor={lineColor} />
-    <IconButton color='primary' onClick={toolsOpen}>
-      Add text
-    </IconButton>
-    <IconButton color='primary' onClick={() => selectTool('select')}>
-      Select
-    </IconButton>
     {/* <IconButton color='primary' disabled={enableCopyPaste} onClick={copyPasteClick}>
       <CopyIcon />
     </IconButton> */}

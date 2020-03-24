@@ -33,7 +33,7 @@ html {
 
 .bottom {
   display: flex;
-  height: calc(100% - 61px);
+  height: calc(100% - 111px);
 }
 
 .left-toolbar {
@@ -41,7 +41,6 @@ html {
   margin-left: 10px;
   margin-top: 10px;
   width: 50px;
-  height: 350px;
   background-color: #323e4c;
   z-index: 1;
   box-shadow: 0px 4px 4px rgba(46, 60, 67, 0.2);
