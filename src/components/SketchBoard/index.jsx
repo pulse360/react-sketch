@@ -35,6 +35,7 @@ class SketchBoard extends React.Component {
       sketchValue: [],
       currentTabID: 'tab_1',
       tabs: [{ data: [], id: 'tab_1', name: 'Tab #1' }],
+      activeQuicklyPenID: null,
     }
   }
 
@@ -50,12 +51,21 @@ class SketchBoard extends React.Component {
     })
   }
 
-  _selectTool = (tool) => {
-    this.setState({
-      tool: tool,
-      enableRemoveSelected: tool === Tools.Select,
-      enableCopyPaste: tool === Tools.Select,
-    })
+  _selectTool = (tool, inQuicklyPen) => {
+    if (inQuicklyPen) {
+      this.setState({
+        tool: tool,
+        enableRemoveSelected: tool === Tools.Select,
+        enableCopyPaste: tool === Tools.Select,
+      })
+    } else {
+      this.setState({
+        tool: tool,
+        enableRemoveSelected: tool === Tools.Select,
+        enableCopyPaste: tool === Tools.Select,
+        activeQuicklyPenID: null,
+      })
+    }
   }
 
   _save = () => {
@@ -239,6 +249,17 @@ class SketchBoard extends React.Component {
       <MuiThemeProvider theme={theme}>
         <div className='wrapper'>
           <Appbar
+            activeQuicklyPenID={this.state.activeQuicklyPenID}
+            selectQuicklyPen={(color, width) => {
+              this.setState({
+                lineColor: color || '#000000',
+                lineWidth: width,
+              })
+              this._selectTool('pen', true)
+            }}
+            changeActiveQuicklyPenID={(id) => {
+              this.setState({ activeQuicklyPenID: id })
+            }}
             getFullScreenStatus={() => this.props.getFullScreenStatus(!this.state.fullScreen)}
             handleFullScreen={() => this.setState({ fullScreen: !this.state.fullScreen })}
             fullScreen={this.state.fullScreen}
@@ -269,7 +290,13 @@ class SketchBoard extends React.Component {
             colorsOpen={() => this.setState({ expandColors: !this.state.expandColors })}
             backgroundOpen={() => this.setState({ expandBack: !this.state.expandBack })}
             lineWidth={this.state.lineWidth}
-            changeLineWidth={(value) => this.setState({ lineWidth: value })}
+            changeLineWidth={(value) => {
+              this.setState({ lineWidth: value })
+
+              if (this.state.activeQuicklyPenID) {
+                window.localStorage.setItem(`${this.state.activeQuicklyPenID}_width`, value)
+              }
+            }}
           />
           <ToolsUI
             open={this.state.expandTools}
@@ -295,7 +322,12 @@ class SketchBoard extends React.Component {
             open={this.state.expandStrokeColor}
             handleOpen={(e) => this.setState({ expandStrokeColor: !this.state.expandStrokeColor })}
             color={this.state.lineColor}
-            changeColor={(color) => this.setState({ lineColor: color.hex })}
+            changeColor={(color) => {
+              this.setState({ lineColor: color.hex })
+              if (this.state.activeQuicklyPenID) {
+                window.localStorage.setItem(`${this.state.activeQuicklyPenID}_color`, color.hex)
+              }
+            }}
             anchorEl={this.state.anchorEl}
           />
           <BackgroundImage
@@ -310,6 +342,7 @@ class SketchBoard extends React.Component {
               selectTool={(tool) => this._selectTool(tool)}
               addImage={(image) => this._sketch.addImg(image)}
               addText={this._addText}
+              selectedTool={this.state.tool}
             />
             <SketchField
               name='sketch'

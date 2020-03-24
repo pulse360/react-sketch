@@ -1,6 +1,7 @@
 import React from 'react'
 import DropZone from 'react-dropzone'
 import './styles.css'
+import IconButton from '../LeftPanelButton'
 
 import {
   PencilIcon,
@@ -14,30 +15,29 @@ import {
   SelectIcon,
   AddTextIcon,
 } from '../SVG'
-import IconButton from '../LeftPanelButton'
 
-const ToolsPanel = ({ selectTool, addImage, addText }) => {
+const ToolsPanel = ({ selectTool, addImage, addText, selectedTool }) => {
   return (
     <div className='left-toolbar'>
-      <IconButton onClick={() => selectTool('select')}>
+      <IconButton onClick={() => selectTool('select')} selectedTool={selectedTool} tool='select'>
         <SelectIcon />
       </IconButton>
-      <IconButton onClick={() => selectTool('pencil')}>
+      <IconButton onClick={() => selectTool('pencil')} selectedTool={selectedTool} tool='pencil'>
         <PencilIcon />
       </IconButton>
-      <IconButton onClick={() => selectTool('arrow')}>
+      <IconButton onClick={() => selectTool('arrow')} selectedTool={selectedTool} tool='arrow'>
         <ArrowIcon />
       </IconButton>
-      <IconButton onClick={() => selectTool('line')}>
+      <IconButton onClick={() => selectTool('line')} selectedTool={selectedTool} tool='line'>
         <LineIcon />
       </IconButton>
-      <IconButton onClick={() => selectTool('highlighter')}>
+      <IconButton onClick={() => selectTool('highlighter')} selectedTool={selectedTool} tool='highlighter'>
         <HighlighterIcon />
       </IconButton>
-      <IconButton onClick={() => selectTool('rectangle')}>
+      <IconButton onClick={() => selectTool('rectangle')} selectedTool={selectedTool} tool='rectangle'>
         <RectangleIcon />
       </IconButton>
-      <IconButton onClick={() => selectTool('circle')}>
+      <IconButton onClick={() => selectTool('circle')} selectedTool={selectedTool} tool='circle'>
         <CircleleIcon />
       </IconButton>
       <IconButton onClick={addText}>
@@ -58,7 +58,7 @@ const ToolsPanel = ({ selectTool, addImage, addText }) => {
       >
         <PastImageIcon />
       </DropZone>
-      <IconButton onClick={() => selectTool('eraser')}>
+      <IconButton onClick={() => selectTool('eraser')} selectedTool={selectedTool} tool='eraser'>
         <EraserIcon />
       </IconButton>
     </div>

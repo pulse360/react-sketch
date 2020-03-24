@@ -12,6 +12,7 @@ import StrokeColor from './UI/StrokeColor'
 import ZoomButtons from './UI/ZoomButtons'
 import Slider from './UI/Slider'
 import Tabs from './UI/Tabs'
+import QuicklyPencils from './UI/QuicklyPencils'
 
 export { SketchField }
 export { Appbar }
@@ -27,6 +28,7 @@ export { StrokeColor }
 export { ZoomButtons }
 export { Slider }
 export { Tabs }
+export { QuicklyPencils }
 
 export default {
   SketchField,
@@ -43,4 +45,5 @@ export default {
   ZoomButtons,
   Slider,
   Tabs,
+  QuicklyPencils,
 }

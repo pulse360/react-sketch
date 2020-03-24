@@ -1,0 +1,23 @@
+.quickly-pen {
+  background: #ffffff;
+  border: 1px solid #ebebeb;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  outline: none;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.quickly-pen__indicator {
+  position: relative;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+.quickly-pen__active {
+  border: 3px solid #d2dded;
+}
