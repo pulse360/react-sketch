@@ -131,7 +131,7 @@ class SketchBoard extends React.Component {
 
   _clear = () => {
     this._sketch.clear()
-    this._sketch.setBackgroundFromDataUrl('')
+    this._sketch.setBackgroundImage('')
     this._onSketchChange()
     this.setState({
       backgroundColor: 'transparent',
@@ -272,7 +272,7 @@ class SketchBoard extends React.Component {
             handleFullScreen={() => {
               this.setState({ fullScreen: !this.state.fullScreen })
               this._sketch._resize()
-              debugger
+              console.log(this._sketch._resize())
             }}
             fullScreen={this.state.fullScreen}
             fillColor={this.state.fillWithColor ? this.state.fillColor : 'transparent'}

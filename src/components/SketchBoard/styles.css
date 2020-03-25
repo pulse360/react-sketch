@@ -34,6 +34,7 @@ html {
 .bottom {
   display: flex;
   height: calc(100% - 61px);
+  background-color: '#444'
 }
 
 .left-toolbar {
