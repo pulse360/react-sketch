@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { SaveIcon, CleareIcon } from '../SVG'
+import { SaveIcon, CleareIcon, PrintIcon } from '../SVG'
 import AppbarButton from '../AppbarButton'
 import ConfirmClear from './ConfirmClear'
 import './styles.css'
@@ -10,7 +10,7 @@ class SaveButtons extends Component {
   }
 
   render() {
-    const { save, clear } = this.props
+    const { save, clear, print } = this.props
 
     return (
       <div className='save-tools'>
@@ -18,6 +18,9 @@ class SaveButtons extends Component {
           <SaveIcon />
         </AppbarButton>
         <ConfirmClear open={this.state.open} clear={clear} onClose={() => this.setState({ open: false })} />
+        <AppbarButton onClick={print}>
+          <PrintIcon />
+        </AppbarButton>
         <AppbarButton onClick={() => this.setState({ open: true })}>
           <CleareIcon />
         </AppbarButton>

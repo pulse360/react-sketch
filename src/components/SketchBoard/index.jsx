@@ -7,7 +7,7 @@ import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles'
 import color from '@material-ui/core/colors/blueGrey'
 import { SketchField, Appbar, ToolsUI, FillColor, BackgroundImage, ToolsPanel, StrokeColor, Tabs } from '../'
 import Tools from '../Tools'
-// import jsPDF from 'jspdf'
+import jsPDF from 'jspdf'
 
 class SketchBoard extends React.Component {
   constructor(props) {
@@ -208,7 +208,36 @@ class SketchBoard extends React.Component {
 
   _addText = () => {
     this._selectTool('select')
-    this._sketch.addText(this.state.text)
+    this._sketch.addText(this.state.text, { fontSize: 24 })
+  }
+
+  _print = () => {
+    // this.props.onSaveCanvas(JSON.stringify(this._sketch.toJSON()))
+    // const doc = new jsPDF()
+    // doc.text('Hello world!', 20, 20)
+    // doc.text('This is client-side Javascript, pumping out a PDF.', 20, 30)
+    // doc.addPage('a5', 'l')
+    // doc.text('Do you like that?', 20, 20)
+    // // doc.save('a4.pdf')
+    // const image = this._sketch.toDataURL('image/jpeg', 1.0)
+    // const pdf = new jsPDF({
+    //   orientation: 'p',
+    //   unit: 'px',
+    //   format: 'a4',
+    // })
+    // pdf.addImage(image, 'JPEG', 0, 0)
+    // pdf.save('pdf')
+    const image = {
+      data: this._sketch.toDataURL('image/jpeg', 1.0),
+      height: this._sketch._fc.height,
+      width: this._sketch._fc.width,
+    }
+    const doc = new jsPDF({
+      orientation: 'p',
+      unit: 'mm',
+    })
+    doc.addImage(image.data, 'JPEG', 0, 0, 210, 298)
+    doc.save('save')
   }
 
   componentDidMount = () => {
@@ -249,6 +278,7 @@ class SketchBoard extends React.Component {
       <MuiThemeProvider theme={theme}>
         <div className='wrapper'>
           <Appbar
+            print={this._print}
             activeQuicklyPenID={this.state.activeQuicklyPenID}
             selectQuicklyPen={(color, width) => {
               this.setState({

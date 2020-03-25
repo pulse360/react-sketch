@@ -38,9 +38,10 @@ const Appbar = ({
   changeActiveQuicklyPenID,
   selectQuicklyPen,
   activeQuicklyPenID,
+  print,
 }) => (
   <div style={styles}>
-    <SaveButtons save={save} clear={clear} />
+    <SaveButtons save={save} clear={clear} print={print} />
     <HistoryButtons undo={undo} redo={redo} canRedo={canRedo} canUndo={canUndo} />
     <Slider value={lineWidth} onChange={changeLineWidth} />
     <QuicklyPencils
