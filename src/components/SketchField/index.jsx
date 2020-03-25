@@ -467,16 +467,16 @@ class SketchField extends PureComponent {
   render = () => {
     let { className } = this.props
 
-    // let canvasDivStyle = {
-    //   width: '40%',
-    //   height: '98.5%',
-    //   margin: '10px auto',
-    // }
     let canvasDivStyle = {
-      width: '100%',
-      height: '100%',
-      // margin: '10px auto',
+      width: '60%',
+      height: '111%',
+      margin: '9px auto',
     }
+    // let canvasDivStyle = {
+    //   width: '100%',
+    //   height: '100%',
+    //   // margin: '10px auto',
+    // }
 
     return (
       <div className={className} ref={(c) => (this._container = c)} style={canvasDivStyle} id='canvas'>

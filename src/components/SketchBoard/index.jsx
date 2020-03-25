@@ -7,7 +7,8 @@ import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles'
 import color from '@material-ui/core/colors/blueGrey'
 import { SketchField, Appbar, ToolsUI, FillColor, BackgroundImage, ToolsPanel, StrokeColor, Tabs } from '../'
 import Tools from '../Tools'
-import jsPDF from 'jspdf'
+// import jsPDF from 'jspdf'
+import printJS from 'print-js'
 
 class SketchBoard extends React.Component {
   constructor(props) {
@@ -196,6 +197,7 @@ class SketchBoard extends React.Component {
   }
 
   _print = () => {
+    printJS('canvas', 'html')
     // this.props.onSaveCanvas(JSON.stringify(this._sketch.toJSON()))
     // const printContents = document.getElementById('canvas').innerHTML
     // const originalContents = document.body.innerHTML
@@ -264,8 +266,14 @@ class SketchBoard extends React.Component {
             changeActiveQuicklyPenID={(id) => {
               this.setState({ activeQuicklyPenID: id })
             }}
-            getFullScreenStatus={() => this.props.getFullScreenStatus(!this.state.fullScreen)}
-            handleFullScreen={() => this.setState({ fullScreen: !this.state.fullScreen })}
+            getFullScreenStatus={() => {
+              this.props.getFullScreenStatus(!this.state.fullScreen)
+            }}
+            handleFullScreen={() => {
+              this.setState({ fullScreen: !this.state.fullScreen })
+              this._sketch._resize()
+              debugger
+            }}
             fullScreen={this.state.fullScreen}
             fillColor={this.state.fillWithColor ? this.state.fillColor : 'transparent'}
             lineColor={this.state.lineColor}

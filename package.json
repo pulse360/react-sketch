@@ -132,7 +132,9 @@
     "weinre": "^2.0.0-pre-I0Z7U9OV",
     "hex-to-rgba": "2.0.1",
     "url-loader": "4.0.0",
-    "jspdf": "1.5.3"
+    "jspdf": "1.5.3",
+    "print-js": "1.0.63",
+    "file-loader": "6.0.0"
   },
   "dependencies": {
     "prop-types": "^15.6.2",
