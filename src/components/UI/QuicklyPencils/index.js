@@ -2,10 +2,10 @@ import React from 'react'
 import './styles.css'
 
 const quicklyPencils = [
-  { id: 'pen_1', defaultColor: '#000000', defaultWidth: 5 },
-  { id: 'pen_2', defaultColor: '#000000', defaultWidth: 15 },
-  { id: 'pen_3', defaultColor: '#000000', defaultWidth: 20 },
-  { id: 'pen_4', defaultColor: '#888888', defaultWidth: 10 },
+  { id: 'pen_1', defaultColor: '#383838', defaultWidth: 5 },
+  { id: 'pen_2', defaultColor: '#004bac', defaultWidth: 5 },
+  { id: 'pen_3', defaultColor: '#007224', defaultWidth: 5 },
+  { id: 'pen_4', defaultColor: '#c52336', defaultWidth: 5 },
 ]
 
 const QuicklyPencils = ({ changeActiveQuicklyPenID, selectQuicklyPen, activeQuicklyPenID }) => {
@@ -17,14 +17,14 @@ const QuicklyPencils = ({ changeActiveQuicklyPenID, selectQuicklyPen, activeQuic
   return (
     <>
       {quicklyPencils.map((pen) => {
-        const color = window.localStorage.getItem(`${pen.id}_color`)
-        const width = Number(window.localStorage.getItem(`${pen.id}_width`))
+        // const color = window.localStorage.getItem(`${pen.id}_color`)
+        // const width = Number(window.localStorage.getItem(`${pen.id}_width`))
         return (
           <QuicklyPen
             key={pen.id}
-            onClick={() => handleClick(pen.id, color || pen.defaultColor, width || pen.defaultWidth)}
-            color={color || pen.defaultColor}
-            lineWidth={width || pen.defaultWidth}
+            onClick={() => handleClick(pen.id, pen.defaultColor, pen.defaultWidth)}
+            color={pen.defaultColor}
+            lineWidth={pen.defaultWidth}
             active={Boolean(activeQuicklyPenID === pen.id)}
           />
         )

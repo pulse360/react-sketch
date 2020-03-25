@@ -33,7 +33,7 @@ html {
 
 .bottom {
   display: flex;
-  height: calc(100% - 111px);
+  height: calc(100% - 61px);
 }
 
 .left-toolbar {

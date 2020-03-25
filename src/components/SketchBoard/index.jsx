@@ -17,7 +17,7 @@ class SketchBoard extends React.Component {
       lineWidth: 10,
       lineColor: '#000000',
       fillColor: '#68CCCA',
-      backgroundColor: '#ffffff',
+      backgroundColor: 'transparent',
       tool: Tools.Pencil,
       enableRemoveSelected: false,
       fillWithColor: false,
@@ -185,25 +185,9 @@ class SketchBoard extends React.Component {
     }
   }
 
-  _onBackgroundImageDrop = (accepted) => {
-    if (accepted && accepted.length > 0) {
-      let sketch = this._sketch
-      let reader = new FileReader()
-      let { stretched, stretchedX, stretchedY, originX, originY } = this.state
-      reader.addEventListener(
-        'load',
-        () =>
-          sketch.setBackgroundFromDataUrl(reader.result, {
-            stretched: stretched,
-            stretchedX: stretchedX,
-            stretchedY: stretchedY,
-            originX: originX,
-            originY: originY,
-          }),
-        false
-      )
-      reader.readAsDataURL(accepted[0])
-    }
+  _onBackgroundImageDrop = (imageUrl) => {
+    let sketch = this._sketch
+    sketch.setBackgroundImage(imageUrl, {})
   }
 
   _addText = () => {
@@ -213,31 +197,21 @@ class SketchBoard extends React.Component {
 
   _print = () => {
     // this.props.onSaveCanvas(JSON.stringify(this._sketch.toJSON()))
-    // const doc = new jsPDF()
-    // doc.text('Hello world!', 20, 20)
-    // doc.text('This is client-side Javascript, pumping out a PDF.', 20, 30)
-    // doc.addPage('a5', 'l')
-    // doc.text('Do you like that?', 20, 20)
-    // // doc.save('a4.pdf')
-    // const image = this._sketch.toDataURL('image/jpeg', 1.0)
-    // const pdf = new jsPDF({
+    // const printContents = document.getElementById('canvas').innerHTML
+    // const originalContents = document.body.innerHTML
+    // document.body.innerHTML = printContents
+    // window.print()
+    // const image = {
+    //   data: this._sketch.toDataURL('image/jpeg', 1.0),
+    //   height: this._sketch._fc.height,
+    //   width: this._sketch._fc.width,
+    // }
+    // const doc = new jsPDF({
     //   orientation: 'p',
-    //   unit: 'px',
-    //   format: 'a4',
+    //   unit: 'mm',
     // })
-    // pdf.addImage(image, 'JPEG', 0, 0)
-    // pdf.save('pdf')
-    const image = {
-      data: this._sketch.toDataURL('image/jpeg', 1.0),
-      height: this._sketch._fc.height,
-      width: this._sketch._fc.width,
-    }
-    const doc = new jsPDF({
-      orientation: 'p',
-      unit: 'mm',
-    })
-    doc.addImage(image.data, 'JPEG', 0, 0, 210, 298)
-    doc.save('save')
+    // doc.addImage(image.data, 'JPEG', 0, 0, 210, 298)
+    // doc.save('save')
   }
 
   componentDidMount = () => {
@@ -363,8 +337,7 @@ class SketchBoard extends React.Component {
           <BackgroundImage
             open={this.state.expandBackground}
             handleOpen={(e) => this.setState({ expandBackground: !this.state.expandBackground })}
-            color={this.state.backgroundColor}
-            changeColor={(color) => this.setState({ backgroundColor: color.hex })}
+            changeImage={this._onBackgroundImageDrop}
             anchorEl={this.state.anchorEl}
           />
           <div className='bottom'>
@@ -389,12 +362,12 @@ class SketchBoard extends React.Component {
               fullScreen={this.state.fullScreen}
             />
           </div>
-          <Tabs
+          {/* <Tabs
             tabs={this.state.tabs}
             onTabClick={this.onTabClick}
             onAddTab={this.addTab}
             currentTabID={this.state.currentTabID}
-          />
+          /> */}
         </div>
       </MuiThemeProvider>
     )

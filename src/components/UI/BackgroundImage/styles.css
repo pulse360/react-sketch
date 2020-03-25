@@ -7,3 +7,11 @@
   color: #1f2d3c;
   margin-bottom: 14px;
 }
+
+.background-image__button {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  outline: none;
+  cursor: pointer;
+}

@@ -1,15 +1,18 @@
 import React from 'react'
-import { CirclePicker } from 'react-color'
 import { Popover } from '@material-ui/core'
 import './styles.css'
+
+import paper from './images/bg-paper.png'
+
+const images = [{ image: paper }]
 
 const style = {
   padding: 20,
 }
 
-const BackgroundImage = ({ open, handleOpen, anchorEl, changeColor, color }) => {
-  const onChangeColor = (color) => {
-    changeColor(color)
+const BackgroundImage = ({ open, handleOpen, anchorEl, changeImage }) => {
+  const handleClick = (image) => {
+    changeImage(image)
     handleOpen()
   }
 
@@ -28,12 +31,17 @@ const BackgroundImage = ({ open, handleOpen, anchorEl, changeColor, color }) => 
       open={open}
       anchorEl={anchorEl}
       onClose={handleOpen}
-      transition
+      transition='true'
     >
-      <label htmlFor='lineColor' className='background-image__label'>
-        Background image
-      </label>
-      <CirclePicker id='lineColor' color={color} onChange={onChangeColor} />
+      {images.map((item) => {
+        return (
+          <button
+            onClick={() => handleClick(item.image)}
+            style={{ backgroundImage: `url(${item.image})` }}
+            className='background-image__button'
+          ></button>
+        )
+      })}
     </Popover>
   )
 }

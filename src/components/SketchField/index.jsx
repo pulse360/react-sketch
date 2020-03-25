@@ -380,31 +380,11 @@ class SketchField extends PureComponent {
     })
   }
 
-  setBackgroundFromDataUrl = (dataUrl, options = {}) => {
+  setBackgroundImage = (dataUrl, options = {}) => {
     let canvas = this._fc
-    if (options.stretched) {
-      delete options.stretched
-      Object.assign(options, {
-        width: canvas.width,
-        height: canvas.height,
-      })
-    }
-    if (options.stretchedX) {
-      delete options.stretchedX
-      Object.assign(options, {
-        width: canvas.width,
-      })
-    }
-    if (options.stretchedY) {
-      delete options.stretchedY
-      Object.assign(options, {
-        height: canvas.height,
-      })
-    }
-    let img = new Image()
-    img.setAttribute('crossOrigin', 'anonymous')
-    img.onload = () => canvas.setBackgroundImage(new fabric.Image(img), () => canvas.renderAll(), options)
-    img.src = dataUrl
+    canvas.setBackgroundColor({ source: dataUrl, repeat: 'repeat' }, function() {
+      canvas.renderAll()
+    })
   }
 
   addText = (text, options = {}) => {
@@ -487,14 +467,19 @@ class SketchField extends PureComponent {
   render = () => {
     let { className } = this.props
 
+    // let canvasDivStyle = {
+    //   width: '40%',
+    //   height: '98.5%',
+    //   margin: '10px auto',
+    // }
     let canvasDivStyle = {
-      width: '40%',
-      height: '98.5%',
-      margin: '10px auto',
+      width: '100%',
+      height: '100%',
+      // margin: '10px auto',
     }
 
     return (
-      <div className={className} ref={(c) => (this._container = c)} style={canvasDivStyle}>
+      <div className={className} ref={(c) => (this._container = c)} style={canvasDivStyle} id='canvas'>
         <canvas id={uuid4()} ref={(c) => (this._canvas = c)}>
           Sorry, Canvas HTML5 element is not supported by your browser :(
         </canvas>
