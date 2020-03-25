@@ -183,6 +183,7 @@ class SketchField extends PureComponent {
 
   _resize = (e) => {
     if (e) e.preventDefault()
+    console.log('RESIZING')
     let { widthCorrection, heightCorrection } = this.props
     let canvas = this._fc
     let { offsetWidth, clientHeight } = this._container
