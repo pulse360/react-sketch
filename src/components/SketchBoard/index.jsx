@@ -348,6 +348,7 @@ class SketchBoard extends React.Component {
             handleOpen={(e) => this.setState({ expandBackground: !this.state.expandBackground })}
             changeImage={this._onBackgroundImageDrop}
             anchorEl={this.state.anchorEl}
+            images={this.props.backgroundImages}
           />
           <div className='bottom'>
             <ToolsPanel
