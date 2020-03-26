@@ -134,7 +134,7 @@ class SketchBoard extends React.Component {
     this._sketch.setBackgroundImage('')
     this._onSketchChange()
     this.setState({
-      backgroundColor: 'transparent',
+      backgroundColor: '#ffffff',
       canUndo: this._sketch.canUndo(),
       canRedo: this._sketch.canRedo(),
     })
@@ -240,6 +240,7 @@ class SketchBoard extends React.Component {
   }
 
   render = () => {
+    console.log('SKETCH BOARD RENDER')
     const theme = createMuiTheme({
       typography: {
         useNextVariants: true,
@@ -270,9 +271,9 @@ class SketchBoard extends React.Component {
               this.props.getFullScreenStatus(!this.state.fullScreen)
             }}
             handleFullScreen={() => {
+              console.log(this._sketch._resize(), 'handleFullScreen')
               this.setState({ fullScreen: !this.state.fullScreen })
               this._sketch._resize()
-              console.log(this._sketch._resize())
             }}
             fullScreen={this.state.fullScreen}
             fillColor={this.state.fillWithColor ? this.state.fillColor : 'transparent'}
