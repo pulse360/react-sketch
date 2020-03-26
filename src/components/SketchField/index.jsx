@@ -220,6 +220,7 @@ class SketchField extends PureComponent {
     canvas.renderAll()
     canvas.calcOffset()
     console.log('RESIZING')
+    debugger
   }
 
   _backgroundColor = (color) => {

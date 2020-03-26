@@ -271,9 +271,10 @@ class SketchBoard extends React.Component {
               this.props.getFullScreenStatus(!this.state.fullScreen)
             }}
             handleFullScreen={() => {
-              console.log(this._sketch._resize(), 'handleFullScreen')
               this.setState({ fullScreen: !this.state.fullScreen })
-              this._sketch._resize()
+              setTimeout(() => {
+                this._sketch._resize()
+              }, 10)
             }}
             fullScreen={this.state.fullScreen}
             fillColor={this.state.fillWithColor ? this.state.fillColor : 'transparent'}
