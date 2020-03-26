@@ -12,7 +12,7 @@ const config = {
   output: {
     path: Paths.buildPath,
     filename: 'index.js',
-    publicPath: '/',
+    publicPath: '',
   },
   resolve: {
     extensions: ['.js', '.jsx'],

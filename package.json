@@ -135,7 +135,7 @@
     "jspdf": "1.5.3",
     "print-js": "1.0.63",
     "file-loader": "6.0.0",
-    "base64-inline-loader": "^1.1.1"
+    "image-to-base64": "2.0.1"
   },
   "dependencies": {
     "prop-types": "^15.6.2",
