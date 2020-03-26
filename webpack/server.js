@@ -60,20 +60,20 @@ const config = {
         test: /\.css$/i,
         use: ['style-loader', 'css-loader'],
       },
-      // {
-      //   test: /\.(png|jpe?g|gif|svg|eot|ttf|woff|woff2)$/i,
-      //   loader: 'url-loader',
-      //   options: {
-      //     limit: 8192,
-      //   },
-      // },
       {
-        test: /\.(jpe?g|png|gif|svg)$/,
-        loader: 'file-loader',
+        test: /\.(png|jpe?g|gif|svg|eot|ttf|woff|woff2)$/i,
+        loader: 'url-loader',
         options: {
-          outputPath: 'assets',
+          limit: 8192,
         },
       },
+      // {
+      //   test: /\.(jpe?g|png|gif|svg)$/,
+      //   loader: 'file-loader',
+      //   options: {
+      //     outputPath: 'assets',
+      //   },
+      // },
     ],
   },
   plugins: [
