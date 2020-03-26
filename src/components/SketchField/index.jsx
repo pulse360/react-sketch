@@ -219,8 +219,6 @@ class SketchField extends PureComponent {
     })
     canvas.renderAll()
     canvas.calcOffset()
-    console.log('RESIZING')
-    debugger
   }
 
   _backgroundColor = (color) => {
@@ -467,13 +465,13 @@ class SketchField extends PureComponent {
   }
 
   render = () => {
-    console.log('SKETCH FIELD RENDER')
     let { className } = this.props
 
     let canvasDivStyle = {
       width: '60%',
-      height: '111%',
-      margin: '9px auto',
+      height: 'calc(100% - 10px)',
+      margin: '0 auto',
+      marginTop: 10
     }
     // let canvasDivStyle = {
     //   width: '100%',

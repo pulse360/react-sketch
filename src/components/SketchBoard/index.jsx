@@ -240,7 +240,6 @@ class SketchBoard extends React.Component {
   }
 
   render = () => {
-    console.log('SKETCH BOARD RENDER')
     const theme = createMuiTheme({
       typography: {
         useNextVariants: true,
