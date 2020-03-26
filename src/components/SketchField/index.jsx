@@ -182,8 +182,7 @@ class SketchField extends PureComponent {
   }
 
   _resize = (e) => {
-    if (e) e.preventDefault()
-    console.log('RESIZING')
+    if (e) { e.preventDefault() }
     let { widthCorrection, heightCorrection } = this.props
     let canvas = this._fc
     let { offsetWidth, clientHeight } = this._container
@@ -220,6 +219,7 @@ class SketchField extends PureComponent {
     })
     canvas.renderAll()
     canvas.calcOffset()
+    console.log('RESIZING')
   }
 
   _backgroundColor = (color) => {
