@@ -2,19 +2,19 @@ import React from 'react'
 import { Popover } from '@material-ui/core'
 import './styles.css'
 
-// import paper from './images/paper.png'
+import paper from './images/paper.png'
 
 const style = {
   padding: 20,
 }
 
-const BackgroundImage = ({ open, handleOpen, anchorEl, changeImage, images }) => {
+const devImages = [{ image: paper }]
+
+const BackgroundImage = ({ open, handleOpen, anchorEl, changeImage, images = devImages }) => {
   const handleClick = (image) => {
     changeImage(image)
     handleOpen()
   }
-
-  // const images = [{ image: paper }]
 
   return (
     <Popover
@@ -39,7 +39,8 @@ const BackgroundImage = ({ open, handleOpen, anchorEl, changeImage, images }) =>
             onClick={() => handleClick(item.image)}
             style={{ backgroundImage: `url(${item.image})` }}
             className='background-image__button'
-          ></button>
+          >
+          </button>
         )
       })}
     </Popover>

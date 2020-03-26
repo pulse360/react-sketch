@@ -1,6 +1,6 @@
 import SketchField from './SketchField'
 import Appbar from './UI/Appbar'
-import ToolsUI from './UI/Tools'
+import AddTextDrawer from './UI/AddTextDrawer'
 import BackgroundImage from './UI/BackgroundImage'
 import ToolsPanel from './UI/ToolsPanel'
 import SketchBoard from './SketchBoard'
@@ -16,7 +16,7 @@ import QuicklyPencils from './UI/QuicklyPencils'
 
 export { SketchField }
 export { Appbar }
-export { ToolsUI }
+export { AddTextDrawer }
 export { BackgroundImage }
 export { SketchBoard }
 export { ToolsPanel }
@@ -33,7 +33,7 @@ export { QuicklyPencils }
 export default {
   SketchField,
   Appbar,
-  ToolsUI,
+  AddTextDrawer,
   BackgroundImage,
   SketchBoard,
   ToolsPanel,

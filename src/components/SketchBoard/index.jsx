@@ -5,7 +5,7 @@ import 'flexboxgrid'
 import './styles.css'
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles'
 import color from '@material-ui/core/colors/blueGrey'
-import { SketchField, Appbar, ToolsUI, FillColor, BackgroundImage, ToolsPanel, StrokeColor, Tabs } from '../'
+import { SketchField, Appbar, AddTextDrawer, FillColor, BackgroundImage, ToolsPanel, StrokeColor, Tabs } from '../'
 import Tools from '../Tools'
 // import jsPDF from 'jspdf'
 import printJS from 'print-js'
@@ -24,12 +24,12 @@ class SketchBoard extends React.Component {
       fillWithColor: false,
       canUndo: false,
       canRedo: false,
-      expandTools: false,
+      expandText: false,
       expandFillColor: false,
       expandStrokeColor: false,
       expandBackground: false,
       expandImages: false,
-      text: 'a text, cool!',
+      text: '',
       enableCopyPaste: false,
       anchorEl: null,
       fullScreen: false,
@@ -70,7 +70,7 @@ class SketchBoard extends React.Component {
   }
 
   _save = () => {
-    // this.props.onSaveCanvas(JSON.stringify(this._sketch.toJSON()))
+    this.props.onSaveCanvas(JSON.stringify(this._sketch.toJSON()))
     // var doc = new jsPDF()
     // console.log(this._sketch)
     // doc.text('Hello world!', 20, 20)
@@ -144,40 +144,40 @@ class SketchBoard extends React.Component {
     this._sketch.removeSelected()
   }
 
-  addTab = () => {
-    if (this.state.tabs.length === 9) {
-      return
-    }
+  // addTab = () => {
+  //   if (this.state.tabs.length === 9) {
+  //     return
+  //   }
 
-    this.setState(({ tabs }) => {
-      const newTabID = `tab_${tabs.length + 1}`
+  //   this.setState(({ tabs }) => {
+  //     const newTabID = `tab_${tabs.length + 1}`
 
-      const newTab = {
-        data: [],
-        id: newTabID,
-        name: `Tab #${tabs.length + 1}`,
-      }
+  //     const newTab = {
+  //       data: [],
+  //       id: newTabID,
+  //       name: `Tab #${tabs.length + 1}`,
+  //     }
 
-      return { tabs: [...tabs, newTab], currentTabID: newTabID, sketchValue: [] }
-    })
-  }
+  //     return { tabs: [...tabs, newTab], currentTabID: newTabID, sketchValue: [] }
+  //   })
+  // }
 
-  onTabClick = (tab) => {
-    this.setState(({ tabs }) => {
-      const indx = tabs.findIndex((el) => el.id === tab.id)
-      return {
-        currentTabID: tab.id,
-        sketchValue: tabs[indx].data,
-      }
-    })
-  }
+  // onTabClick = (tab) => {
+  //   this.setState(({ tabs }) => {
+  //     const indx = tabs.findIndex((el) => el.id === tab.id)
+  //     return {
+  //       currentTabID: tab.id,
+  //       sketchValue: tabs[indx].data,
+  //     }
+  //   })
+  // }
 
   _onSketchChange = () => {
-    this.setState(({ tabs, currentTabID }) => {
-      const indx = tabs.findIndex((el) => el.id === currentTabID)
-      const newItem = { ...tabs[indx], data: JSON.stringify(this._sketch.toJSON()) }
-      return { tabs: [...tabs.slice(0, indx), newItem, ...tabs.slice(indx + 1)] }
-    })
+    // this.setState(({ tabs, currentTabID }) => {
+    //   const indx = tabs.findIndex((el) => el.id === currentTabID)
+    //   const newItem = { ...tabs[indx], data: JSON.stringify(this._sketch.toJSON()) }
+    //   return { tabs: [...tabs.slice(0, indx), newItem, ...tabs.slice(indx + 1)] }
+    // })
 
     let prev = this.state.canUndo
     let now = this._sketch.canUndo()
@@ -193,7 +193,10 @@ class SketchBoard extends React.Component {
 
   _addText = () => {
     this._selectTool('select')
-    this._sketch.addText(this.state.text, { fontSize: 24 })
+    this._sketch.addText(this.state.text, { fontSize: 18 })
+    this.setState({
+      expandText: false,
+    })
   }
 
   _print = () => {
@@ -311,9 +314,9 @@ class SketchBoard extends React.Component {
               }
             }}
           />
-          <ToolsUI
-            open={this.state.expandTools}
-            handleOpen={(e) => this.setState({ expandTools: !this.state.expandTools })}
+          <AddTextDrawer
+            open={this.state.expandText}
+            handleOpen={(e) => this.setState({ expandText: !this.state.expandText })}
             changeText={(e) => this.setState({ text: e.target.value })}
             text={this.state.text}
             addText={this._addText}
@@ -354,7 +357,11 @@ class SketchBoard extends React.Component {
             <ToolsPanel
               selectTool={(tool) => this._selectTool(tool)}
               addImage={(image) => this._sketch.addImg(image)}
-              addText={this._addText}
+              addText={() =>
+                this.setState({
+                  expandText: true,
+                })
+              }
               selectedTool={this.state.tool}
             />
             <SketchField
@@ -368,7 +375,7 @@ class SketchBoard extends React.Component {
               forceValue
               onChange={this._onSketchChange}
               tool={this.state.tool}
-              defaultValue={this.state.sketchValue}
+              defaultValue={this.props.defaultValue}
               fullScreen={this.state.fullScreen}
             />
           </div>
