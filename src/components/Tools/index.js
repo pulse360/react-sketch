@@ -8,4 +8,5 @@ export default {
   Pan: 'pan',
   Eraser: 'eraser',
   Highlighter: 'highlighter',
+  Text: 'text',
 }

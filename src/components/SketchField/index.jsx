@@ -12,6 +12,7 @@ import Pan from '../SketchTools/pan'
 import Tool from '../Tools'
 import Eraser from '../SketchTools/eraser'
 import Highlighter from '../SketchTools/highlighter'
+import Text from '../SketchTools/text'
 
 const fabric = require('fabric').fabric
 
@@ -67,6 +68,7 @@ class SketchField extends PureComponent {
     this._tools[Tool.Eraser] = new Eraser(fabricCanvas)
     this._tools[Tool.Highlighter] = new Highlighter(fabricCanvas)
     this._tools[Tool.Eraser] = new Eraser(fabricCanvas)
+    this._tools[Tool.Text] = new Text(fabricCanvas)
   }
 
   enableTouchScroll = () => {
@@ -182,7 +184,9 @@ class SketchField extends PureComponent {
   }
 
   _resize = (e) => {
-    if (e) { e.preventDefault() }
+    if (e) {
+      e.preventDefault()
+    }
     let { widthCorrection, heightCorrection } = this.props
     let canvas = this._fc
     let { offsetWidth, clientHeight } = this._container
@@ -471,7 +475,7 @@ class SketchField extends PureComponent {
       width: '60%',
       height: 'calc(100% - 10px)',
       margin: '0 auto',
-      marginTop: 10
+      marginTop: 10,
     }
     // let canvasDivStyle = {
     //   width: '100%',

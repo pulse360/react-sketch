@@ -40,9 +40,12 @@ const ToolsPanel = ({ selectTool, addImage, addText, selectedTool }) => {
       <IconButton onClick={() => selectTool('circle')} selectedTool={selectedTool} tool='circle'>
         <CircleleIcon />
       </IconButton>
-      <IconButton onClick={addText}>
+      <IconButton onClick={() => selectTool('text')} selectedTool={selectedTool} tool='text'>
         <AddTextIcon />
       </IconButton>
+      {/* <IconButton onClick={addText}>
+        <AddTextIcon />
+      </IconButton> */}
       <DropZone
         accept='image/*'
         multiple={false}
