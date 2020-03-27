@@ -257,7 +257,7 @@ class SketchBoard extends React.Component {
       <MuiThemeProvider theme={theme}>
         <div className='wrapper'>
           <Appbar
-            onOpenInNewWindow={this.props.onOpenNewWindow}
+            onOpenInNewWindow={() => this.props.onOpenNewWindow(JSON.stringify(this._sketch.toJSON()))}
             print={this._print}
             activeQuicklyPenID={this.state.activeQuicklyPenID}
             selectQuicklyPen={(color, width) => {
