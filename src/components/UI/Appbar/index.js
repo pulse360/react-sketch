@@ -39,6 +39,7 @@ const Appbar = ({
   selectQuicklyPen,
   activeQuicklyPenID,
   print,
+  onOpenInNewWindow,
 }) => (
   <div style={styles}>
     <SaveButtons save={save} clear={clear} print={print} />
@@ -59,6 +60,7 @@ const Appbar = ({
       fullScreen={fullScreen}
       handleFullScreen={handleFullScreen}
       getFullScreenStatus={getFullScreenStatus}
+      onOpenInNewWindow={onOpenInNewWindow}
     />
   </div>
 )

@@ -1,10 +1,9 @@
 import React from 'react'
-import { ZoomIn, ZoomOut, HalfScreen, FullScreen } from '../SVG'
+import { ZoomIn, ZoomOut, HalfScreen, FullScreen, OpenNewWindowIcon } from '../SVG'
 import AppbarButton from '../AppbarButton'
 import './styles.css'
 
-const ZoomButton = ({ zoomIn, zoomOut, fullScreen, handleFullScreen, getFullScreenStatus }) => {
-
+const ZoomButtons = ({ zoomIn, zoomOut, fullScreen, handleFullScreen, getFullScreenStatus, onOpenInNewWindow }) => {
   const handleClick = () => {
     handleFullScreen()
     getFullScreenStatus()
@@ -18,9 +17,12 @@ const ZoomButton = ({ zoomIn, zoomOut, fullScreen, handleFullScreen, getFullScre
       <AppbarButton onClick={zoomOut}>
         <ZoomOut />
       </AppbarButton>
+      <AppbarButton onClick={onOpenInNewWindow}>
+        <OpenNewWindowIcon />
+      </AppbarButton>
       <AppbarButton onClick={handleClick}>{fullScreen ? <HalfScreen /> : <FullScreen />}</AppbarButton>
     </div>
   )
 }
 
-export default ZoomButton
+export default ZoomButtons
