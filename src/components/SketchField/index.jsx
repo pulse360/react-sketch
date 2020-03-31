@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import History from '../SketchTools/history'
 import { uuid4 } from '../../utils'
@@ -16,7 +16,7 @@ import Text from '../SketchTools/text'
 
 const fabric = require('fabric').fabric
 
-class SketchField extends PureComponent {
+class SketchField extends Component {
   static propTypes = {
     lineColor: PropTypes.string,
     lineWidth: PropTypes.number,
@@ -141,14 +141,17 @@ class SketchField extends PureComponent {
   }
 
   _onMouseDown = (e) => {
+    console.log('down')
     this._selectedTool.doMouseDown(e)
   }
 
   _onMouseMove = (e) => {
+    console.log('move')
     this._selectedTool.doMouseMove(e)
   }
 
   _onMouseOut = (e) => {
+    console.log('out')
     this._selectedTool.doMouseOut(e)
     // if (this.props.onChange) {
     //   let onChange = this.props.onChange
@@ -159,6 +162,7 @@ class SketchField extends PureComponent {
   }
 
   _onMouseUp = (e) => {
+    console.log('up')
     this._selectedTool.doMouseUp(e)
     if (this.props.tool !== Tool.Pencil) {
       const canvas = this._fc
@@ -427,15 +431,27 @@ class SketchField extends PureComponent {
     canvas.on('object:added', this._onObjectAdded)
     canvas.on('object:modified', this._onObjectModified)
     canvas.on('object:removed', this._onObjectRemoved)
+
+    canvas.on('touchstart', this._onMouseDown)
+    canvas.on('touchend', this._onMouseUp)
+    canvas.on('touchmove', this._onMouseMove)
+    canvas.on('touchcancel', this._onMouseOut)
+
+    canvas.on('pointerdown', this._onMouseDown)
+    canvas.on('pointerup', this._onMouseUp)
+    canvas.on('pointermove', this._onMouseMove)
+    canvas.on('pointerout', this._onMouseOut)
+
     canvas.on('mouse:down', this._onMouseDown)
-    canvas.on('mouse:move', this._onMouseMove)
     canvas.on('mouse:up', this._onMouseUp)
+    canvas.on('mouse:move', this._onMouseMove)
     canvas.on('mouse:out', this._onMouseOut)
+
     canvas.on('object:moving', this._onObjectMoving)
     canvas.on('object:scaling', this._onObjectScaling)
     canvas.on('object:rotating', this._onObjectRotating)
 
-    this.disableTouchScroll()
+    this.enableTouchScroll()
 
     this._resize()
     defaultValue && this.fromJSON(defaultValue)
