@@ -37,7 +37,7 @@ const QuicklyPen = ({ onClick, color, lineWidth, active }) => {
   let size
 
   if (lineWidth <= 10) {
-    size = 10
+    size = 18
   } else if (lineWidth >= 30) {
     size = 30
   } else {

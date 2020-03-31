@@ -257,6 +257,7 @@ class SketchBoard extends React.Component {
       <MuiThemeProvider theme={theme}>
         <div className='wrapper'>
           <Appbar
+            fullScreenHandlerDisabled={this.props.fullScreenHandlerDisabled}
             onOpenInNewWindow={() => this.props.onOpenNewWindow(JSON.stringify(this._sketch.toJSON()))}
             print={this._print}
             activeQuicklyPenID={this.state.activeQuicklyPenID}

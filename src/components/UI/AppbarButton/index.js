@@ -1,8 +1,8 @@
 import React from 'react'
 import './styles.css'
 
-const AppbarButton = ({ children, onClick, disabled, id }) => (
-  <button type='button' onClick={onClick} className='appbar-button' disabled={disabled} id={id}>
+const AppbarButton = ({ children, onClick, disabled }) => (
+  <button type='button' onClick={onClick} className='appbar-button' disabled={disabled}>
     {children}
   </button>
 )

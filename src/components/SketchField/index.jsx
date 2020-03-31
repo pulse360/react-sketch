@@ -141,17 +141,14 @@ class SketchField extends Component {
   }
 
   _onMouseDown = (e) => {
-    console.log('down')
     this._selectedTool.doMouseDown(e)
   }
 
   _onMouseMove = (e) => {
-    console.log('move')
     this._selectedTool.doMouseMove(e)
   }
 
   _onMouseOut = (e) => {
-    console.log('out')
     this._selectedTool.doMouseOut(e)
     // if (this.props.onChange) {
     //   let onChange = this.props.onChange
@@ -162,7 +159,6 @@ class SketchField extends Component {
   }
 
   _onMouseUp = (e) => {
-    console.log('up')
     this._selectedTool.doMouseUp(e)
     if (this.props.tool !== Tool.Pencil) {
       const canvas = this._fc

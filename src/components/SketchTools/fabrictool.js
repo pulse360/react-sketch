@@ -13,19 +13,15 @@ class FabricCanvasTool {
   }
 
   doMouseUp(event) {
-    console.log('Abstract class up', event)
   }
 
   doMouseDown(event) {
-    console.log('Abstract class down', event)
   }
 
   doMouseMove(event) {
-    console.log('Abstract class move', event)
   }
 
   doMouseOut(event) {
-    console.log('Abstract class out', event)
   }
 }
 
