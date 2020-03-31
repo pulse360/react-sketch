@@ -183,6 +183,30 @@ class SketchField extends Component {
     }
   }
 
+  _onPaste = (e) => {
+    if (e.clipboardData) {
+      var items = e.clipboardData.items
+      if (!items) return
+
+      var is_image = false
+      for (var i = 0; i < items.length; i++) {
+        if (items[i].type.indexOf('image') !== -1) {
+          var blob = items[i].getAsFile()
+          var URLObj = window.URL || window.webkitURL
+          var source = URLObj.createObjectURL(blob)
+          this.addImg(source)
+          is_image = true
+        }
+        if (items[i].type.indexOf('text/plain') !== -1) {
+          this.addText(event.clipboardData.getData('text/html'))
+        }
+      }
+      if (is_image == true) {
+        e.preventDefault()
+      }
+    }
+  }
+
   _resize = (e) => {
     if (e) {
       e.preventDefault()
@@ -450,6 +474,9 @@ class SketchField extends Component {
     this.enableTouchScroll()
 
     this._resize()
+
+    document.addEventListener('paste', this._onPaste, false)
+
     defaultValue && this.fromJSON(defaultValue)
   }
 
