@@ -6,6 +6,12 @@ import paper from './images/paper.png'
 
 const style = {
   padding: 20,
+  display: 'flex',
+  flexWrap: 'wrap',
+  maxWidth: 250,
+  minHeight: 200,
+  alignItems: 'center',
+  justifyContent: 'space-between',
 }
 
 const devImages = [{ image: paper }]
