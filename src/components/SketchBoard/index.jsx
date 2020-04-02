@@ -70,7 +70,7 @@ class SketchBoard extends React.Component {
   }
 
   _save = () => {
-    this.props.onSaveCanvas(JSON.stringify(this._sketch.toJSON()))
+    this.props.onSaveCanvas(this._sketch.toJSON())
     // var doc = new jsPDF()
     // console.log(this._sketch)
     // doc.text('Hello world!', 20, 20)
