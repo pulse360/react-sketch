@@ -1,7 +1,15 @@
 import React from 'react'
 import IconButton from '@material-ui/core/IconButton'
 // import CopyIcon from '@material-ui/icons/FileCopy'
-import { SaveButtons, HistoryButtons, ColorButtons, ZoomButtons, Slider, QuicklyPencils } from '../../'
+import {
+  SaveButtons,
+  HistoryButtons,
+  ColorButtons,
+  ZoomButtons,
+  Slider,
+  QuicklyPencils,
+  WindowModeButtons,
+} from '../../'
 
 const styles = {
   backgroundColor: '#F6F7FB',
@@ -40,7 +48,7 @@ const Appbar = ({
   activeQuicklyPenID,
   print,
   onOpenInNewWindow,
-  fullScreenHandlerDisabled
+  fullScreenHandlerDisabled,
 }) => (
   <div style={styles}>
     <SaveButtons save={save} clear={clear} print={print} />
@@ -55,9 +63,8 @@ const Appbar = ({
     {/* <IconButton color='primary' disabled={enableCopyPaste} onClick={copyPasteClick}>
       <CopyIcon />
     </IconButton> */}
-    <ZoomButtons
-      zoomIn={zoomIn}
-      zoomOut={zoomOut}
+    <ZoomButtons zoomIn={zoomIn} zoomOut={zoomOut} />
+    <WindowModeButtons
       fullScreen={fullScreen}
       handleFullScreen={handleFullScreen}
       getFullScreenStatus={getFullScreenStatus}

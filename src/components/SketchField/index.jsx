@@ -465,7 +465,7 @@ class SketchField extends Component {
 
   componentDidMount = () => {
     let { tool, undoSteps, defaultValue, backgroundColor } = this.props
-
+    
     let canvas = (this._fc = new fabric.Canvas(this._canvas))
 
     this._initTools(canvas)
@@ -492,6 +492,7 @@ class SketchField extends Component {
     canvas.on('pointerdown', this._onMouseDown)
     canvas.on('pointerup', this._onMouseUp)
     canvas.on('pointermove', this._onMouseMove)
+    canvas.on('pointerleave', this._onMouseOut)
     canvas.on('pointerout', this._onMouseOut)
 
     canvas.on('mouse:down', this._onMouseDown)

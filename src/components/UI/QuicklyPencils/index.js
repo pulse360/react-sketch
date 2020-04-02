@@ -15,7 +15,7 @@ const QuicklyPencils = ({ changeActiveQuicklyPenID, selectQuicklyPen, activeQuic
   }
 
   return (
-    <>
+    <div className='quickly-pens-wrapper'>
       {quicklyPencils.map((pen) => {
         // const color = window.localStorage.getItem(`${pen.id}_color`)
         // const width = Number(window.localStorage.getItem(`${pen.id}_width`))
@@ -29,7 +29,7 @@ const QuicklyPencils = ({ changeActiveQuicklyPenID, selectQuicklyPen, activeQuic
           />
         )
       })}
-    </>
+    </div>
   )
 }
 

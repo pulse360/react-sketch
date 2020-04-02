@@ -39,14 +39,14 @@ const BackgroundImage = ({ open, handleOpen, anchorEl, changeImage, images = dev
       onClose={handleOpen}
       transition='true'
     >
-      {images.map((item) => {
+      {images.map((item, index) => {
         return (
           <button
+            key={index}
             onClick={() => handleClick(item.image)}
             style={{ backgroundImage: `url(${item.image})` }}
             className='background-image__button'
-          >
-          </button>
+          ></button>
         )
       })}
     </Popover>

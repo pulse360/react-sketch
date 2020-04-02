@@ -3,12 +3,14 @@
   width: 260px;
   height: 38px;
   background: #ffffff;
-  border: 1px solid #ebebeb;
   display: flex;
   align-items: center;
   justify-content: space-around;
-  margin: 0 20px;
-  border-radius: 4px;
+  margin-left: 20px;
+  border: 1px solid #ebebeb;
+  border-right: 0;
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
 }
 
 .input-wrapper {

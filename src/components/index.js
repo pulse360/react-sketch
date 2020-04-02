@@ -13,6 +13,7 @@ import ZoomButtons from './UI/ZoomButtons'
 import Slider from './UI/Slider'
 import Tabs from './UI/Tabs'
 import QuicklyPencils from './UI/QuicklyPencils'
+import WindowModeButtons from './UI/WindowModeButtons'
 
 export { SketchField }
 export { Appbar }
@@ -29,6 +30,7 @@ export { ZoomButtons }
 export { Slider }
 export { Tabs }
 export { QuicklyPencils }
+export { WindowModeButtons }
 
 export default {
   SketchField,
@@ -46,4 +48,5 @@ export default {
   Slider,
   Tabs,
   QuicklyPencils,
+  WindowModeButtons,
 }
