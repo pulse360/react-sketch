@@ -1,6 +1,7 @@
 import React from 'react'
 import { Popover } from '@material-ui/core'
 import './styles.css'
+import { BackgroundImageIcon } from '../SVG'
 
 import paper from './images/paper.png'
 
@@ -12,6 +13,10 @@ const style = {
   minHeight: 200,
   alignItems: 'center',
   justifyContent: 'space-between',
+
+  borderTopRightRadius: 0,
+  overflowY: 'visible',
+  overflowX: 'visible',
 }
 
 const devImages = [{ image: paper }]
@@ -27,28 +32,36 @@ const BackgroundImage = ({ open, handleOpen, anchorEl, changeImage, images = dev
       PaperProps={{ style }}
       anchorOrigin={{
         vertical: 'bottom',
-        horizontal: 'left',
+        horizontal: 'right',
       }}
       transformOrigin={{
         vertical: 'top',
-        horizontal: 'left',
+        horizontal: 'right',
       }}
-      id='fill-color'
+      BackdropProps={{
+        backgroundColor: 'black',
+      }}
+      id='back-image'
       open={open}
       anchorEl={anchorEl}
       onClose={handleOpen}
       transition='true'
     >
-      {images.map((item, index) => {
-        return (
-          <button
-            key={index}
-            onClick={() => handleClick(item.image)}
-            style={{ backgroundImage: `url(${item.image})` }}
-            className='background-image__button'
-          ></button>
-        )
-      })}
+      <>
+        <div className='background-image-indicator-wrapper'>
+          <BackgroundImageIcon />
+        </div>
+        {images.map((item, index) => {
+          return (
+            <button
+              key={index}
+              onClick={() => handleClick(item.image)}
+              style={{ backgroundImage: `url(${item.image})` }}
+              className='background-image__button'
+            ></button>
+          )
+        })}
+      </>
     </Popover>
   )
 }

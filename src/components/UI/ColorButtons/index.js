@@ -1,5 +1,5 @@
 import React from 'react'
-import { FillColorIcon, StrokeColorIcon, BackgroundImage } from '../SVG'
+import { FillColorIcon, StrokeColorIcon, BackgroundImageIcon } from '../SVG'
 import AppbarButton from '../AppbarButton'
 import './styles.css'
 
@@ -22,7 +22,7 @@ const ColorButtons = ({ setAnchorEl, open, fillColor, lineColor }) => {
         <StrokeColorIcon />
       </AppbarButton>
       <AppbarButton onClick={(event) => handleClick(event, 'expandBackground')}>
-        <BackgroundImage />
+        <BackgroundImageIcon />
       </AppbarButton>
     </div>
   )

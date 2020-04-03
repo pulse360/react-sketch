@@ -2,9 +2,12 @@ import React from 'react'
 import { CirclePicker } from 'react-color'
 import { Popover } from '@material-ui/core'
 import './styles.css'
+import { StrokeColorIcon } from '../SVG'
 
 const style = {
   padding: 20,
+  overflowY: 'visible',
+  overflowX: 'visible',
 }
 
 const StrokeColor = ({ open, handleOpen, changeColor, color, anchorEl }) => {
@@ -22,7 +25,10 @@ const StrokeColor = ({ open, handleOpen, changeColor, color, anchorEl }) => {
       }}
       transformOrigin={{
         vertical: 'top',
-        horizontal: 'left',
+        horizontal: 40,
+      }}
+      BackdropProps={{
+        backgroundColor: 'black',
       }}
       id='stroke-color'
       open={open}
@@ -30,10 +36,18 @@ const StrokeColor = ({ open, handleOpen, changeColor, color, anchorEl }) => {
       onClose={handleOpen}
       transition
     >
-      <label htmlFor='strokeColor' className='stroke-color__label'>
-        Line color
-      </label>
-      <CirclePicker id='strokeColor' color={color} onChange={onChangeColor} />
+      <>
+        <div className='stroke-color-indicator-wrapper'>
+          {color !== 'transparent' && (
+            <div className='stroke-color__color-indicator' style={{ backgroundColor: color }}></div>
+          )}
+          <StrokeColorIcon />
+        </div>
+        <label htmlFor='strokeColor' className='stroke-color__label'>
+          Line color
+        </label>
+        <CirclePicker id='strokeColor' color={color} onChange={onChangeColor} />
+      </>
     </Popover>
   )
 }

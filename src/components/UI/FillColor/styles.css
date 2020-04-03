@@ -6,3 +6,25 @@
   line-height: 17px;
   color: #1f2d3c;
 }
+
+.fill__color-indicator-wrapper {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  bottom: 100%;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #ffffff;
+  border-top-left-radius: 4px;
+}
+
+.fill-color__color-indicator {
+  width: 16px;
+  height: 16px;
+  position: absolute;
+  bottom: 5px;
+  left: 5px;
+  border-radius: 50%;
+}

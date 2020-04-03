@@ -131,7 +131,7 @@ class SketchBoard extends React.Component {
 
   _clear = () => {
     this._sketch.clear()
-    this._sketch.setBackgroundImage('')
+    // this._sketch.setBackgroundImage('')
     this._onSketchChange()
     this.setState({
       backgroundColor: '#ffffff',
@@ -326,7 +326,7 @@ class SketchBoard extends React.Component {
           <FillColor
             open={this.state.expandFillColor}
             handleOpen={(e) => this.setState({ expandFillColor: !this.state.expandFillColor })}
-            color={this.state.fillColor}
+            color={this.state.fillWithColor ? this.state.fillColor : 'transparent'}
             changeColor={(color) => this.setState({ fillColor: color.hex })}
             anchorEl={this.state.anchorEl}
             fillWithColor={this.state.fillWithColor}
@@ -379,6 +379,7 @@ class SketchBoard extends React.Component {
               tool={this.state.tool}
               defaultValue={this.props.defaultValue}
               fullScreen={this.state.fullScreen}
+              selectTool={() => this._selectTool('select')}
             />
           </div>
           {/* <Tabs

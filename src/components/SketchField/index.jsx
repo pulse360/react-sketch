@@ -465,7 +465,7 @@ class SketchField extends Component {
 
   componentDidMount = () => {
     let { tool, undoSteps, defaultValue, backgroundColor } = this.props
-    
+
     let canvas = (this._fc = new fabric.Canvas(this._canvas))
 
     this._initTools(canvas)

@@ -7,3 +7,24 @@
   color: #1f2d3c;
   margin-bottom: 14px;
 }
+
+.stroke-color-indicator-wrapper {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  bottom: 100%;
+  left: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #ffffff;
+}
+
+.stroke-color__color-indicator {
+  width: 16px;
+  height: 16px;
+  position: absolute;
+  bottom: 5px;
+  left: 5px;
+  border-radius: 50%;
+}
