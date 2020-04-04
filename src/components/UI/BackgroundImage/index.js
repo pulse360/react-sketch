@@ -4,6 +4,11 @@ import './styles.css'
 import { BackgroundImageIcon } from '../SVG'
 
 import paper from './images/paper.png'
+import lines from './images/lines.png'
+import white from './images/white.png'
+import yellow from './images/yellow.png'
+import blue from './images/blue.png'
+import cell from './images/cell.png'
 
 const style = {
   padding: 20,
@@ -19,7 +24,14 @@ const style = {
   overflowX: 'visible',
 }
 
-const devImages = [{ image: paper }]
+const devImages = [
+  { image: paper },
+  { image: lines },
+  { image: cell },
+  { image: white },
+  { image: yellow },
+  { image: blue },
+]
 
 const BackgroundImage = ({ open, handleOpen, anchorEl, changeImage, images = devImages }) => {
   const handleClick = (image) => {

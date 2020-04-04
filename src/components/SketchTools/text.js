@@ -8,6 +8,7 @@ class Text extends FabricCanvasTool {
   configureCanvas(props) {
     let canvas = this._canvas
     canvas.isDrawingMode = false
+    canvas.selection = true
     canvas.forEachObject((o) => (o.selectable = o.evented = false))
 
     // canvas.selectionColor = 'rgba(0,0,0,0.3)'
