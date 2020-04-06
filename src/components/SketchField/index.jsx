@@ -415,52 +415,65 @@ class SketchField extends Component {
     })
   }
 
-  addTextBreaks = (text, width, fontSize) => {
-    text = text.trim()
-    var words = text.toString().split(' ')
-    let canvas = this._fc
-    let context = canvas.getContext('2d')
-    let idx = 1
-    let newString = ''
-    context.font = fontSize + 'px Lato'
-    while (words.length > 0 && idx <= words.length) {
-      var str = words.slice(0, idx).join(' ')
-      let w = context.measureText(str).width
-      if (w > width) {
-        if (idx == 1) {
-          idx = 2
-        }
-        newString += words.slice(0, idx - 1).join(' ')
-        newString += '\n'
-        words = words.splice(idx - 1)
-        idx = 1
-      } else {
-        idx += 1
-      }
-    }
-    if (idx > 0) {
-      var txt = words.join(' ')
-      newString += txt
-    }
-    return newString
-  }
+  // addTextBreaks = (text, width, fontSize) => {
+  //   text = text.trim()
+  //   var words = text.toString().split(' ')
+  //   let canvas = this._fc
+  //   let context = canvas.getContext('2d')
+  //   let idx = 1
+  //   let newString = ''
+  //   context.font = fontSize + 'px Lato'
+  //   while (words.length > 0 && idx <= words.length) {
+  //     var str = words.slice(0, idx).join(' ')
+  //     let w = context.measureText(str).width
+  //     if (w > width) {
+  //       if (idx == 1) {
+  //         idx = 2
+  //       }
+  //       newString += words.slice(0, idx - 1).join(' ')
+  //       newString += '\n'
+  //       words = words.splice(idx - 1)
+  //       idx = 1
+  //     } else {
+  //       idx += 1
+  //     }
+  //   }
+  //   if (idx > 0) {
+  //     var txt = words.join(' ')
+  //     newString += txt
+  //   }
+  //   return newString
+  // }
 
   addText = (text, options = {}) => {
     let canvas = this._fc
-    let iText = new fabric.IText(this.addTextBreaks(text, canvas.width - 50, 16), options)
+    let textBox = new fabric.Textbox(text, options)
     let opts = {
-      left: (canvas.getWidth() - iText.width) * 0.5,
-      top: (canvas.getHeight() - iText.height) * 0.5,
+      left: (canvas.getWidth() - textBox.width) * 0.5,
+      top: (canvas.getHeight() - textBox.height) * 0.5,
     }
     Object.assign(options, opts)
-    iText.set({
+    textBox.set({
       left: 50,
       top: 50,
-      width: 150,
-      fontSize: 16,
-      fixedWidth: 150,
+      fontSize: 18,
+      width: canvas.width - 100,
+      splitByGrapheme: true,
+      fontFamily: 'sans-serif',
+      borderColor: 'grey',
+      cornerColor: 'black',
+      cornerSize: 10,
+      transparentCorners: true,
+      lineHeight: 1.25,
     })
-    canvas.add(iText)
+
+    textBox.setControlsVisibility({
+      mt: false,
+      mb: false,
+    })
+
+    canvas.add(textBox)
+    this.props.selectTool()
   }
 
   componentDidMount = () => {

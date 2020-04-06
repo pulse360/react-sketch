@@ -61,6 +61,11 @@ class Text extends FabricCanvasTool {
       text.enterEditing()
       text.hiddenTextarea.focus()
 
+      text.setControlsVisibility({
+        mt: false,
+        mb: false,
+      })
+
       text.on('deselected', () => {
         if (!text.text.length) {
           canvas.remove(text)

@@ -53,6 +53,13 @@ class SketchBoard extends React.Component {
   }
 
   _selectTool = (tool, inQuicklyPen) => {
+
+    if (tool === 'highlighter') {
+      this.setState(() => ({
+        lineWidth: 50
+      }))
+    }
+
     if (inQuicklyPen) {
       this.setState({
         tool: tool,
