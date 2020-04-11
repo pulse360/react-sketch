@@ -54,6 +54,7 @@ class SketchField extends Component {
   state = {
     parentWidth: 550,
     action: true,
+    heightFactor: 1,
   }
 
   _initTools = (fabricCanvas) => {
@@ -410,7 +411,7 @@ class SketchField extends Component {
 
   setBackgroundImage = (dataUrl, options = {}) => {
     let canvas = this._fc
-    canvas.setBackgroundColor({ source: dataUrl, repeat: 'repeat' }, function() {
+    canvas.setBackgroundColor({ source: dataUrl, repeat: 'repeat' }, function () {
       canvas.renderAll()
     })
   }
@@ -526,6 +527,15 @@ class SketchField extends Component {
     defaultValue && this.fromJSON(defaultValue)
   }
 
+  setDefaultValue = () => {
+    const { defaultValue, heightFactor = 1 } = this.props
+    this.fromJSON(defaultValue)
+
+    this.setState({
+      heightFactor,
+    })
+  }
+
   componentWillUnmount = () => window.removeEventListener('resize', this._resize)
 
   componentDidUpdate = (prevProps, prevState) => {
@@ -553,15 +563,65 @@ class SketchField extends Component {
     }
   }
 
+  addPage = () => {
+    this.setState(() => {
+      return {
+        heightFactor: (this.state.heightFactor += 1),
+      }
+    })
+    setTimeout(() => {
+      let { widthCorrection, heightCorrection } = this.props
+      let canvas = this._fc
+      let { offsetWidth, clientHeight } = this._container
+      let prevWidth = canvas.getWidth()
+      let prevHeight = canvas.getHeight()
+      let wfactor = ((offsetWidth - widthCorrection) / prevWidth).toFixed(2)
+      let hfactor = ((clientHeight - heightCorrection) / prevHeight).toFixed(2)
+      canvas.setWidth(offsetWidth - widthCorrection)
+      canvas.setHeight(clientHeight - heightCorrection)
+      if (canvas.backgroundImage) {
+        let bi = canvas.backgroundImage
+        bi.width = bi.width * wfactor
+        bi.height = bi.height * hfactor
+      }
+      this.setState({
+        parentWidth: offsetWidth,
+      })
+      canvas.renderAll()
+      canvas.calcOffset()
+    }, 10)
+  }
+
   render = () => {
     let { className } = this.props
+    const { heightFactor } = this.state
+
+    const height = 100 * heightFactor
 
     let canvasDivStyle = {
       width: '60%',
-      height: 'calc(100% - 10px)',
+      height: `calc(${height}% - 10px)`,
       margin: '0 auto',
       marginTop: 10,
     }
+
+    const addPageStyle = {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+
+      position: 'absolute',
+      right: 50,
+      width: 100,
+      height: 40,
+
+      border: 'solid black 1px',
+      borderRadius: 4,
+      cursor: 'pointer',
+      background: 'white',
+      bottom: 20,
+    }
+
     // let canvasDivStyle = {
     //   width: '100%',
     //   height: '100%',
@@ -570,6 +630,9 @@ class SketchField extends Component {
 
     return (
       <div className={className} ref={(c) => (this._container = c)} style={canvasDivStyle} id='canvas'>
+        <div style={addPageStyle} onClick={this.addPage}>
+          Add page
+        </div>
         <canvas id={uuid4()} ref={(c) => (this._canvas = c)}>
           Sorry, Canvas HTML5 element is not supported by your browser :(
         </canvas>

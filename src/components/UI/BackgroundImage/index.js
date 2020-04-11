@@ -24,14 +24,7 @@ const style = {
   overflowX: 'visible',
 }
 
-const devImages = [
-  { image: paper },
-  { image: lines },
-  { image: cell },
-  { image: white },
-  { image: yellow },
-  { image: blue },
-]
+const devImages = [{ image: lines }, { image: cell }, { image: white }, { image: yellow }, { image: blue }]
 
 const BackgroundImage = ({ open, handleOpen, anchorEl, changeImage, images = devImages }) => {
   const handleClick = (image) => {

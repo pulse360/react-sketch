@@ -35,6 +35,7 @@ html {
   display: flex;
   height: calc(100% - 61px);
   background-color: #444;
+  overflow-y: scroll;
 }
 
 .left-toolbar {

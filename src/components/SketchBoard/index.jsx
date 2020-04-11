@@ -53,10 +53,9 @@ class SketchBoard extends React.Component {
   }
 
   _selectTool = (tool, inQuicklyPen) => {
-
     if (tool === 'highlighter') {
       this.setState(() => ({
-        lineWidth: 50
+        lineWidth: 50,
       }))
     }
 
@@ -77,37 +76,10 @@ class SketchBoard extends React.Component {
   }
 
   _save = () => {
-    this.props.onSaveCanvas(this._sketch.toJSON())
-    // var doc = new jsPDF()
-    // console.log(this._sketch)
-    // doc.text('Hello world!', 20, 20)
-    // doc.text('This is client-side Javascript, pumping out a PDF.', 20, 30)
-    // doc.addPage('a5', 'l')
-    // doc.text('Do you like that?', 20, 20)
-    // doc.save('a4.pdf')
-    // const image = this._sketch.toDataURL('image/jpeg', 1.0)
-    // const pdf = new jsPDF({
-    //   orientation: 'p',
-    //   unit: 'px',
-    //   format: 'a4',
-    // })
-    // pdf.addImage(image, 'JPEG', 0, 0)
-    // pdf.save('pdf')
-    // И создаем из него картиику в base64
-    // const image = {
-    //   data: this._sketch.toDataURL('image/jpeg', 1.0),
-    //   height: this._sketch._fc.height,
-    //   width: this._sketch._fc.width,
-    // }
-    // const dpi = document.getElementById('dpi').offsetHeight
-    // const widthMM = (image.width * 25.4) / dpi
-    // const heightMM = (image.height * 25.4) / dpi
-    // var doc = new jsPDF({
-    //   orientation: 'p',
-    //   unit: 'mm',
-    // })
-    // doc.addImage(image.data, 'JPEG', 0, 0, 210, 298)
-    // doc.save('save')
+    this.props.onSaveCanvas({
+      data: this._sketch.toJSON(),
+      heightFactor: this._sketch.state.heightFactor,
+    })
   }
 
   _download = () => {
@@ -138,7 +110,6 @@ class SketchBoard extends React.Component {
 
   _clear = () => {
     this._sketch.clear()
-    // this._sketch.setBackgroundImage('')
     this._onSketchChange()
     this.setState({
       backgroundColor: '#ffffff',
@@ -208,27 +179,11 @@ class SketchBoard extends React.Component {
 
   _print = () => {
     printJS('canvas', 'html')
-    // this.props.onSaveCanvas(JSON.stringify(this._sketch.toJSON()))
-    // const printContents = document.getElementById('canvas').innerHTML
-    // const originalContents = document.body.innerHTML
-    // document.body.innerHTML = printContents
-    // window.print()
-    // const image = {
-    //   data: this._sketch.toDataURL('image/jpeg', 1.0),
-    //   height: this._sketch._fc.height,
-    //   width: this._sketch._fc.width,
-    // }
-    // const doc = new jsPDF({
-    //   orientation: 'p',
-    //   unit: 'mm',
-    // })
-    // doc.addImage(image.data, 'JPEG', 0, 0, 210, 298)
-    // doc.save('save')
   }
 
   componentDidMount = () => {
-    ;(function(console) {
-      console.save = function(data, filename) {
+    ;(function (console) {
+      console.save = function (data, filename) {
         if (!data) {
           console.error('Console.save: No data')
           return
