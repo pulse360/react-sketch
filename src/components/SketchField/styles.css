@@ -2,17 +2,16 @@
   display: flex;
   align-items: center;
   justify-content: center;
-
   position: absolute;
-  right: 100px;
-  bottom: 50px;
   width: 100px;
   height: 40px;
-
   border: solid black 1px;
   border-radius: 4px;
   cursor: pointer;
   background: white;
+  left: 25px;
+  bottom: 75px;
+  width: 100px;
 }
 
 .sketchfield__add-page-button:hover {
