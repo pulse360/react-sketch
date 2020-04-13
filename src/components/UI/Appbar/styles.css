@@ -1,0 +1,11 @@
+.appbar__delegate-button  {
+  height: 40px;
+  padding: 0 15px;
+  font-size: 16px;
+  border-radius: 4px;
+  background-color: #13CE66;
+  border: 1px solid #13CE66;
+  color: #ffffff;
+  cursor: pointer;
+  margin-right: 20px;
+}

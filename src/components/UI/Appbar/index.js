@@ -1,5 +1,5 @@
 import React from 'react'
-import IconButton from '@material-ui/core/IconButton'
+// import IconButton from '@material-ui/core/IconButton'
 // import CopyIcon from '@material-ui/icons/FileCopy'
 import {
   SaveButtons,
@@ -10,6 +10,8 @@ import {
   QuicklyPencils,
   WindowModeButtons,
 } from '../../'
+
+import './styles.css'
 
 const styles = {
   backgroundColor: '#F6F7FB',
@@ -49,8 +51,10 @@ const Appbar = ({
   print,
   onOpenInNewWindow,
   fullScreenHandlerDisabled,
+  onNotifyUsers
 }) => (
   <div style={styles}>
+    <button onClick={onNotifyUsers} className='appbar__delegate-button' >Delegate</button>
     <SaveButtons save={save} clear={clear} print={print} />
     <HistoryButtons undo={undo} redo={redo} canRedo={canRedo} canUndo={canUndo} />
     <Slider value={lineWidth} onChange={changeLineWidth} />

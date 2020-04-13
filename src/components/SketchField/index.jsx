@@ -13,6 +13,7 @@ import Tool from '../Tools'
 import Eraser from '../SketchTools/eraser'
 import Highlighter from '../SketchTools/highlighter'
 import Text from '../SketchTools/text'
+import './styles.css'
 
 const fabric = require('fabric').fabric
 
@@ -572,6 +573,13 @@ class SketchField extends Component {
     }
   }
 
+  cleareHeightFactor = () => {
+    this.setState({
+      heightFactor: 1
+    })
+    this._heightNormalizer()
+  }
+
   _heightNormalizer = () => {
     setTimeout(() => {
       let { widthCorrection, heightCorrection } = this.props
@@ -618,23 +626,6 @@ class SketchField extends Component {
       marginTop: 10,
     }
 
-    const addPageStyle = {
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-
-      position: 'absolute',
-      right: 50,
-      width: 100,
-      height: 40,
-
-      border: 'solid black 1px',
-      borderRadius: 4,
-      cursor: 'pointer',
-      background: 'white',
-      bottom: 20,
-    }
-
     // let canvasDivStyle = {
     //   width: '100%',
     //   height: '100%',
@@ -642,14 +633,16 @@ class SketchField extends Component {
     // }
 
     return (
-      <div className={className} ref={(c) => (this._container = c)} style={canvasDivStyle} id='canvas'>
-        <div style={addPageStyle} onClick={this.addPage}>
+      <>
+        <div className='sketchfield__add-page-button' onClick={this.addPage}>
           Add page
         </div>
-        <canvas id={uuid4()} ref={(c) => (this._canvas = c)}>
-          Sorry, Canvas HTML5 element is not supported by your browser :(
-        </canvas>
-      </div>
+        <div className={className} ref={(c) => (this._container = c)} style={canvasDivStyle} id='canvas'>
+          <canvas id={uuid4()} ref={(c) => (this._canvas = c)}>
+            Sorry, Canvas HTML5 element is not supported by your browser :(
+          </canvas>
+        </div>
+      </>
     )
   }
 }

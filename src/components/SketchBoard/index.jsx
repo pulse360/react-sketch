@@ -110,6 +110,7 @@ class SketchBoard extends React.Component {
 
   _clear = () => {
     this._sketch.clear()
+    this._sketch.cleareHeightFactor()
     this._onSketchChange()
     this.setState({
       backgroundColor: '#ffffff',
@@ -219,6 +220,7 @@ class SketchBoard extends React.Component {
       <MuiThemeProvider theme={theme}>
         <div className='wrapper'>
           <Appbar
+            onNotifyUsers={this.props.onNotifyUsers}
             fullScreenHandlerDisabled={this.props.fullScreenHandlerDisabled}
             onOpenInNewWindow={() => this.props.onOpenNewWindow(JSON.stringify(this._sketch.toJSON()))}
             print={this._print}
