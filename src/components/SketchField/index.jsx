@@ -561,6 +561,12 @@ class SketchField extends Component {
     if (this.props.defaultValue !== prevProps.defaultValue) {
       this.fromJSON(this.props.defaultValue)
     }
+
+    if (this.props.heightFactor !== prevProps.heightFactor) {
+      this.setState({
+        heightFactor: this.props.heightFactor
+      })
+    }
   }
 
   addPage = () => {
