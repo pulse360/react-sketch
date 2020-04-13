@@ -15,7 +15,7 @@ class SketchBoard extends React.Component {
     super(props)
 
     this.state = {
-      lineWidth: 3,
+      lineWidth: 1,
       lineColor: '#000000',
       fillColor: '#68CCCA',
       backgroundColor: 'transparent',
