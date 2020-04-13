@@ -9,7 +9,11 @@
   cursor: pointer;
   outline: none;
   position: absolute;
-  bottom: 25px;
-  left: 25px;
+  bottom: 10px;
+  left: 10px;
   width: 100px;
+}
+
+.appbar__delegate-button:hover {
+  background-color: rgb(20, 233, 116);
 }
