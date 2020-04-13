@@ -534,6 +534,8 @@ class SketchField extends Component {
     this.setState({
       heightFactor,
     })
+
+    this._heightNormalizer()
   }
 
   componentWillUnmount = () => window.removeEventListener('resize', this._resize)
@@ -566,15 +568,11 @@ class SketchField extends Component {
       this.setState({
         heightFactor: this.props.heightFactor
       })
+      this._heightNormalizer()
     }
   }
 
-  addPage = () => {
-    this.setState(() => {
-      return {
-        heightFactor: (this.state.heightFactor += 1),
-      }
-    })
+  _heightNormalizer = () => {
     setTimeout(() => {
       let { widthCorrection, heightCorrection } = this.props
       let canvas = this._fc
@@ -596,6 +594,15 @@ class SketchField extends Component {
       canvas.renderAll()
       canvas.calcOffset()
     }, 10)
+  }
+
+  addPage = () => {
+    this.setState(() => {
+      return {
+        heightFactor: (this.state.heightFactor += 1),
+      }
+    })
+    this._heightNormalizer()
   }
 
   render = () => {
