@@ -19,7 +19,7 @@ const Slider = ({ onChange, value }) => {
           width='198'
           height='6'
           viewBox='0 0 200 6'
-          fill='none'
+          fill='transparent'
           xmlns='http://www.w3.org/2000/svg'
           version='1.1'
         >
