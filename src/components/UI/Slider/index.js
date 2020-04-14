@@ -21,6 +21,7 @@ const Slider = ({ onChange, value }) => {
           viewBox='0 0 200 6'
           fill='none'
           xmlns='http://www.w3.org/2000/svg'
+          version='1.1'
         >
           <path
             d='M200 1.5C200 0.671573 199.328 0 198.5 0H85V6H198.5C199.328 6 200 5.32843 200 4.5V1.5Z'
