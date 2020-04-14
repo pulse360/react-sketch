@@ -56,6 +56,8 @@ class SketchField extends Component {
     parentWidth: 550,
     action: true,
     heightFactor: 1,
+    windowWidth: 1000,
+    windowHeight: 1000,
   }
 
   _initTools = (fabricCanvas) => {
@@ -213,40 +215,50 @@ class SketchField extends Component {
     if (e) {
       e.preventDefault()
     }
-    let { widthCorrection, heightCorrection } = this.props
+    let { widthCorrection, heightCorrection, heightFactor } = this.props
     let canvas = this._fc
     let { offsetWidth, clientHeight } = this._container
     let prevWidth = canvas.getWidth()
     let prevHeight = canvas.getHeight()
     let wfactor = ((offsetWidth - widthCorrection) / prevWidth).toFixed(2)
     let hfactor = ((clientHeight - heightCorrection) / prevHeight).toFixed(2)
-    canvas.setWidth(offsetWidth - widthCorrection)
-    canvas.setHeight(clientHeight - heightCorrection)
+    // canvas.setWidth(offsetWidth - widthCorrection)
+    // canvas.setHeight(clientHeight - heightCorrection)
     if (canvas.backgroundImage) {
       let bi = canvas.backgroundImage
       bi.width = bi.width * wfactor
       bi.height = bi.height * hfactor
     }
-    let objects = canvas.getObjects()
-    for (let i in objects) {
-      let obj = objects[i]
-      let scaleX = obj.scaleX
-      let scaleY = obj.scaleY
-      let left = obj.left
-      let top = obj.top
-      let tempScaleX = scaleX * wfactor
-      let tempScaleY = scaleY * hfactor
-      let tempLeft = left * wfactor
-      let tempTop = top * hfactor
-      obj.scaleX = tempScaleX
-      obj.scaleY = tempScaleY
-      obj.left = tempLeft
-      obj.top = tempTop
-      obj.setCoords()
-    }
+    // let objects = canvas.getObjects()
+    // for (let i in objects) {
+    //   let obj = objects[i]
+    //   let scaleX = obj.scaleX
+    //   let scaleY = obj.scaleY
+    //   let left = obj.left
+    //   let top = obj.top
+    //   let tempScaleX = scaleX * wfactor
+    //   let tempScaleY = scaleY * hfactor
+    //   let tempLeft = left * wfactor
+    //   let tempTop = top * hfactor
+    //   obj.scaleX = tempScaleX
+    //   obj.scaleY = tempScaleY
+    //   obj.left = tempLeft
+    //   obj.top = tempTop
+    //   obj.setCoords()
+    // }
     this.setState({
       parentWidth: offsetWidth,
     })
+    setTimeout(() => {
+      const width = window.innerWidth * 0.6
+      this.setState({
+        windowWidth: width,
+        windowHeight: width * this.state.windowAspectRatio,
+      })
+
+      canvas.setWidth(width)
+      canvas.setHeight(width * this.state.windowAspectRatio * this.state.heightFactor)
+    }, 100)
     canvas.renderAll()
     canvas.calcOffset()
   }
@@ -479,6 +491,10 @@ class SketchField extends Component {
   }
 
   componentDidMount = () => {
+    this.setState({
+      windowAspectRatio: this.state.windowWidth / window.innerHeight,
+    })
+
     let { tool, undoSteps, defaultValue, backgroundColor } = this.props
 
     let canvas = (this._fc = new fabric.Canvas(this._canvas))
@@ -567,7 +583,7 @@ class SketchField extends Component {
 
     if (this.props.heightFactor !== prevProps.heightFactor) {
       this.setState({
-        heightFactor: this.props.heightFactor
+        heightFactor: this.props.heightFactor,
       })
       this._heightNormalizer()
     }
@@ -575,7 +591,7 @@ class SketchField extends Component {
 
   cleareHeightFactor = () => {
     this.setState({
-      heightFactor: 1
+      heightFactor: 1,
     })
     this._heightNormalizer()
   }
@@ -613,15 +629,44 @@ class SketchField extends Component {
     this._heightNormalizer()
   }
 
+  setBackgroundFromDataUrl = (dataUrl, options = {}) => {
+    let canvas = this._fc
+    if (options.stretched) {
+      delete options.stretched
+      Object.assign(options, {
+        width: canvas.width,
+        height: canvas.height,
+      })
+    }
+    if (options.stretchedX) {
+      delete options.stretchedX
+      Object.assign(options, {
+        width: canvas.width,
+      })
+    }
+    if (options.stretchedY) {
+      delete options.stretchedY
+      Object.assign(options, {
+        height: canvas.height,
+      })
+    }
+    let img = new Image()
+    img.setAttribute('crossOrigin', 'anonymous')
+    img.onload = () => canvas.setBackgroundImage(new fabric.Image(img), () => canvas.renderAll(), options)
+    img.src = dataUrl
+  }
+
   render = () => {
     let { className } = this.props
     const { heightFactor } = this.state
 
-    const height = 100 * heightFactor
+    const height = this.state.windowHeight * heightFactor
+
+    const width = this.state.windowWidth
 
     let canvasDivStyle = {
-      width: '60%',
-      height: `calc(${height}% - 10px)`,
+      width: width,
+      height: height,
       margin: '0 auto',
       marginTop: 10,
     }

@@ -205,6 +205,31 @@ class SketchBoard extends React.Component {
     })(console)
   }
 
+  addBackgroundImage = (accepted) => {
+    if (accepted && accepted.length > 0) {
+      let sketch = this._sketch
+      let reader = new FileReader()
+      let { stretched, stretchedX, stretchedY, originX, originY } = this.state
+      reader.addEventListener(
+        'load',
+        () =>
+          sketch.setBackgroundFromDataUrl(reader.result, {
+            // stretched: stretched,
+            // stretchedX: stretchedX,
+            // stretchedY: stretchedY,
+            // originX: originX,
+            // originY: originY,
+          }),
+        false
+      )
+      reader.readAsDataURL(accepted[0])
+
+      this.setState({
+        expandBackground: false,
+      })
+    }
+  }
+
   render = () => {
     const theme = createMuiTheme({
       typography: {
@@ -318,6 +343,7 @@ class SketchBoard extends React.Component {
             changeImage={this._onBackgroundImageDrop}
             anchorEl={this.state.anchorEl}
             images={this.props.backgroundImages}
+            addBackgroundImage={(img) => this.addBackgroundImage(img)}
           />
           <div className='bottom'>
             <ToolsPanel

@@ -2,6 +2,7 @@ import React from 'react'
 import { Popover } from '@material-ui/core'
 import './styles.css'
 import { BackgroundImageIcon } from '../SVG'
+import DropZone from 'react-dropzone'
 
 import paper from './images/paper.png'
 import lines from './images/lines.png'
@@ -26,7 +27,7 @@ const style = {
 
 const devImages = [{ image: lines }, { image: cell }, { image: white }, { image: yellow }, { image: blue }]
 
-const BackgroundImage = ({ open, handleOpen, anchorEl, changeImage, images = devImages }) => {
+const BackgroundImage = ({ open, handleOpen, anchorEl, changeImage, images = devImages, addBackgroundImage }) => {
   const handleClick = (image) => {
     changeImage(image)
     handleOpen()
@@ -66,6 +67,14 @@ const BackgroundImage = ({ open, handleOpen, anchorEl, changeImage, images = dev
             ></button>
           )
         })}
+        <DropZone
+          accept='image/*'
+          multiple={false}
+          className='background-image__template'
+          onDrop={(img) => addBackgroundImage(img)}
+        >
+          +
+        </DropZone>
       </>
     </Popover>
   )
