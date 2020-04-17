@@ -56,10 +56,11 @@ class SketchField extends Component {
   state = {
     parentWidth: 550,
     action: true,
-    heightFactor: 1,
+    heightFactor: 2,
     windowWidth: 1000,
     windowHeight: 1000,
     prevWidth: null,
+    prevHeight: null,
   }
 
   _initTools = (fabricCanvas) => {
@@ -217,23 +218,32 @@ class SketchField extends Component {
     if (e) {
       e.preventDefault()
     }
+    let canvas = this._fc
 
     const currentWidth = window.innerWidth * 0.6
 
-    let canvas = this._fc
-
     this.setState({
       prevWidth: canvas.getWidth(),
+      prevHeight: canvas.getHeight(),
     })
 
     setTimeout(() => {
       let canvas = this._fc
-      canvas.calcOffset()
       canvas.uniScaleTransform = true
 
-      let { offsetWidth } = this._container
+      const { prevDeviceHeight, prevDeviceWidth } = this.state
 
-      let factor = (offsetWidth / this.state.prevWidth).toFixed(2)
+      let { offsetWidth, offsetHeight } = this._container
+
+      let wfactor, hfactor
+
+      if (this.state.prevHeight) {
+        wfactor = (offsetWidth / this.state.prevWidth).toFixed(2)
+        hfactor = (offsetHeight / this.state.prevHeight).toFixed(2)
+      } else {
+        wfactor = (offsetWidth / prevDeviceWidth).toFixed(2)
+        hfactor = (offsetHeight / prevDeviceHeight).toFixed(2)
+      }
 
       if (canvas.backgroundImage) {
         let bi = canvas.backgroundImage
@@ -249,18 +259,24 @@ class SketchField extends Component {
         let scaleY = obj.scaleY
         let left = obj.left
         let top = obj.top
-        let tempScaleX = scaleX * factor
-        let tempScaleY = scaleY * factor
-        let tempLeft = left * factor
-        let tempTop = top * factor
+        let tempScaleX = scaleX * wfactor
+        let tempScaleY = scaleY * hfactor
+        let tempLeft = left * wfactor
+        let tempTop = top * hfactor
         obj.scaleX = tempScaleX
         obj.scaleY = tempScaleY
         obj.left = tempLeft
         obj.top = tempTop
         obj.setCoords()
-
-        canvas.renderAll()
       }
+
+      this.setState({
+        prevDeviceWidth: undefined,
+        prevDeviceHeight: undefined,
+      })
+
+      canvas.calcOffset()
+      canvas.renderAll()
     }, 100)
 
     this.setState({
@@ -369,7 +385,6 @@ class SketchField extends Component {
     let canvas = this._fc
     setTimeout(() => {
       canvas.loadFromJSON(json, () => {
-        canvas.renderAll()
         this._resize()
         if (this.props.onChange) {
           this.props.onChange()
@@ -552,17 +567,24 @@ class SketchField extends Component {
     this.enableTouchScroll()
 
     document.addEventListener('paste', this._onPaste, false)
-
     defaultValue && this.setDefaultValue(defaultValue)
+
+    const { prevDeviceWidth, prevDeviceHeight } = this.props
+
+    this.setState({
+      prevDeviceWidth,
+      prevDeviceHeight,
+    })
+
     this._resize()
   }
 
   setDefaultValue = () => {
-    const { defaultValue, heightFactor = 1 } = this.props
+    const { defaultValue, defaultHeightFactor } = this.props
     this.fromJSON(defaultValue)
 
     this.setState({
-      heightFactor,
+      heightFactor: defaultHeightFactor,
     })
 
     this._heightNormalizer()
@@ -594,9 +616,9 @@ class SketchField extends Component {
       this.fromJSON(this.props.defaultValue)
     }
 
-    if (this.props.heightFactor !== prevProps.heightFactor) {
+    if (this.props.defaultHeightFactor !== prevProps.defaultHeightFactor) {
       this.setState({
-        heightFactor: this.props.heightFactor,
+        heightFactor: this.props.defaultHeightFactor,
       })
       this._heightNormalizer()
     }
@@ -610,34 +632,31 @@ class SketchField extends Component {
   }
 
   _heightNormalizer = () => {
-    setTimeout(() => {
-      let { widthCorrection, heightCorrection } = this.props
-      let canvas = this._fc
-      let { offsetWidth, clientHeight } = this._container
-      let prevWidth = canvas.getWidth()
-      let prevHeight = canvas.getHeight()
-      let wfactor = ((offsetWidth - widthCorrection) / prevWidth).toFixed(2)
-      let hfactor = ((clientHeight - heightCorrection) / prevHeight).toFixed(2)
-      canvas.setWidth(offsetWidth - widthCorrection)
-      canvas.setHeight(clientHeight - heightCorrection)
-      if (canvas.backgroundImage) {
-        let bi = canvas.backgroundImage
-        bi.width = bi.width * wfactor
-        bi.height = bi.height * hfactor
-      }
-      this.setState({
-        parentWidth: offsetWidth,
-      })
-      canvas.renderAll()
-      canvas.calcOffset()
-    }, 100)
+    const currentWidth = window.innerWidth * 0.6
+
+    let canvas = this._fc
+
+    // this.setState({
+    //   prevWidth: canvas.getWidth(),
+    // })
+
+    this.setState({
+      parentWidth: currentWidth,
+    })
+
+    this.setState({
+      windowWidth: currentWidth,
+      windowHeight: currentWidth * this.state.windowAspectRatio,
+    })
+
+    canvas.setWidth(currentWidth)
+    canvas.setHeight(currentWidth * this.state.windowAspectRatio * this.state.heightFactor)
+    canvas.renderAll()
   }
 
   addPage = () => {
-    this.setState(() => {
-      return {
-        heightFactor: (this.state.heightFactor += 1),
-      }
+    this.setState({
+      heightFactor: (this.state.heightFactor += 1),
     })
     this._heightNormalizer()
   }

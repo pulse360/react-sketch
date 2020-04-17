@@ -9,6 +9,7 @@ import { SketchField, Appbar, AddTextDrawer, FillColor, BackgroundImage, ToolsPa
 import Tools from '../Tools'
 // import jsPDF from 'jspdf'
 import printJS from 'print-js'
+import { data } from './dumyData'
 
 class SketchBoard extends React.Component {
   constructor(props) {
@@ -91,10 +92,16 @@ class SketchBoard extends React.Component {
   }
 
   _save = ({ withClose }) => {
-    this.props.onSaveCanvas({
-      data: this._sketch.toJSON(),
-      heightFactor: this._sketch.state.heightFactor,
-    }, withClose)
+    const data = this._sketch.toJSON()
+    data.sketchWidth = this._sketch.state.windowWidth.toFixed(2)
+    data.sketchHeight = this._sketch.state.windowHeight.toFixed(2)
+    this.props.onSaveCanvas(
+      {
+        data,
+        heightFactor: this._sketch.state.heightFactor,
+      },
+      withClose
+    )
   }
 
   _download = () => {
@@ -383,9 +390,11 @@ class SketchBoard extends React.Component {
               onChange={this._onSketchChange}
               tool={this.state.tool}
               defaultValue={this.props.defaultValue}
-              heightFactor={this.props.heightFactor}
+              defaultHeightFactor={this.props.heightFactor || 1}
               fullScreen={this.state.fullScreen}
               selectTool={() => this._selectTool('select')}
+              prevDeviceWidth={this.props.prevDeviceWidth}
+              prevDeviceHeight={this.props.prevDeviceHeight}
             />
           </div>
           {/* <Tabs
