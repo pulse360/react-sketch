@@ -14,6 +14,7 @@ import Eraser from '../SketchTools/eraser'
 import Highlighter from '../SketchTools/highlighter'
 import Text from '../SketchTools/text'
 import './styles.css'
+import { debounce } from 'lodash'
 
 const fabric = require('fabric').fabric
 
@@ -58,6 +59,7 @@ class SketchField extends Component {
     heightFactor: 1,
     windowWidth: 1000,
     windowHeight: 1000,
+    prevWidth: null,
   }
 
   _initTools = (fabricCanvas) => {
@@ -211,57 +213,68 @@ class SketchField extends Component {
     }
   }
 
-  _resize = (e) => {
+  _resize = debounce((e) => {
     if (e) {
       e.preventDefault()
     }
-    let { widthCorrection, heightCorrection, heightFactor } = this.props
-    let canvas = this._fc
-    let { offsetWidth, clientHeight } = this._container
-    let prevWidth = canvas.getWidth()
-    let prevHeight = canvas.getHeight()
-    let wfactor = ((offsetWidth - widthCorrection) / prevWidth).toFixed(2)
-    let hfactor = ((clientHeight - heightCorrection) / prevHeight).toFixed(2)
-    // canvas.setWidth(offsetWidth - widthCorrection)
-    // canvas.setHeight(clientHeight - heightCorrection)
-    if (canvas.backgroundImage) {
-      let bi = canvas.backgroundImage
-      bi.width = bi.width * wfactor
-      bi.height = bi.height * hfactor
-    }
-    // let objects = canvas.getObjects()
-    // for (let i in objects) {
-    //   let obj = objects[i]
-    //   let scaleX = obj.scaleX
-    //   let scaleY = obj.scaleY
-    //   let left = obj.left
-    //   let top = obj.top
-    //   let tempScaleX = scaleX * wfactor
-    //   let tempScaleY = scaleY * hfactor
-    //   let tempLeft = left * wfactor
-    //   let tempTop = top * hfactor
-    //   obj.scaleX = tempScaleX
-    //   obj.scaleY = tempScaleY
-    //   obj.left = tempLeft
-    //   obj.top = tempTop
-    //   obj.setCoords()
-    // }
-    this.setState({
-      parentWidth: offsetWidth,
-    })
-    setTimeout(() => {
-      const width = window.innerWidth * 0.6
-      this.setState({
-        windowWidth: width,
-        windowHeight: width * this.state.windowAspectRatio,
-      })
 
-      canvas.setWidth(width)
-      canvas.setHeight(width * this.state.windowAspectRatio * this.state.heightFactor)
+    const currentWidth = window.innerWidth * 0.6
+
+    let canvas = this._fc
+
+    this.setState({
+      prevWidth: canvas.getWidth(),
+    })
+
+    setTimeout(() => {
+      let canvas = this._fc
+      canvas.calcOffset()
+      canvas.uniScaleTransform = true
+
+      let { offsetWidth } = this._container
+
+      let factor = (offsetWidth / this.state.prevWidth).toFixed(2)
+
+      if (canvas.backgroundImage) {
+        let bi = canvas.backgroundImage
+        bi.width = bi.width * factor
+        bi.height = bi.height * factor
+      }
+
+      let objects = canvas.getObjects()
+
+      for (let i in objects) {
+        let obj = objects[i]
+        let scaleX = obj.scaleX
+        let scaleY = obj.scaleY
+        let left = obj.left
+        let top = obj.top
+        let tempScaleX = scaleX * factor
+        let tempScaleY = scaleY * factor
+        let tempLeft = left * factor
+        let tempTop = top * factor
+        obj.scaleX = tempScaleX
+        obj.scaleY = tempScaleY
+        obj.left = tempLeft
+        obj.top = tempTop
+        obj.setCoords()
+
+        canvas.renderAll()
+      }
     }, 100)
-    canvas.renderAll()
-    canvas.calcOffset()
-  }
+
+    this.setState({
+      parentWidth: currentWidth,
+    })
+
+    this.setState({
+      windowWidth: currentWidth,
+      windowHeight: currentWidth * this.state.windowAspectRatio,
+    })
+
+    canvas.setWidth(currentWidth)
+    canvas.setHeight(currentWidth * this.state.windowAspectRatio * this.state.heightFactor)
+  }, 300)
 
   _backgroundColor = (color) => {
     if (!color) return
