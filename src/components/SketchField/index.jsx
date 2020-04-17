@@ -369,8 +369,8 @@ class SketchField extends Component {
     let canvas = this._fc
     setTimeout(() => {
       canvas.loadFromJSON(json, () => {
-        this._resize()
         canvas.renderAll()
+        this._resize()
         if (this.props.onChange) {
           this.props.onChange()
         }
@@ -551,11 +551,9 @@ class SketchField extends Component {
 
     this.enableTouchScroll()
 
-    this._resize()
-
     document.addEventListener('paste', this._onPaste, false)
 
-    defaultValue && this.fromJSON(defaultValue)
+    defaultValue && this.setDefaultValue(defaultValue)
   }
 
   setDefaultValue = () => {
@@ -566,6 +564,7 @@ class SketchField extends Component {
       heightFactor,
     })
 
+    this._resize()
     this._heightNormalizer()
   }
 
@@ -593,6 +592,7 @@ class SketchField extends Component {
 
     if (this.props.defaultValue !== prevProps.defaultValue) {
       this.fromJSON(this.props.defaultValue)
+      this._resize()
     }
 
     if (this.props.heightFactor !== prevProps.heightFactor) {
