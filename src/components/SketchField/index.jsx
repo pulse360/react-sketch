@@ -369,8 +369,8 @@ class SketchField extends Component {
     let canvas = this._fc
     setTimeout(() => {
       canvas.loadFromJSON(json, () => {
-        canvas.renderAll()
         this._resize()
+        canvas.renderAll()
         if (this.props.onChange) {
           this.props.onChange()
         }
