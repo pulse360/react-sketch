@@ -564,7 +564,6 @@ class SketchField extends Component {
       heightFactor,
     })
 
-    this._resize()
     this._heightNormalizer()
   }
 
@@ -592,7 +591,6 @@ class SketchField extends Component {
 
     if (this.props.defaultValue !== prevProps.defaultValue) {
       this.fromJSON(this.props.defaultValue)
-      this._resize()
     }
 
     if (this.props.heightFactor !== prevProps.heightFactor) {
