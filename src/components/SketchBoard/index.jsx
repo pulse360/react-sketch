@@ -90,7 +90,7 @@ class SketchBoard extends React.Component {
     }
   }
 
-  _save = (withClose = false) => {
+  _save = (event, withClose = false) => {
     this.props.onSaveCanvas({
       data: this._sketch.toJSON(),
       heightFactor: this._sketch.state.heightFactor,
