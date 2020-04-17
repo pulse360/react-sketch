@@ -90,11 +90,11 @@ class SketchBoard extends React.Component {
     }
   }
 
-  _save = () => {
+  _save = (withClose = false) => {
     this.props.onSaveCanvas({
       data: this._sketch.toJSON(),
       heightFactor: this._sketch.state.heightFactor,
-    })
+    }, withClose)
   }
 
   _download = () => {
