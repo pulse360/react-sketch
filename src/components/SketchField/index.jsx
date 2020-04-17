@@ -370,7 +370,6 @@ class SketchField extends Component {
     setTimeout(() => {
       canvas.loadFromJSON(json, () => {
         canvas.renderAll()
-        this._resize()
         if (this.props.onChange) {
           this.props.onChange()
         }
@@ -554,6 +553,7 @@ class SketchField extends Component {
     document.addEventListener('paste', this._onPaste, false)
 
     defaultValue && this.setDefaultValue(defaultValue)
+    this._resize()
   }
 
   setDefaultValue = () => {
@@ -629,7 +629,7 @@ class SketchField extends Component {
       })
       canvas.renderAll()
       canvas.calcOffset()
-    }, 10)
+    }, 100)
   }
 
   addPage = () => {
