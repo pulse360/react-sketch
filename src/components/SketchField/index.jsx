@@ -157,12 +157,6 @@ class SketchField extends Component {
 
   _onMouseOut = (e) => {
     this._selectedTool.doMouseOut(e)
-    // if (this.props.onChange) {
-    //   let onChange = this.props.onChange
-    //   setTimeout(() => {
-    //     onChange(e.e)
-    //   }, 10)
-    // }
   }
 
   _onMouseUp = (e) => {
@@ -171,11 +165,6 @@ class SketchField extends Component {
       const canvas = this._fc
       const objects = canvas.getObjects()
       let newObj = objects[objects.length - 1]
-
-      // if (this.props.tool === Tool.Eraser) {
-      //   newObj.selectable = false
-      //   newObj.type = 'eraser'
-      // }
 
       if (newObj && newObj.__version === 1) {
         newObj.__originalState = newObj.toJSON()
@@ -431,7 +420,6 @@ class SketchField extends Component {
     let canvas = this._fc
     setTimeout(() => {
       canvas.loadFromJSON(json, () => {
-        this._resize()
         if (this.props.onChange) {
           this.props.onChange()
         }
