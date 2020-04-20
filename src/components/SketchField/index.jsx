@@ -574,6 +574,8 @@ class SketchField extends Component {
     })
 
     this._resizeWithPrevSizies()
+    console.log('default value is seted')
+    console.log(this.props, 'this.props')
   }
 
   componentWillUnmount = () => window.removeEventListener('resize', this._resize)
