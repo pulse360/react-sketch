@@ -223,7 +223,7 @@ class SketchField extends Component {
       let { offsetWidth, offsetHeight } = this._container
 
       let wfactor = (offsetWidth / this.state.prevWidth).toFixed(2)
-      let hfactor = (offsetHeight / this.state.prevHeight).toFixed(2)
+      let hfactor = wfactor
 
       if (canvas.backgroundImage) {
         let bi = canvas.backgroundImage
@@ -260,11 +260,11 @@ class SketchField extends Component {
     this.setState({
       windowWidth: currentWidth,
       windowHeight: currentWidth * this.state.windowAspectRatio,
+      parentWidth: currentWidth,
     })
   }, 300)
 
   _resizeWithPrevSizies = () => {
-
     let canvas = this._fc
 
     const currentWidth = window.innerWidth * 0.6
@@ -278,8 +278,8 @@ class SketchField extends Component {
 
     if (canvas.backgroundImage) {
       let bi = canvas.backgroundImage
-      bi.width = bi.width * factor
-      bi.height = bi.height * factor
+      bi.width = bi.width * wfactor
+      bi.height = bi.height * hfactor
     }
 
     let objects = canvas.getObjects()
@@ -303,14 +303,15 @@ class SketchField extends Component {
     
     canvas.setWidth(currentWidth)
     canvas.setHeight(currentWidth * this.state.windowAspectRatio * this.state.heightFactor)
-
-    canvas.calcOffset()
-    canvas.renderAll()
-
+    
     this.setState({
       windowWidth: currentWidth,
       windowHeight: currentWidth * this.state.windowAspectRatio,
+      parentWidth: currentWidth,
     })
+
+    canvas.calcOffset()
+    canvas.renderAll()
   }
 
   _backgroundColor = (color) => {
@@ -557,10 +558,12 @@ class SketchField extends Component {
     this.enableTouchScroll()
 
     document.addEventListener('paste', this._onPaste, false)
-
     
-    defaultValue && this.setDefaultValue()
-    this._resize()
+    if (defaultValue) {
+      this.setDefaultValue()
+    } else {
+      this._resize()
+    }
   }
 
   setDefaultValue = () => {
@@ -568,17 +571,27 @@ class SketchField extends Component {
 
     this.fromJSON(defaultValue)
 
-    this.setState({
-      heightFactor: defaultHeightFactor,
-    })
+    // this.setState({
+    //   heightFactor: defaultHeightFactor,
+    // })
 
-    this._resizeWithPrevSizies()
-    this._heightNormalizer()
+    setTimeout(this._resizeWithPrevSizies, 100 )
+    // this._heightNormalizer()
   }
 
   componentWillUnmount = () => window.removeEventListener('resize', this._resize)
 
   componentDidUpdate = (prevProps, prevState) => {
+
+    if (prevState.parentWidth !== this.state.parentWidth) {
+      this.setState({
+        heightFactor: this.props.defaultHeightFactor
+      })
+    }
+
+    if (prevState.heightFactor !== this.state.heightFactor) {
+      this._heightNormalizer()
+    }
 
     if (this.props.tool !== prevProps.tool) {
       this._selectedTool = this._tools[this.props.tool] || this._tools[Tool.Pencil]
@@ -656,10 +669,9 @@ class SketchField extends Component {
     let { className } = this.props
     const { heightFactor } = this.state
 
-    const height = this.state.windowHeight * heightFactor
-
-    const width = this.state.windowWidth
-
+    const width = window.innerWidth * 0.6
+    const height = width * this.state.windowAspectRatio * heightFactor
+    console.log(height)
     let canvasDivStyle = {
       width: width,
       height: height,
