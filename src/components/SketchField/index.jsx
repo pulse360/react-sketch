@@ -576,6 +576,7 @@ class SketchField extends Component {
     })
 
     this._resizeWithPrevSizies()
+    this._heightNormalizer()
   }
 
   componentWillUnmount = () => window.removeEventListener('resize', this._resize)
@@ -595,13 +596,6 @@ class SketchField extends Component {
 
     if (this.props.defaultValue !== prevProps.defaultValue) {
       this.fromJSON(this.props.defaultValue)
-    }
-
-    if (this.props.defaultHeightFactor !== prevProps.defaultHeightFactor) {
-      this.setState({
-        heightFactor: this.props.defaultHeightFactor,
-      })
-      this._heightNormalizer()
     }
   }
 
