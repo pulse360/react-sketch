@@ -94,7 +94,7 @@ class SketchBoard extends React.Component {
   _save = ({ withClose }) => {
     const data = this._sketch.toJSON()
     data.sketchWidth = this._sketch.state.windowWidth.toFixed(2)
-    data.sketchHeight = this._sketch.state.windowHeight.toFixed(2)
+    data.sketchHeight = this._sketch.state.prevHeight.toFixed(2)
     this.props.onSaveCanvas(
       {
         data,

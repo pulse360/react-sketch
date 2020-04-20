@@ -567,7 +567,7 @@ class SketchField extends Component {
     this.enableTouchScroll()
 
     document.addEventListener('paste', this._onPaste, false)
-    defaultValue && this.setDefaultValue(defaultValue)
+    this.setDefaultValue()
 
     const { prevDeviceWidth, prevDeviceHeight } = this.props
 
@@ -581,6 +581,8 @@ class SketchField extends Component {
 
   setDefaultValue = () => {
     const { defaultValue, defaultHeightFactor } = this.props
+    if (!defaultValue) { return }
+  
     this.fromJSON(defaultValue)
 
     this.setState({
