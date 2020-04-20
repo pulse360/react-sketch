@@ -263,7 +263,7 @@ class SketchField extends Component {
     })
   }, 300)
 
-  _resizeWithPrevSizies = debounce(() => {
+  _resizeWithPrevSizies = () => {
 
     let canvas = this._fc
 
@@ -301,17 +301,18 @@ class SketchField extends Component {
       obj.setCoords()
     }
 
-    canvas.calcOffset()
-    canvas.renderAll()
-
+    
     canvas.setWidth(currentWidth)
     canvas.setHeight(currentWidth * this.state.windowAspectRatio * this.state.heightFactor)
+    
+    canvas.calcOffset()
+    canvas.renderAll()
 
     this.setState({
       windowWidth: currentWidth,
       windowHeight: currentWidth * this.state.windowAspectRatio,
     })
-  }, 300)
+  }
 
   _backgroundColor = (color) => {
     if (!color) return
@@ -574,8 +575,6 @@ class SketchField extends Component {
     })
 
     this._resizeWithPrevSizies()
-    console.log('default value is seted')
-    console.log(this.props, 'this.props')
   }
 
   componentWillUnmount = () => window.removeEventListener('resize', this._resize)
