@@ -132,7 +132,7 @@ class SketchBoard extends React.Component {
 
   _clear = () => {
     this._sketch.clear()
-    this._sketch.cleareHeightFactor()
+    this._sketch.clearHeightFactor()
     this._onSketchChange()
     this.setState({
       backgroundColor: '#ffffff',

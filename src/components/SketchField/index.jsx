@@ -56,7 +56,7 @@ class SketchField extends Component {
   state = {
     parentWidth: 550,
     action: true,
-    heightFactor: 2,
+    heightFactor: 1,
     windowWidth: 1000,
     windowHeight: 1000,
     prevWidth: null,
@@ -626,7 +626,7 @@ class SketchField extends Component {
     }
   }
 
-  cleareHeightFactor = () => {
+  clearHeightFactor = () => {
     this.setState({
       heightFactor: 1,
     })
