@@ -571,24 +571,16 @@ class SketchField extends Component {
     this.enableTouchScroll()
 
     document.addEventListener('paste', this._onPaste, false)
-    this.setDefaultValue()
 
-    const { prevDeviceWidth, prevDeviceHeight } = this.props
-    console.log(prevDeviceHeight, prevDeviceWidth)
-    if (prevDeviceHeight) {
-      console.log(prevDeviceHeight, prevDeviceWidth)
-      this._resizeWithPrevSizies()
-    } else {
-      this._resize()
-    }
+    this._resize()
+
+    const { defaultValue } = this.props
+    defaultValue && this.setDefaultValue()
 
   }
 
   setDefaultValue = () => {
     const { defaultValue, defaultHeightFactor } = this.props
-    if (!defaultValue) {
-      return
-    }
 
     this.fromJSON(defaultValue)
 
@@ -596,7 +588,7 @@ class SketchField extends Component {
       heightFactor: defaultHeightFactor,
     })
 
-    this._heightNormalizer()
+    this._resizeWithPrevSizies()
   }
 
   componentWillUnmount = () => window.removeEventListener('resize', this._resize)
