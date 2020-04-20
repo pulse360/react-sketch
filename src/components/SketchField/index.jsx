@@ -270,8 +270,10 @@ class SketchField extends Component {
     const currentWidth = window.innerWidth * 0.6
 
     const { prevDeviceHeight, prevDeviceWidth } = this.props
+    console.log(this.props, 'this.props in resizeWithPrevSizeis')
 
     let { offsetWidth, offsetHeight } = this._container
+    console.log(this._container, 'this._container')
 
     let wfactor = (offsetWidth / prevDeviceWidth).toFixed(2)
     let hfactor = (offsetHeight / prevDeviceHeight).toFixed(2)
@@ -300,11 +302,10 @@ class SketchField extends Component {
       obj.top = tempTop
       obj.setCoords()
     }
-
     
     canvas.setWidth(currentWidth)
     canvas.setHeight(currentWidth * this.state.windowAspectRatio * this.state.heightFactor)
-    
+
     canvas.calcOffset()
     canvas.renderAll()
 
