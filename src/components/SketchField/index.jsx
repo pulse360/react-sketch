@@ -235,6 +235,9 @@ class SketchField extends Component {
 
       let { offsetWidth, offsetHeight } = this._container
 
+      canvas.setWidth(currentWidth)
+      canvas.setHeight(currentWidth * this.state.windowAspectRatio * this.state.heightFactor)
+
       let wfactor, hfactor
 
       if (prevDeviceWidth) {
@@ -287,9 +290,6 @@ class SketchField extends Component {
       windowWidth: currentWidth,
       windowHeight: currentWidth * this.state.windowAspectRatio,
     })
-
-    canvas.setWidth(currentWidth)
-    canvas.setHeight(currentWidth * this.state.windowAspectRatio * this.state.heightFactor)
   }, 300)
 
   _backgroundColor = (color) => {
@@ -457,36 +457,6 @@ class SketchField extends Component {
       canvas.renderAll()
     })
   }
-
-  // addTextBreaks = (text, width, fontSize) => {
-  //   text = text.trim()
-  //   var words = text.toString().split(' ')
-  //   let canvas = this._fc
-  //   let context = canvas.getContext('2d')
-  //   let idx = 1
-  //   let newString = ''
-  //   context.font = fontSize + 'px Lato'
-  //   while (words.length > 0 && idx <= words.length) {
-  //     var str = words.slice(0, idx).join(' ')
-  //     let w = context.measureText(str).width
-  //     if (w > width) {
-  //       if (idx == 1) {
-  //         idx = 2
-  //       }
-  //       newString += words.slice(0, idx - 1).join(' ')
-  //       newString += '\n'
-  //       words = words.splice(idx - 1)
-  //       idx = 1
-  //     } else {
-  //       idx += 1
-  //     }
-  //   }
-  //   if (idx > 0) {
-  //     var txt = words.join(' ')
-  //     newString += txt
-  //   }
-  //   return newString
-  // }
 
   addText = (text, options = {}) => {
     let canvas = this._fc
