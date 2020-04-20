@@ -237,12 +237,12 @@ class SketchField extends Component {
 
       let wfactor, hfactor
 
-      if (this.state.prevHeight) {
-        wfactor = (offsetWidth / this.state.prevWidth).toFixed(2)
-        hfactor = (offsetHeight / this.state.prevHeight).toFixed(2)
-      } else {
+      if (prevDeviceWidth) {
         wfactor = (offsetWidth / prevDeviceWidth).toFixed(2)
         hfactor = (offsetHeight / prevDeviceHeight).toFixed(2)
+      } else {
+        wfactor = (offsetWidth / this.state.prevWidth).toFixed(2)
+        hfactor = (offsetHeight / this.state.prevHeight).toFixed(2)
       }
 
       if (canvas.backgroundImage) {
