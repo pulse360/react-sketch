@@ -329,10 +329,6 @@ class SketchField extends Component {
       canvas.renderAll()
     }, 100)
 
-    this.setState({
-      parentWidth: currentWidth,
-    })
-
     canvas.setWidth(currentWidth)
     canvas.setHeight(currentWidth * this.state.windowAspectRatio * this.state.heightFactor)
 
@@ -617,13 +613,13 @@ class SketchField extends Component {
   componentWillUnmount = () => window.removeEventListener('resize', this._resize)
 
   componentDidUpdate = (prevProps, prevState) => {
-    if (
-      this.state.parentWidth !== prevState.parentWidth ||
-      this.props.width !== prevProps.width ||
-      this.props.height !== prevProps.height
-    ) {
-      this._resize()
-    }
+    // if (
+    //   this.state.parentWidth !== prevState.parentWidth ||
+    //   this.props.width !== prevProps.width ||
+    //   this.props.height !== prevProps.height
+    // ) {
+    //   this._resize()
+    // }
 
     if (this.props.tool !== prevProps.tool) {
       this._selectedTool = this._tools[this.props.tool] || this._tools[Tool.Pencil]
