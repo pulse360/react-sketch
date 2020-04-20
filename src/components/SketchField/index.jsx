@@ -574,8 +574,9 @@ class SketchField extends Component {
     this.setDefaultValue()
 
     const { prevDeviceWidth, prevDeviceHeight } = this.props
-
+    console.log(prevDeviceHeight, prevDeviceWidth)
     if (prevDeviceHeight) {
+      console.log(prevDeviceHeight, prevDeviceWidth)
       this._resizeWithPrevSizies()
     } else {
       this._resize()
