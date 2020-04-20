@@ -231,20 +231,10 @@ class SketchField extends Component {
       let canvas = this._fc
       canvas.uniScaleTransform = true
 
-      const { prevDeviceHeight, prevDeviceWidth } = this.state
-
       let { offsetWidth, offsetHeight } = this._container
 
-      let wfactor, hfactor
-
-      if (prevDeviceWidth) {
-        wfactor = (offsetWidth / prevDeviceWidth).toFixed(2)
-        hfactor = (offsetHeight / prevDeviceHeight).toFixed(2)
-      }
-      // else {
-      //   wfactor = (offsetWidth / this.state.prevWidth).toFixed(2)
-      //   hfactor = (offsetHeight / this.state.prevHeight).toFixed(2)
-      // }
+      let wfactor = (offsetWidth / this.state.prevWidth).toFixed(2)
+      let hfactor = (offsetHeight / this.state.prevHeight).toFixed(2)
 
       if (canvas.backgroundImage) {
         let bi = canvas.backgroundImage
@@ -271,10 +261,69 @@ class SketchField extends Component {
         obj.setCoords()
       }
 
-      this.setState({
-        prevDeviceWidth: undefined,
-        prevDeviceHeight: undefined,
-      })
+      canvas.calcOffset()
+      canvas.renderAll()
+    }, 100)
+
+    this.setState({
+      parentWidth: currentWidth,
+    })
+
+    canvas.setWidth(currentWidth)
+    canvas.setHeight(currentWidth * this.state.windowAspectRatio * this.state.heightFactor)
+
+    this.setState({
+      windowWidth: currentWidth,
+      windowHeight: currentWidth * this.state.windowAspectRatio,
+    })
+  }, 300)
+
+  _resizeWithPrevSizies = debounce(() => {
+
+    let canvas = this._fc
+
+    const currentWidth = window.innerWidth * 0.6
+
+    this.setState({
+      prevWidth: canvas.getWidth(),
+      prevHeight: canvas.getHeight(),
+    })
+
+    setTimeout(() => {
+      let canvas = this._fc
+      canvas.uniScaleTransform = true
+
+      const { prevDeviceHeight, prevDeviceWidth } = this.props
+
+      let { offsetWidth, offsetHeight } = this._container
+
+      let wfactor = (offsetWidth / prevDeviceWidth).toFixed(2)
+      let hfactor = (offsetHeight / prevDeviceHeight).toFixed(2)
+
+      if (canvas.backgroundImage) {
+        let bi = canvas.backgroundImage
+        bi.width = bi.width * factor
+        bi.height = bi.height * factor
+      }
+
+      let objects = canvas.getObjects()
+
+      for (let i in objects) {
+        let obj = objects[i]
+        let scaleX = obj.scaleX
+        let scaleY = obj.scaleY
+        let left = obj.left
+        let top = obj.top
+        let tempScaleX = scaleX * wfactor
+        let tempScaleY = scaleY * hfactor
+        let tempLeft = left * wfactor
+        let tempTop = top * hfactor
+        obj.scaleX = tempScaleX
+        obj.scaleY = tempScaleY
+        obj.left = tempLeft
+        obj.top = tempTop
+        obj.setCoords()
+      }
 
       canvas.calcOffset()
       canvas.renderAll()
@@ -542,12 +591,12 @@ class SketchField extends Component {
 
     const { prevDeviceWidth, prevDeviceHeight } = this.props
 
-    this.setState({
-      prevDeviceWidth,
-      prevDeviceHeight,
-    })
+    if (prevDeviceHeight) {
+      this._resizeWithPrevSizies()
+    } else {
+      this._resize()
+    }
 
-    this._resize()
   }
 
   setDefaultValue = () => {
