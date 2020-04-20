@@ -235,18 +235,16 @@ class SketchField extends Component {
 
       let { offsetWidth, offsetHeight } = this._container
 
-      canvas.setWidth(currentWidth)
-      canvas.setHeight(currentWidth * this.state.windowAspectRatio * this.state.heightFactor)
-
       let wfactor, hfactor
 
       if (prevDeviceWidth) {
         wfactor = (offsetWidth / prevDeviceWidth).toFixed(2)
         hfactor = (offsetHeight / prevDeviceHeight).toFixed(2)
-      } else {
-        wfactor = (offsetWidth / this.state.prevWidth).toFixed(2)
-        hfactor = (offsetHeight / this.state.prevHeight).toFixed(2)
       }
+      // else {
+      //   wfactor = (offsetWidth / this.state.prevWidth).toFixed(2)
+      //   hfactor = (offsetHeight / this.state.prevHeight).toFixed(2)
+      // }
 
       if (canvas.backgroundImage) {
         let bi = canvas.backgroundImage
@@ -285,6 +283,9 @@ class SketchField extends Component {
     this.setState({
       parentWidth: currentWidth,
     })
+
+    canvas.setWidth(currentWidth)
+    canvas.setHeight(currentWidth * this.state.windowAspectRatio * this.state.heightFactor)
 
     this.setState({
       windowWidth: currentWidth,
@@ -551,8 +552,10 @@ class SketchField extends Component {
 
   setDefaultValue = () => {
     const { defaultValue, defaultHeightFactor } = this.props
-    if (!defaultValue) { return }
-  
+    if (!defaultValue) {
+      return
+    }
+
     this.fromJSON(defaultValue)
 
     this.setState({
