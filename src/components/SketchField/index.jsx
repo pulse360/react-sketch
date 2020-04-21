@@ -14,7 +14,7 @@ import Eraser from '../SketchTools/eraser'
 import Highlighter from '../SketchTools/highlighter'
 import Text from '../SketchTools/text'
 import './styles.css'
-import { debounce } from 'lodash'
+import { debounce, omit } from 'lodash'
 
 const fabric = require('fabric').fabric
 
@@ -225,12 +225,6 @@ class SketchField extends Component {
       let wfactor = (offsetWidth / this.state.prevWidth).toFixed(2)
       let hfactor = wfactor
 
-      if (canvas.backgroundImage) {
-        let bi = canvas.backgroundImage
-        bi.width = bi.width * factor
-        bi.height = bi.height * factor
-      }
-
       let objects = canvas.getObjects()
 
       for (let i in objects) {
@@ -269,21 +263,15 @@ class SketchField extends Component {
 
     const currentWidth = window.innerWidth * 0.6
 
-    const { prevDeviceHeight, prevDeviceWidth } = this.props
+    const { prevDeviceHeight, prevDeviceWidth, defaultValue } = this.props
 
     let { offsetWidth, offsetHeight } = this._container
 
     let wfactor = (offsetWidth / prevDeviceWidth).toFixed(2)
     let hfactor = wfactor
 
-    if (canvas.backgroundImage) {
-      let bi = canvas.backgroundImage
-      bi.width = bi.width * wfactor
-      bi.height = bi.height * hfactor
-      bi.scaleToWidth(bi.width * wfactor)
-      bi.scaleToHeight(bi.height * hfactor)
-      bi.setDimensions({ width: bi.width * wfactor, height: bi.height * hfactor })
-      console.log('background image skaled')
+    if (defaultValue.background) {
+      setTimeout(() => {this.setBackgroundImage(defaultValue.background.source)}, 1000)
     }
 
     let objects = canvas.getObjects()
@@ -525,7 +513,7 @@ class SketchField extends Component {
 
     this._initTools(canvas)
 
-    this._backgroundColor(backgroundColor)
+    // this._backgroundColor(backgroundColor)
 
     let selectedTool = this._tools[tool]
     selectedTool.configureCanvas(this.props)
@@ -573,7 +561,9 @@ class SketchField extends Component {
   setDefaultValue = () => {
     const { defaultValue, defaultHeightFactor } = this.props
 
-    this.fromJSON(defaultValue)
+    const data = omit(defaultValue, ['background'])
+
+    this.fromJSON(data)
 
     // this.setState({
     //   heightFactor: defaultHeightFactor,
@@ -603,9 +593,9 @@ class SketchField extends Component {
     this._fc.defaultCursor = 'default'
     this._selectedTool.configureCanvas(this.props)
 
-    if (this.props.backgroundColor !== prevProps.backgroundColor) {
-      this._backgroundColor(this.props.backgroundColor)
-    }
+    // if (this.props.backgroundColor !== prevProps.backgroundColor) {
+    //   this._backgroundColor(this.props.backgroundColor)
+    // }
 
     if (this.props.defaultValue !== prevProps.defaultValue) {
       this.fromJSON(this.props.defaultValue)
