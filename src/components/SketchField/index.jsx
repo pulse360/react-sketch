@@ -268,16 +268,10 @@ class SketchField extends Component {
     let { offsetWidth, offsetHeight } = this._container
 
     let wfactor = (offsetWidth / prevDeviceWidth).toFixed(2)
-    let hfactor = (offsetHeight / prevDeviceHeight).toFixed(2)
-    console.log(currentWidth, 'currentWidth')
-    console.log(offsetWidth, 'offsetWidth')
-    console.log(prevDeviceWidth, 'prevDeviceWidth')
-    console.log(wfactor, 'wfactor')
+    let hfactor = wfactor
 
     if (defaultValue.background) {
-      setTimeout(() => {
-        this.setBackgroundImage(defaultValue.background.source)
-      }, 1000)
+      this.setBackgroundImage(defaultValue.background.source)
     }
 
     let objects = canvas.getObjects()
@@ -308,8 +302,8 @@ class SketchField extends Component {
       parentWidth: currentWidth,
     })
 
-    canvas.calcOffset()
     canvas.renderAll()
+    canvas.calcOffset()
   }
 
   _backgroundColor = (color) => {
@@ -670,6 +664,10 @@ class SketchField extends Component {
 
     const width = window.innerWidth * 0.6
     const height = width * this.state.windowAspectRatio * heightFactor
+    console.log(height, 'height')
+    console.log(width, 'width')
+    console.log(this.state.windowAspectRatio, 'windowAspectRatio')
+    console.log(heightFactor, 'heightFactor')
 
     let canvasDivStyle = {
       width: width,
