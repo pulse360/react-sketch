@@ -274,7 +274,7 @@ class SketchField extends Component {
     let { offsetWidth, offsetHeight } = this._container
 
     let wfactor = (offsetWidth / prevDeviceWidth).toFixed(2)
-    let hfactor = (offsetHeight / prevDeviceHeight).toFixed(2)
+    let hfactor = hfactor
 
     if (canvas.backgroundImage) {
       let bi = canvas.backgroundImage
