@@ -54,7 +54,7 @@ class SketchField extends Component {
   }
 
   state = {
-    parentWidth: 550,
+    // parentWidth: 550,
     action: true,
     heightFactor: 1,
     windowWidth: 1000,
@@ -219,7 +219,6 @@ class SketchField extends Component {
 
     setTimeout(() => {
       let canvas = this._fc
-      canvas.uniScaleTransform = true
 
       let { offsetWidth, offsetHeight } = this._container
 
@@ -251,11 +250,11 @@ class SketchField extends Component {
 
     canvas.setWidth(currentWidth)
     canvas.setHeight(currentWidth * this.state.windowAspectRatio * this.state.heightFactor)
-    debugger
+
     this.setState({
       windowWidth: currentWidth,
       windowHeight: currentWidth * this.state.windowAspectRatio,
-      parentWidth: currentWidth,
+      // parentWidth: currentWidth,
     })
   }, 300)
 
@@ -305,7 +304,7 @@ class SketchField extends Component {
     this.setState({
       windowWidth: currentWidth,
       windowHeight: currentWidth * this.state.windowAspectRatio,
-      parentWidth: currentWidth,
+      // parentWidth: currentWidth,
     })
 
     canvas.renderAll()
@@ -584,9 +583,9 @@ class SketchField extends Component {
 
     this.fromJSON(data)
 
-    // this.setState({
-    //   heightFactor: defaultHeightFactor,
-    // })
+    this.setState({
+      heightFactor: defaultHeightFactor,
+    })
 
     setTimeout(this._resizeWithPrevSizies, 100)
     // this._heightNormalizer()
@@ -595,11 +594,11 @@ class SketchField extends Component {
   componentWillUnmount = () => window.removeEventListener('resize', this._resize)
 
   componentDidUpdate = (prevProps, prevState) => {
-    if (prevState.parentWidth !== this.state.parentWidth) {
-      this.setState({
-        heightFactor: this.props.defaultHeightFactor,
-      })
-    }
+    // if (prevState.parentWidth !== this.state.parentWidth) {
+    //   this.setState({
+    //     heightFactor: this.props.defaultHeightFactor,
+    //   })
+    // }
 
     if (prevState.heightFactor !== this.state.heightFactor) {
       this._heightNormalizer()
