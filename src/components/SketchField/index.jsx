@@ -268,14 +268,13 @@ class SketchField extends Component {
     let { offsetWidth, offsetHeight } = this._container
 
     let wfactor = (offsetWidth / prevDeviceWidth).toFixed(2)
-    let hfactor = wfactor
+    let hfactor = (offsetHeight / prevDeviceHeight).toFixed(2)
     console.log(currentWidth, 'currentWidth')
     console.log(offsetWidth, 'offsetWidth')
     console.log(prevDeviceWidth, 'prevDeviceWidth')
     console.log(wfactor, 'wfactor')
 
     if (defaultValue.background) {
-      console.log(defaultValue)
       setTimeout(() => {
         this.setBackgroundImage(defaultValue.background.source)
       }, 1000)
