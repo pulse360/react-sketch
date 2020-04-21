@@ -276,33 +276,32 @@ class SketchField extends Component {
     let wfactor = (offsetWidth / prevDeviceWidth).toFixed(2)
     let hfactor = wfactor
 
-    setTimeout(() => {
-      if (canvas.backgroundImage) {
-        let bi = canvas.backgroundImage
-        bi.width = bi.width * wfactor
-        bi.height = bi.height * hfactor
-      }
-      canvas.renderAll()
-    }, 500)
-
-    let objects = canvas.getObjects()
-
-    for (let i in objects) {
-      let obj = objects[i]
-      let scaleX = obj.scaleX
-      let scaleY = obj.scaleY
-      let left = obj.left
-      let top = obj.top
-      let tempScaleX = scaleX * wfactor
-      let tempScaleY = scaleY * hfactor
-      let tempLeft = left * wfactor
-      let tempTop = top * hfactor
-      obj.scaleX = tempScaleX
-      obj.scaleY = tempScaleY
-      obj.left = tempLeft
-      obj.top = tempTop
-      obj.setCoords()
+    if (canvas.backgroundImage) {
+      let bi = canvas.backgroundImage
+      bi.width = bi.width * wfactor
+      bi.height = bi.height * hfactor
     }
+
+    setTimeout(() => {
+      let objects = canvas.getObjects()
+
+      for (let i in objects) {
+        let obj = objects[i]
+        let scaleX = obj.scaleX
+        let scaleY = obj.scaleY
+        let left = obj.left
+        let top = obj.top
+        let tempScaleX = scaleX * wfactor
+        let tempScaleY = scaleY * hfactor
+        let tempLeft = left * wfactor
+        let tempTop = top * hfactor
+        obj.scaleX = tempScaleX
+        obj.scaleY = tempScaleY
+        obj.left = tempLeft
+        obj.top = tempTop
+        obj.setCoords()
+      }
+    }, 1000)
 
     canvas.setWidth(currentWidth)
     canvas.setHeight(currentWidth * this.state.windowAspectRatio * this.state.heightFactor)
