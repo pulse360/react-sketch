@@ -280,28 +280,30 @@ class SketchField extends Component {
       let bi = canvas.backgroundImage
       bi.width = bi.width * wfactor
       bi.height = bi.height * hfactor
+      bi.scaleToWidth(bi.width * wfactor)
+      bi.scaleToHeight(bi.height * hfactor)
+      bi.setDimensions({ width: bi.width * wfactor, height: bi.height * hfactor })
+      console.log('background image skaled')
     }
 
-    setTimeout(() => {
-      let objects = canvas.getObjects()
+    let objects = canvas.getObjects()
 
-      for (let i in objects) {
-        let obj = objects[i]
-        let scaleX = obj.scaleX
-        let scaleY = obj.scaleY
-        let left = obj.left
-        let top = obj.top
-        let tempScaleX = scaleX * wfactor
-        let tempScaleY = scaleY * hfactor
-        let tempLeft = left * wfactor
-        let tempTop = top * hfactor
-        obj.scaleX = tempScaleX
-        obj.scaleY = tempScaleY
-        obj.left = tempLeft
-        obj.top = tempTop
-        obj.setCoords()
-      }
-    }, 1000)
+    for (let i in objects) {
+      let obj = objects[i]
+      let scaleX = obj.scaleX
+      let scaleY = obj.scaleY
+      let left = obj.left
+      let top = obj.top
+      let tempScaleX = scaleX * wfactor
+      let tempScaleY = scaleY * hfactor
+      let tempLeft = left * wfactor
+      let tempTop = top * hfactor
+      obj.scaleX = tempScaleX
+      obj.scaleY = tempScaleY
+      obj.left = tempLeft
+      obj.top = tempTop
+      obj.setCoords()
+    }
 
     canvas.setWidth(currentWidth)
     canvas.setHeight(currentWidth * this.state.windowAspectRatio * this.state.heightFactor)
