@@ -281,8 +281,9 @@ class SketchField extends Component {
         let bi = canvas.backgroundImage
         bi.width = bi.width * wfactor
         bi.height = bi.height * hfactor
-      }  
-    }, 200)
+      }
+      canvas.renderAll()
+    }, 500)
 
     let objects = canvas.getObjects()
 
@@ -302,10 +303,10 @@ class SketchField extends Component {
       obj.top = tempTop
       obj.setCoords()
     }
-    
+
     canvas.setWidth(currentWidth)
     canvas.setHeight(currentWidth * this.state.windowAspectRatio * this.state.heightFactor)
-    
+
     this.setState({
       windowWidth: currentWidth,
       windowHeight: currentWidth * this.state.windowAspectRatio,
@@ -560,7 +561,7 @@ class SketchField extends Component {
     this.enableTouchScroll()
 
     document.addEventListener('paste', this._onPaste, false)
-    
+
     if (defaultValue) {
       this.setDefaultValue()
     } else {
@@ -577,17 +578,16 @@ class SketchField extends Component {
     //   heightFactor: defaultHeightFactor,
     // })
 
-    setTimeout(this._resizeWithPrevSizies, 100 )
+    setTimeout(this._resizeWithPrevSizies, 100)
     // this._heightNormalizer()
   }
 
   componentWillUnmount = () => window.removeEventListener('resize', this._resize)
 
   componentDidUpdate = (prevProps, prevState) => {
-
     if (prevState.parentWidth !== this.state.parentWidth) {
       this.setState({
-        heightFactor: this.props.defaultHeightFactor
+        heightFactor: this.props.defaultHeightFactor,
       })
     }
 
