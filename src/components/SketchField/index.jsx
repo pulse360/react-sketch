@@ -269,6 +269,10 @@ class SketchField extends Component {
 
     let wfactor = (offsetWidth / prevDeviceWidth).toFixed(2)
     let hfactor = wfactor
+    console.log(currentWidth, 'currentWidth')
+    console.log(offsetWidth, 'offsetWidth')
+    console.log(prevDeviceWidth, 'prevDeviceWidth')
+    console.log(wfactor, 'wfactor')
 
     if (defaultValue.background) {
       console.log(defaultValue)
@@ -667,7 +671,7 @@ class SketchField extends Component {
 
     const width = window.innerWidth * 0.6
     const height = width * this.state.windowAspectRatio * heightFactor
-    console.log(height)
+
     let canvasDivStyle = {
       width: width,
       height: height,
