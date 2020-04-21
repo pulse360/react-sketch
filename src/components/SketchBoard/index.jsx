@@ -269,7 +269,14 @@ class SketchBoard extends React.Component {
           <Appbar
             onNotifyUsers={this.props.onNotifyUsers}
             fullScreenHandlerDisabled={this.props.fullScreenHandlerDisabled}
-            onOpenInNewWindow={() => this.props.onOpenNewWindow(JSON.stringify(this._sketch.toJSON()))}
+            onOpenInNewWindow={() => {
+
+              const data = this._sketch.toJSON()
+              data.sketchWidth = this._sketch.state.windowWidth.toFixed(2)
+              data.sketchHeight = this._sketch._container.offsetHeight.toFixed(2)
+
+              this.props.onOpenNewWindow(data)
+            }}
             print={this._print}
             activeQuicklyPenID={this.state.activeQuicklyPenID}
             selectQuicklyPen={(color, width) => {
