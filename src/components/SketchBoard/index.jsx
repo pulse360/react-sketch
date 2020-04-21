@@ -270,7 +270,6 @@ class SketchBoard extends React.Component {
             onNotifyUsers={this.props.onNotifyUsers}
             fullScreenHandlerDisabled={this.props.fullScreenHandlerDisabled}
             onOpenInNewWindow={() => {
-
               const data = this._sketch.toJSON()
               data.sketchWidth = this._sketch.state.windowWidth.toFixed(2)
               data.sketchHeight = this._sketch._container.offsetHeight.toFixed(2)

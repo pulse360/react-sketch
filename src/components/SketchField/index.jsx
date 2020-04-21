@@ -61,6 +61,7 @@ class SketchField extends Component {
     windowHeight: 1000,
     prevWidth: null,
     prevHeight: null,
+    viewerPosition: null,
   }
 
   _initTools = (fabricCanvas) => {
@@ -96,7 +97,7 @@ class SketchField extends Component {
     fabric.Image.fromURL(dataUrl, (oImg) => {
       let opts = {
         left: Math.random() * (canvas.getWidth() - oImg.width * 0.5),
-        top: Math.random() * (canvas.getHeight() - oImg.height * 0.5),
+        top: canvas.getHeight() - this.state.viewerPosition + 100,
         scale: 0.5,
       }
       Object.assign(opts, options)
@@ -250,7 +251,7 @@ class SketchField extends Component {
 
     canvas.setWidth(currentWidth)
     canvas.setHeight(currentWidth * this.state.windowAspectRatio * this.state.heightFactor)
-
+    debugger
     this.setState({
       windowWidth: currentWidth,
       windowHeight: currentWidth * this.state.windowAspectRatio,
@@ -293,10 +294,10 @@ class SketchField extends Component {
       obj.setCoords()
     }
 
-    const newHeight = offsetHeight / this.state.windowAspectRatio * this.state.heightFactor
+    const newHeight = (offsetHeight / this.state.windowAspectRatio) * this.state.heightFactor
 
     canvas.setWidth(currentWidth)
-    canvas.setHeight(offsetHeight / this.state.windowAspectRatio * this.state.heightFactor)
+    canvas.setHeight((offsetHeight / this.state.windowAspectRatio) * this.state.heightFactor)
 
     const canvasEl = document.getElementById('canvas')
     canvasEl.style.height = `${newHeight}px`
@@ -556,11 +557,24 @@ class SketchField extends Component {
 
     document.addEventListener('paste', this._onPaste, false)
 
+    document.addEventListener('scroll', this.trackScrolling, true)
+
+    this.setState({
+      viewerPosition: document.body.scrollHeight - document.body.scrollTop,
+    })
+
     if (defaultValue) {
       this.setDefaultValue()
     } else {
       this._resize()
     }
+  }
+
+  trackScrolling = (e) => {
+    const viewerPosition = e.target.scrollHeight - e.target.scrollTop
+    this.setState({
+      viewerPosition: viewerPosition,
+    })
   }
 
   setDefaultValue = () => {
