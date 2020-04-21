@@ -276,11 +276,13 @@ class SketchField extends Component {
     let wfactor = (offsetWidth / prevDeviceWidth).toFixed(2)
     let hfactor = wfactor
 
-    if (canvas.backgroundImage) {
-      let bi = canvas.backgroundImage
-      bi.width = bi.width * wfactor
-      bi.height = bi.height * hfactor
-    }
+    setTimeout(() => {
+      if (canvas.backgroundImage) {
+        let bi = canvas.backgroundImage
+        bi.width = bi.width * wfactor
+        bi.height = bi.height * hfactor
+      }  
+    }, 200)
 
     let objects = canvas.getObjects()
 
