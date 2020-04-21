@@ -294,7 +294,7 @@ class SketchField extends Component {
     }
 
     canvas.setWidth(currentWidth)
-    canvas.setHeight(currentWidth * this.state.windowAspectRatio * this.state.heightFactor)
+    canvas.setHeight(currentWidth / this.state.windowAspectRatio * this.state.heightFactor)
 
     this.setState({
       windowWidth: currentWidth,
