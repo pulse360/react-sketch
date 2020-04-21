@@ -271,7 +271,10 @@ class SketchField extends Component {
     let hfactor = wfactor
 
     if (defaultValue.background) {
-      setTimeout(() => {this.setBackgroundImage(defaultValue.background.source)}, 1000)
+      console.log(defaultValue)
+      setTimeout(() => {
+        this.setBackgroundImage(defaultValue.background.source)
+      }, 1000)
     }
 
     let objects = canvas.getObjects()
