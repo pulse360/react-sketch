@@ -682,10 +682,6 @@ class SketchField extends Component {
 
     const width = window.innerWidth * 0.6
     const height = width * this.state.windowAspectRatio * heightFactor
-    console.log(height, 'height')
-    console.log(width, 'width')
-    console.log(this.state.windowAspectRatio, 'windowAspectRatio')
-    console.log(heightFactor, 'heightFactor')
 
     let canvasDivStyle = {
       width: width,
