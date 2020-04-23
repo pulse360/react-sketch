@@ -65,18 +65,27 @@ class SketchBoard extends React.Component {
         activeQuicklyPenID: null,
         lineColor: this.state.passedLineColor,
       }))
-    } else {
-      this.setState(() => ({
-        lineWidth: this.state.passedLineWidth,
-      }))
     }
 
-    if (inQuicklyPen) {
+    if (tool !== 'pen' && tool !== 'highlighter') {
+      console.log(tool)
+      console.log(inQuicklyPen)
       this.setState({
         tool: tool,
         enableRemoveSelected: tool === Tools.Select,
         enableCopyPaste: tool === Tools.Select,
-        lineWidth: 3,
+        activeQuicklyPenID: null,
+        lineColor: this.state.passedLineColor,
+        lineWidth: this.state.passedLineWidth,
+      })
+    }
+
+    if (tool === 'pen') {
+      this.setState({
+        tool: tool,
+        enableRemoveSelected: tool === Tools.Select,
+        enableCopyPaste: tool === Tools.Select,
+        // lineWidth: 3,
       })
     }
     if (tool !== 'highlighter' && !inQuicklyPen) {
@@ -326,7 +335,15 @@ class SketchBoard extends React.Component {
             backgroundOpen={() => this.setState({ expandBack: !this.state.expandBack })}
             lineWidth={this.state.lineWidth}
             changeLineWidth={(value) => {
-              this.setState({ lineWidth: value, passedLineWidth: value })
+              this.setState({
+                lineWidth: value,
+              })
+
+              if (!this.state.activeQuicklyPenID) {
+                this.setState({
+                  passedLineWidth: value
+                })
+              }
 
               if (this.state.activeQuicklyPenID) {
                 window.localStorage.setItem(`${this.state.activeQuicklyPenID}_width`, value)
@@ -358,7 +375,16 @@ class SketchBoard extends React.Component {
             handleOpen={(e) => this.setState({ expandStrokeColor: !this.state.expandStrokeColor })}
             color={this.state.lineColor}
             changeColor={(color) => {
-              this.setState({ lineColor: color.hex, passedLineColor: color.hex })
+              this.setState({
+                lineColor: color.hex,
+              })
+
+              if (!this.state.activeQuicklyPenID) {
+                this.setState({
+                  passedLineColor: color.hex
+                })
+              }
+
               if (this.state.activeQuicklyPenID) {
                 window.localStorage.setItem(`${this.state.activeQuicklyPenID}_color`, color.hex)
               }

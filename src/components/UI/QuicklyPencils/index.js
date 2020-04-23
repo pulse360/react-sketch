@@ -17,14 +17,14 @@ const QuicklyPencils = ({ changeActiveQuicklyPenID, selectQuicklyPen, activeQuic
   return (
     <div className='quickly-pens-wrapper'>
       {quicklyPencils.map((pen) => {
-        // const color = window.localStorage.getItem(`${pen.id}_color`)
-        // const width = Number(window.localStorage.getItem(`${pen.id}_width`))
+        const color = window.localStorage.getItem(`${pen.id}_color`)
+        const width = Number(window.localStorage.getItem(`${pen.id}_width`))
         return (
           <QuicklyPen
             key={pen.id}
-            onClick={() => handleClick(pen.id, pen.defaultColor, pen.defaultWidth)}
-            color={pen.defaultColor}
-            lineWidth={pen.defaultWidth}
+            onClick={() => handleClick(pen.id, color || pen.defaultColor, width || pen.defaultWidth)}
+            color={color || pen.defaultColor}
+            lineWidth={width || pen.defaultWidth}
             active={Boolean(activeQuicklyPenID === pen.id)}
           />
         )
@@ -37,7 +37,7 @@ const QuicklyPen = ({ onClick, color, lineWidth, active }) => {
   let size
 
   if (lineWidth <= 10) {
-    size = 18
+    size = 8
   } else if (lineWidth >= 30) {
     size = 30
   } else {
