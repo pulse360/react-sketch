@@ -15,6 +15,7 @@ import Highlighter from '../SketchTools/highlighter'
 import Text from '../SketchTools/text'
 import './styles.css'
 import { debounce, omit } from 'lodash'
+import lines from '../UI/BackgroundImage/images/lines.png'
 
 const fabric = require('fabric').fabric
 
@@ -272,6 +273,8 @@ class SketchField extends Component {
 
     if (defaultValue.background) {
       this.setBackgroundImage(defaultValue.background.source)
+    } else {
+      this.setBackgroundImage(lines)
     }
 
     let objects = canvas.getObjects()
@@ -566,6 +569,7 @@ class SketchField extends Component {
       this.setDefaultValue()
     } else {
       this._resize()
+      this.setBackgroundImage(lines)
     }
   }
 
