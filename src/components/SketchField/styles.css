@@ -12,6 +12,7 @@
   left: 10px;
   bottom: 60px;
   width: 100px;
+  z-index: 100;
 }
 
 .sketchfield__add-page-button:hover {

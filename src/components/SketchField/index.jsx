@@ -211,7 +211,7 @@ class SketchField extends Component {
     }
     let canvas = this._fc
 
-    const currentWidth = window.innerWidth * 0.6
+    const currentWidth = window.innerWidth * 1.0
 
     this.setState({
       prevWidth: canvas.getWidth(),
@@ -262,7 +262,7 @@ class SketchField extends Component {
   _resizeWithPrevSizies = () => {
     let canvas = this._fc
 
-    const currentWidth = window.innerWidth * 0.6
+    const currentWidth = window.innerWidth * 1.0
 
     const { prevDeviceHeight, prevDeviceWidth, defaultValue } = this.props
 
@@ -632,7 +632,7 @@ class SketchField extends Component {
   }
 
   _heightNormalizer = () => {
-    const currentWidth = window.innerWidth * 0.6
+    const currentWidth = window.innerWidth * 1.0
 
     let canvas = this._fc
 
@@ -684,14 +684,15 @@ class SketchField extends Component {
     let { className } = this.props
     const { heightFactor } = this.state
 
-    const width = window.innerWidth * 0.6
+    const width = window.innerWidth * 1.0
     const height = width * this.state.windowAspectRatio * heightFactor
 
     let canvasDivStyle = {
       width: width,
       height: height,
-      margin: '0 auto',
-      marginTop: 10,
+      overflow: 'hidden',
+      // margin: '0 auto',
+      // marginTop: 10,
     }
 
     // let canvasDivStyle = {
