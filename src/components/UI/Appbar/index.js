@@ -54,7 +54,7 @@ const Appbar = ({
   onNotifyUsers
 }) => (
   <div style={styles}>
-    <button onClick={onNotifyUsers} className='appbar__delegate-button' >Delegate</button>
+    <button onClick={onNotifyUsers} className='appbar__delegate-button' >D</button>
     <SaveButtons save={save} clear={clear} print={print} />
     <HistoryButtons undo={undo} redo={redo} canRedo={canRedo} canUndo={canUndo} />
     <Slider value={lineWidth} onChange={changeLineWidth} />

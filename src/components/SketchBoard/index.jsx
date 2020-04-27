@@ -425,6 +425,7 @@ class SketchBoard extends React.Component {
               defaultHeightFactor={this.props.heightFactor || 1}
               fullScreen={this.state.fullScreen}
               selectTool={() => this._selectTool('select')}
+              selectPan={() => this._selectTool('pan')}
               prevDeviceWidth={this.props.prevDeviceWidth}
               prevDeviceHeight={this.props.prevDeviceHeight}
             />

@@ -11,8 +11,9 @@
   position: absolute;
   bottom: 10px;
   left: 10px;
-  width: 100px;
+  width: 50px;
   z-index: 100;
+  font-size: 30px;
 }
 
 .appbar__delegate-button:hover {

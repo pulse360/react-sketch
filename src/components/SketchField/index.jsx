@@ -211,7 +211,7 @@ class SketchField extends Component {
     }
     let canvas = this._fc
 
-    const currentWidth = window.innerWidth * 1.0
+    const currentWidth = window.innerWidth * 0.85
 
     this.setState({
       prevWidth: canvas.getWidth(),
@@ -262,7 +262,7 @@ class SketchField extends Component {
   _resizeWithPrevSizies = () => {
     let canvas = this._fc
 
-    const currentWidth = window.innerWidth * 1.0
+    const currentWidth = window.innerWidth * 0.85
 
     const { prevDeviceHeight, prevDeviceWidth, defaultValue } = this.props
 
@@ -632,7 +632,7 @@ class SketchField extends Component {
   }
 
   _heightNormalizer = () => {
-    const currentWidth = window.innerWidth * 1.0
+    const currentWidth = window.innerWidth * 0.85
 
     let canvas = this._fc
 
@@ -684,14 +684,14 @@ class SketchField extends Component {
     let { className } = this.props
     const { heightFactor } = this.state
 
-    const width = window.innerWidth * 1.0
+    const width = window.innerWidth * 0.85
     const height = width * this.state.windowAspectRatio * heightFactor
 
     let canvasDivStyle = {
       width: width,
       height: height,
       overflow: 'hidden',
-      // margin: '0 auto',
+      margin: '0 auto',
       // marginTop: 10,
     }
 
@@ -703,8 +703,11 @@ class SketchField extends Component {
 
     return (
       <>
+        <div className='sketchfield__select-pan-button' onClick={this.props.selectPan}>
+          P
+        </div>
         <div className='sketchfield__add-page-button' onClick={this.addPage}>
-          Add page
+          +
         </div>
         <div className={className} ref={(c) => (this._container = c)} style={canvasDivStyle} id='canvas'>
           <canvas id={uuid4()} ref={(c) => (this._canvas = c)}>
