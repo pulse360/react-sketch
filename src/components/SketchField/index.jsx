@@ -124,11 +124,11 @@ class SketchField extends Component {
     this._history.keep([obj, state, state])
   }
 
-  _onObjectMoving = (e) => {}
+  _onObjectMoving = (e) => { }
 
-  _onObjectScaling = (e) => {}
+  _onObjectScaling = (e) => { }
 
-  _onObjectRotating = (e) => {}
+  _onObjectRotating = (e) => { }
 
   _onObjectModified = (e) => {
     let obj = e.target
@@ -213,8 +213,6 @@ class SketchField extends Component {
 
     let { offsetWidth } = this._container
 
-    const currentWidth = offsetWidth
-
     this.setState({
       prevWidth: canvas.getWidth(),
       prevHeight: canvas.getHeight(),
@@ -222,8 +220,6 @@ class SketchField extends Component {
 
     setTimeout(() => {
       let canvas = this._fc
-
-      let { offsetWidth, offsetHeight } = this._container
 
       let wfactor = (offsetWidth / this.state.prevWidth).toFixed(2)
       let hfactor = wfactor
@@ -249,21 +245,20 @@ class SketchField extends Component {
 
       canvas.calcOffset()
       canvas.renderAll()
-
-      const newHeight = (offsetWidth * this.state.windowAspectRatio) * this.state.heightFactor
-
-      const canvasEl = document.getElementById('canvas')
-      canvasEl.style.height = `${newHeight}px`
-
     }, 100)
 
-    canvas.setWidth(currentWidth)
-    canvas.setHeight(currentWidth * this.state.windowAspectRatio * this.state.heightFactor)
+    const newHeight = this.state.prevHeight * (offsetWidth / this.state.prevWidth).toFixed(2)
+
+    const canvasEl = document.getElementById('canvas')
+    canvasEl.style.height = `${newHeight}px`
+
+    canvas.setWidth(offsetWidth)
+    canvas.setHeight(newHeight)
 
     this.setState({
-      windowWidth: currentWidth,
-      windowHeight: currentWidth * this.state.windowAspectRatio,
-      // parentWidth: currentWidth,
+      windowWidth: offsetWidth,
+      windowHeight: offsetWidth * this.state.windowAspectRatio,
+      // parentWidth: offsetWidth,
     })
   }, 300)
 
@@ -724,7 +719,7 @@ class SketchField extends Component {
             })
           }
           this._container = c
-          }} style={canvasDivStyle} id='canvas'>
+        }} style={canvasDivStyle} id='canvas'>
           <canvas id={uuid4()} ref={(c) => (this._canvas = c)}>
             Sorry, Canvas HTML5 element is not supported by your browser :(
           </canvas>
