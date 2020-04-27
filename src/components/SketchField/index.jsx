@@ -211,7 +211,9 @@ class SketchField extends Component {
     }
     let canvas = this._fc
 
-    const currentWidth = window.innerWidth * 0.85
+    let { offsetWidth } = this._container
+
+    const currentWidth = offsetWidth
 
     this.setState({
       prevWidth: canvas.getWidth(),
@@ -262,7 +264,7 @@ class SketchField extends Component {
   _resizeWithPrevSizies = () => {
     let canvas = this._fc
 
-    const currentWidth = window.innerWidth * 0.85
+    const currentWidth = this.state.CanvasContainerWidth
 
     const { prevDeviceHeight, prevDeviceWidth, defaultValue } = this.props
 
@@ -632,7 +634,7 @@ class SketchField extends Component {
   }
 
   _heightNormalizer = () => {
-    const currentWidth = window.innerWidth * 0.85
+    const currentWidth = this.state.CanvasContainerWidth
 
     let canvas = this._fc
 
@@ -688,7 +690,7 @@ class SketchField extends Component {
     const height = width * this.state.windowAspectRatio * heightFactor
 
     let canvasDivStyle = {
-      width: width,
+      width: '85%',
       height: height,
       overflow: 'hidden',
       margin: '0 auto',
@@ -709,7 +711,14 @@ class SketchField extends Component {
         <div className='sketchfield__add-page-button' onClick={this.addPage}>
           +
         </div>
-        <div className={className} ref={(c) => (this._container = c)} style={canvasDivStyle} id='canvas'>
+        <div className={className} ref={(c) => {
+          if (c && !this.state.CanvasContainerWidth) {
+            this.setState({
+              CanvasContainerWidth: c.offsetWidth
+            })
+          }
+          this._container = c
+          }} style={canvasDivStyle} id='canvas'>
           <canvas id={uuid4()} ref={(c) => (this._canvas = c)}>
             Sorry, Canvas HTML5 element is not supported by your browser :(
           </canvas>
