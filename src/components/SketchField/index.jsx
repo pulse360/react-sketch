@@ -703,9 +703,9 @@ class SketchField extends Component {
 
     return (
       <>
-        <div className='sketchfield__select-pan-button' onClick={this.props.selectPan}>
+        {/* <div className='sketchfield__select-pan-button' onClick={this.props.selectPan}>
           P
-        </div>
+        </div> */}
         <div className='sketchfield__add-page-button' onClick={this.addPage}>
           +
         </div>
