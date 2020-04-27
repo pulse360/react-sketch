@@ -299,10 +299,10 @@ class SketchField extends Component {
       obj.setCoords()
     }
 
-    const newHeight = (offsetHeight / this.state.windowAspectRatio) * this.state.heightFactor
+    const newHeight = this.state.canvasContainerWidth * this.state.windowAspectRatio * this.state.heightFactor
 
     canvas.setWidth(currentWidth)
-    canvas.setHeight((offsetHeight / this.state.windowAspectRatio) * this.state.heightFactor)
+    canvas.setHeight(newHeight)
 
     const canvasEl = document.getElementById('canvas')
     canvasEl.style.height = `${newHeight}px`
