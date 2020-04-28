@@ -6,6 +6,7 @@ const LeftPanelButton = ({ children, onClick, selectedTool, tool = null }) => {
     <button
       type='button'
       onClick={onClick}
+      onTouchStart={onClick}
       className={`left-bar-button ${selectedTool === tool ? 'left-bar-button__active' : ''}`}
     >
       {children}

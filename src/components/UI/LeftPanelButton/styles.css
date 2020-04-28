@@ -5,6 +5,7 @@
   background-color: #323e4c;
   cursor: pointer;
   outline: none;
+  cursor: pointer;
 }
 
 .left-bar-button:hover {

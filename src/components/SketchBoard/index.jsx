@@ -104,6 +104,7 @@ class SketchBoard extends React.Component {
     const data = this._sketch.toJSON()
     data.sketchWidth = this._sketch.state.windowWidth.toFixed(2)
     data.sketchHeight = this._sketch._container.offsetHeight.toFixed(2)
+    data.prevAspectRatio = this._sketch.state.windowAspectRatio
     this.props.onSaveCanvas(
       {
         data,
@@ -214,7 +215,7 @@ class SketchBoard extends React.Component {
   }
 
   componentDidMount = () => {
-    ;(function (console) {
+    ; (function (console) {
       console.save = function (data, filename) {
         if (!data) {
           console.error('Console.save: No data')
@@ -428,6 +429,7 @@ class SketchBoard extends React.Component {
               selectPan={() => this._selectTool('pan')}
               prevDeviceWidth={this.props.prevDeviceWidth}
               prevDeviceHeight={this.props.prevDeviceHeight}
+              prevAspectRatio={this.props.prevAspectRatio}
             />
           </div>
           {/* <Tabs
