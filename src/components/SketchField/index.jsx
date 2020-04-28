@@ -215,7 +215,7 @@ class SketchField extends Component {
 
     const currentWidth = window.innerWidth * 0.8
 
-    let { offsetWidth, offsetHeight } = this._container
+    // let { offsetWidth, offsetHeight } = this._container
 
     this.setState({
       prevWidth: canvas.getWidth(),
@@ -225,7 +225,7 @@ class SketchField extends Component {
     setTimeout(() => {
       let canvas = this._fc
 
-      let wfactor = (offsetWidth / this.state.prevWidth).toFixed(2)
+      let wfactor = (currentWidth / this.state.prevWidth).toFixed(2)
       let hfactor = wfactor
 
       let objects = canvas.getObjects()
@@ -251,17 +251,17 @@ class SketchField extends Component {
       canvas.renderAll()
     }, 100)
 
-    const newHeight = this.state.prevHeight * (offsetWidth / this.state.prevWidth).toFixed(2)
+    const newHeight = this.state.prevHeight * (currentWidth / this.state.prevWidth).toFixed(2)
 
     const canvasEl = document.getElementById('canvas')
     canvasEl.style.height = `${newHeight}px`
 
-    canvas.setWidth(offsetWidth)
+    canvas.setWidth(currentWidth)
     canvas.setHeight(newHeight)
 
     this.setState({
-      windowWidth: offsetWidth,
-      windowHeight: offsetWidth * this.state.windowAspectRatio,
+      windowWidth: currentWidth,
+      windowHeight: currentWidth * this.state.windowAspectRatio,
       // parentWidth: offsetWidth,
     })
   }, 300)
@@ -698,7 +698,7 @@ class SketchField extends Component {
       width: width,
       height: height,
       margin: '0 auto',
-      marginTop: 10,
+      // marginTop: 10,
     }
 
     const addPageButtonStyles = {
