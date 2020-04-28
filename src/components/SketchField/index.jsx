@@ -251,7 +251,7 @@ class SketchField extends Component {
       canvas.renderAll()
     }, 100)
 
-    const newHeight = this.state.prevHeight * (currentWidth / this.state.prevWidth).toFixed(2)
+    const newHeight = currentWidth * this.state.windowAspectRatio * this.state.heightFactor
 
     const canvasEl = document.getElementById('canvas')
     canvasEl.style.height = `${newHeight}px`
@@ -261,7 +261,7 @@ class SketchField extends Component {
 
     this.setState({
       windowWidth: currentWidth,
-      windowHeight: currentWidth * this.state.windowAspectRatio,
+      windowHeight: currentWidth * this.state.windowAspectRatio * this.state.heightFactor,
       // parentWidth: offsetWidth,
     })
   }, 300)
