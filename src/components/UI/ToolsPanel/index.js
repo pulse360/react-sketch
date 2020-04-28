@@ -56,6 +56,7 @@ const ToolsPanel = ({ selectTool, addImage, addText, selectedTool }) => {
             const b64 = reader.result
             addImage(b64)
           }
+          
           reader.readAsDataURL(file[0])
         }}
       >

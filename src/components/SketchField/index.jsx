@@ -15,9 +15,9 @@ import Highlighter from '../SketchTools/highlighter'
 import Text from '../SketchTools/text'
 import './styles.css'
 import { debounce, omit } from 'lodash'
-import lines from '../UI/BackgroundImage/images/lines.png'
 import IconButton from '@material-ui/core/IconButton'
 import AddCircle from '@material-ui/icons/AddCircle'
+import lines from '../UI/BackgroundImage/images/lines.png'
 
 const fabric = require('fabric').fabric
 
@@ -213,7 +213,7 @@ class SketchField extends Component {
     }
     let canvas = this._fc
 
-    let { offsetWidth } = this._container
+    const currentWidth = window.innerWidth * 0.8
 
     this.setState({
       prevWidth: canvas.getWidth(),
@@ -267,7 +267,7 @@ class SketchField extends Component {
   _resizeWithPrevSizies = () => {
     let canvas = this._fc
 
-    const currentWidth = window.innerWidth * 0.85
+    const currentWidth = window.innerWidth * 0.8
 
     const { prevDeviceHeight, prevDeviceWidth, defaultValue } = this.props
 
@@ -637,7 +637,7 @@ class SketchField extends Component {
   }
 
   _heightNormalizer = () => {
-    const currentWidth = window.innerWidth * 0.85
+    const currentWidth = window.innerWidth * 0.8
 
     let canvas = this._fc
 
@@ -689,7 +689,7 @@ class SketchField extends Component {
     let { className } = this.props
     const { heightFactor } = this.state
 
-    const width = window.innerWidth * 0.85
+    const width = window.innerWidth * 0.8
     const height = width * this.state.windowAspectRatio * heightFactor
 
     let canvasDivStyle = {
@@ -701,7 +701,6 @@ class SketchField extends Component {
 
     const addPageButtonStyles = {
       position: 'absolute',
-      cursor: 'pointer',
       left: '10px',
       bottom: '60px',
       zIndex: 100,

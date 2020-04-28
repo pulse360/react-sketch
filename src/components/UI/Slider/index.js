@@ -25,7 +25,7 @@ const Slider = ({ onChange, value }) => {
         >
           <path d='M2.5 2.5L198 0L198 5Z' fill='black' />
         </svg>
-        <input onchange className='slider' type='range' min='1' max='50' value={value} onChange={handleChange}></input>
+        <input className='slider' onchange type='range' min='1' max='50' value={value} onChange={handleChange}></input>
       </div>
     </div>
   )

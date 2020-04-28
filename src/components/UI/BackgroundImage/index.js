@@ -60,7 +60,7 @@ const BackgroundImage = ({ open, handleOpen, anchorEl, changeImage, images = dev
         {images.map((item, index) => {
           return (
             <button
-              onсlick
+              onclick
               key={index}
               onClick={() => handleClick(item.image)}
               style={{ backgroundImage: `url(${item.image})` }}
