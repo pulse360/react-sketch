@@ -569,11 +569,71 @@ class SketchField extends Component {
     this.setState({
       viewerPosition: document.body.scrollHeight - document.body.scrollTop,
     })
-
     if (defaultValue) {
       this.setDefaultValue()
     } else {
-      this._resize()
+      let canvas = this._fc
+
+      const currentWidth = window.innerWidth * 0.85
+  
+      this.setState({
+        prevWidth: canvas.getWidth(),
+        prevHeight: canvas.getHeight(),
+      })
+  
+      setTimeout(() => {
+        let canvas = this._fc
+        canvas.uniScaleTransform = true
+  
+        let { offsetWidth, offsetHeight } = this._container
+  
+        let wfactor = (offsetWidth / this.state.prevWidth).toFixed(2)
+        let hfactor = wfactor
+  
+        if (canvas.backgroundImage) {
+          let bi = canvas.backgroundImage
+          bi.width = bi.width * factor
+          bi.height = bi.height * factor
+        }
+  
+        let objects = canvas.getObjects()
+  
+        for (let i in objects) {
+          let obj = objects[i]
+          let scaleX = obj.scaleX
+          let scaleY = obj.scaleY
+          let left = obj.left
+          let top = obj.top
+          let tempScaleX = scaleX * wfactor
+          let tempScaleY = scaleY * hfactor
+          let tempLeft = left * wfactor
+          let tempTop = top * hfactor
+          obj.scaleX = tempScaleX
+          obj.scaleY = tempScaleY
+          obj.left = tempLeft
+          obj.top = tempTop
+          obj.setCoords()
+        }
+  
+        canvas.calcOffset()
+        canvas.renderAll()
+      }, 100)
+
+      const windowAspectRatio = currentWidth.toFixed(0) / window.innerHeight
+  
+      canvas.setWidth(currentWidth)
+      canvas.setHeight(currentWidth * windowAspectRatio)
+
+      const canvasEl = document.getElementById('canvas')
+      canvasEl.style.height = `${currentWidth * windowAspectRatio}px`
+
+      console.log(currentWidth * windowAspectRatio, 'currentWidth * windowAspectRatio')
+
+      this.setState({
+        windowWidth: currentWidth,
+        windowHeight: currentWidth * windowAspectRatio,
+        // parentWidth: currentWidth,
+      })
       this.setBackgroundImage(lines)
     }
   }
@@ -690,7 +750,7 @@ class SketchField extends Component {
     const { heightFactor } = this.state
 
     const width = window.innerWidth * 0.85
-    const height = this.state.canvasContainerWidth * this.state.windowAspectRatio * heightFactor
+    const height = this.state.canvasContainerWidth && this.state.canvasContainerWidth.toFixed(0) * width / window.innerHeight * heightFactor
 
     let canvasDivStyle = {
       width: '85%',
