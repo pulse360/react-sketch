@@ -16,6 +16,8 @@ import Text from '../SketchTools/text'
 import './styles.css'
 import { debounce, omit } from 'lodash'
 import lines from '../UI/BackgroundImage/images/lines.png'
+import IconButton from '@material-ui/core/IconButton'
+import AddCircle from '@material-ui/icons/AddCircle';
 
 const fabric = require('fabric').fabric
 
@@ -704,14 +706,21 @@ class SketchField extends Component {
     //   // margin: '10px auto',
     // }
 
+    const addPageButtonStyles = {
+      position: 'absolute',
+      left: '10px',
+      bottom: '60px',
+      zIndex: 100,
+    }
+
     return (
       <>
         {/* <div className='sketchfield__select-pan-button' onClick={this.props.selectPan}>
           P
         </div> */}
-        <div className='sketchfield__add-page-button' onClick={this.addPage}>
-          +
-        </div>
+        <IconButton color='primary' style={addPageButtonStyles} onсlick onClick={this.addPage}>
+          <AddCircle />
+        </IconButton>
         <div className={className} ref={(c) => {
           if (c && !this.state.canvasContainerWidth) {
             this.setState({

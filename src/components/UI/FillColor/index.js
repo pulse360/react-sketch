@@ -50,6 +50,7 @@ const FillColor = ({ open, handleOpen, changeColor, color, anchorEl, onFillWithC
             Fill color
           </label>
           <FormControlLabel
+            onсlick
             style={{ margin: 0 }}
             label='Transparent'
             control={<Switch checked={!fillWithColor} onChange={() => onFillWithColorChange(!fillWithColor)} />}
