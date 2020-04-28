@@ -17,7 +17,7 @@ import './styles.css'
 import { debounce, omit } from 'lodash'
 import lines from '../UI/BackgroundImage/images/lines.png'
 import IconButton from '@material-ui/core/IconButton'
-import AddCircle from '@material-ui/icons/AddCircle';
+import AddCircle from '@material-ui/icons/AddCircle'
 
 const fabric = require('fabric').fabric
 
@@ -126,11 +126,11 @@ class SketchField extends Component {
     this._history.keep([obj, state, state])
   }
 
-  _onObjectMoving = (e) => { }
+  _onObjectMoving = (e) => {}
 
-  _onObjectScaling = (e) => { }
+  _onObjectScaling = (e) => {}
 
-  _onObjectRotating = (e) => { }
+  _onObjectRotating = (e) => {}
 
   _onObjectModified = (e) => {
     let obj = e.target
@@ -267,7 +267,7 @@ class SketchField extends Component {
   _resizeWithPrevSizies = () => {
     let canvas = this._fc
 
-    const currentWidth = this.state.canvasContainerWidth
+    const currentWidth = window.innerWidth * 0.85
 
     const { prevDeviceHeight, prevDeviceWidth, defaultValue } = this.props
 
@@ -301,17 +301,17 @@ class SketchField extends Component {
       obj.setCoords()
     }
 
-    const newHeight = this.state.canvasContainerWidth * this.props.prevAspectRatio * this.state.heightFactor
+    const newHeight = (offsetHeight / this.state.windowAspectRatio) * this.state.heightFactor
 
     canvas.setWidth(currentWidth)
-    canvas.setHeight(newHeight)
+    canvas.setHeight((offsetHeight / this.state.windowAspectRatio) * this.state.heightFactor)
 
     const canvasEl = document.getElementById('canvas')
     canvasEl.style.height = `${newHeight}px`
 
     this.setState({
       windowWidth: currentWidth,
-      windowHeight: currentWidth * this.props.prevAspectRatio,
+      windowHeight: currentWidth * this.state.windowAspectRatio,
       // parentWidth: currentWidth,
     })
 
@@ -569,69 +569,11 @@ class SketchField extends Component {
     this.setState({
       viewerPosition: document.body.scrollHeight - document.body.scrollTop,
     })
+
     if (defaultValue) {
       this.setDefaultValue()
     } else {
-      let canvas = this._fc
-
-      const currentWidth = window.innerWidth * 0.85
-  
-      this.setState({
-        prevWidth: canvas.getWidth(),
-        prevHeight: canvas.getHeight(),
-      })
-  
-      setTimeout(() => {
-        let canvas = this._fc
-        canvas.uniScaleTransform = true
-  
-        let { offsetWidth, offsetHeight } = this._container
-  
-        let wfactor = (offsetWidth / this.state.prevWidth).toFixed(2)
-        let hfactor = wfactor
-  
-        if (canvas.backgroundImage) {
-          let bi = canvas.backgroundImage
-          bi.width = bi.width * factor
-          bi.height = bi.height * factor
-        }
-  
-        let objects = canvas.getObjects()
-  
-        for (let i in objects) {
-          let obj = objects[i]
-          let scaleX = obj.scaleX
-          let scaleY = obj.scaleY
-          let left = obj.left
-          let top = obj.top
-          let tempScaleX = scaleX * wfactor
-          let tempScaleY = scaleY * hfactor
-          let tempLeft = left * wfactor
-          let tempTop = top * hfactor
-          obj.scaleX = tempScaleX
-          obj.scaleY = tempScaleY
-          obj.left = tempLeft
-          obj.top = tempTop
-          obj.setCoords()
-        }
-  
-        canvas.calcOffset()
-        canvas.renderAll()
-      }, 100)
-
-      const windowAspectRatio = currentWidth.toFixed(0) / window.innerHeight
-  
-      canvas.setWidth(currentWidth)
-      canvas.setHeight(currentWidth * windowAspectRatio)
-
-      const canvasEl = document.getElementById('canvas')
-      canvasEl.style.height = `${currentWidth * windowAspectRatio}px`
-
-      this.setState({
-        windowWidth: currentWidth,
-        windowHeight: currentWidth * windowAspectRatio,
-        windowAspectRatio
-      })
+      this._resize()
       this.setBackgroundImage(lines)
     }
   }
@@ -704,16 +646,8 @@ class SketchField extends Component {
       windowHeight: currentWidth * this.state.windowAspectRatio,
     })
 
-    const windowAspectRatio = currentWidth.toFixed(0) / window.innerHeight
-  
     canvas.setWidth(currentWidth)
-    canvas.setHeight(currentWidth * windowAspectRatio)
-
-    const canvasEl = document.getElementById('canvas')
-    canvasEl.style.height = `${currentWidth * windowAspectRatio}px`
-
-    canvas.setWidth(currentWidth)
-    canvas.setHeight(currentWidth * windowAspectRatio * this.state.heightFactor)
+    canvas.setHeight(currentWidth * this.state.windowAspectRatio * this.state.heightFactor)
     canvas.renderAll()
   }
 
@@ -756,14 +690,13 @@ class SketchField extends Component {
     const { heightFactor } = this.state
 
     const width = window.innerWidth * 0.85
-    const height = this.state.canvasContainerWidth && this.state.canvasContainerWidth.toFixed(0) * width / window.innerHeight * heightFactor
+    const height = width * this.state.windowAspectRatio * heightFactor
 
     let canvasDivStyle = {
-      width: '85%',
+      width: width,
       height: height,
-      overflow: 'hidden',
       margin: '0 auto',
-      // marginTop: 10,
+      marginTop: 10,
     }
 
     // let canvasDivStyle = {
@@ -772,29 +705,12 @@ class SketchField extends Component {
     //   // margin: '10px auto',
     // }
 
-    const addPageButtonStyles = {
-      position: 'absolute',
-      left: '10px',
-      bottom: '60px',
-      zIndex: 100,
-    }
-
     return (
       <>
-        {/* <div className='sketchfield__select-pan-button' onClick={this.props.selectPan}>
-          P
-        </div> */}
         <IconButton color='primary' style={addPageButtonStyles} onсlick onClick={this.addPage}>
           <AddCircle />
         </IconButton>
-        <div className={className} ref={(c) => {
-          if (c && !this.state.canvasContainerWidth) {
-            this.setState({
-              canvasContainerWidth: c.offsetWidth
-            })
-          }
-          this._container = c
-        }} style={canvasDivStyle} id='canvas'>
+        <div className={className} ref={(c) => (this._container = c)} style={canvasDivStyle} id='canvas'>
           <canvas id={uuid4()} ref={(c) => (this._canvas = c)}>
             Sorry, Canvas HTML5 element is not supported by your browser :(
           </canvas>
@@ -803,5 +719,4 @@ class SketchField extends Component {
     )
   }
 }
-
 export default SketchField
