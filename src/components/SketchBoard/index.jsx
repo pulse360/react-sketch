@@ -430,6 +430,7 @@ class SketchBoard extends React.Component {
               prevDeviceWidth={this.props.prevDeviceWidth}
               prevDeviceHeight={this.props.prevDeviceHeight}
               prevAspectRatio={this.props.prevAspectRatio}
+              parentContainerWidth={this.props.parentContainerWidth}
             />
           </div>
           {/* <Tabs

@@ -213,7 +213,7 @@ class SketchField extends Component {
     }
     let canvas = this._fc
 
-    const currentWidth = window.innerWidth
+    const currentWidth = this.props.parentContainerWidth || window.innerWidth * 0.8
 
     // let { offsetWidth, offsetHeight } = this._container
 
@@ -269,7 +269,7 @@ class SketchField extends Component {
   _resizeWithPrevSizies = () => {
     let canvas = this._fc
 
-    const currentWidth = window.innerWidth
+    const currentWidth = this.props.parentContainerWidth || window.innerWidth * 0.8
 
     const { prevDeviceHeight, prevDeviceWidth, defaultValue } = this.props
 
@@ -611,9 +611,9 @@ class SketchField extends Component {
     //   })
     // }
 
-    if (prevState.heightFactor !== this.state.heightFactor) {
-      this._heightNormalizer()
-    }
+    // if (prevState.heightFactor !== this.state.heightFactor) {
+    //   this._heightNormalizer()
+    // }
 
     if (this.props.tool !== prevProps.tool) {
       this._selectedTool = this._tools[this.props.tool] || this._tools[Tool.Pencil]
@@ -639,7 +639,7 @@ class SketchField extends Component {
   }
 
   _heightNormalizer = () => {
-    const currentWidth = window.innerWidth
+    const currentWidth = this.props.parentContainerWidth || window.innerWidth * 0.8
 
     let canvas = this._fc
 
@@ -691,7 +691,7 @@ class SketchField extends Component {
     let { className } = this.props
     const { heightFactor } = this.state
 
-    const width = window.innerWidth
+    const width = this.props.parentContainerWidth || window.innerWidth * 0.8
     const height = width * this.state.windowAspectRatio * heightFactor
 
     let canvasDivStyle = {
