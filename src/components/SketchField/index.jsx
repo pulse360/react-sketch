@@ -699,6 +699,14 @@ class SketchField extends Component {
       marginTop: 10,
     }
 
+    addPageButtonStyles = {
+      position: 'absolute',
+      cursor: 'pointer',
+      left: '10px',
+      bottom: '60px',
+      zIndex: 100,
+    }
+
     // let canvasDivStyle = {
     //   width: '100%',
     //   height: '100%',
