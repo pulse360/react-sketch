@@ -635,7 +635,7 @@ class SketchField extends Component {
     this.setState({
       heightFactor: 1,
     })
-    this._heightNormalizer()
+    this._resize()
   }
 
   _heightNormalizer = () => {
