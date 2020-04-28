@@ -695,7 +695,7 @@ class SketchField extends Component {
   }
 
   _heightNormalizer = () => {
-    const currentWidth = this.state.canvasContainerWidth
+    const currentWidth = window.innerWidth * 0.85
 
     let canvas = this._fc
 
