@@ -704,8 +704,16 @@ class SketchField extends Component {
       windowHeight: currentWidth * this.state.windowAspectRatio,
     })
 
+    const windowAspectRatio = currentWidth.toFixed(0) / window.innerHeight
+  
     canvas.setWidth(currentWidth)
-    canvas.setHeight(currentWidth * this.state.windowAspectRatio * this.state.heightFactor)
+    canvas.setHeight(currentWidth * windowAspectRatio)
+
+    const canvasEl = document.getElementById('canvas')
+    canvasEl.style.height = `${currentWidth * windowAspectRatio}px`
+
+    canvas.setWidth(currentWidth)
+    canvas.setHeight(currentWidth * windowAspectRatio * this.state.heightFactor)
     canvas.renderAll()
   }
 
