@@ -627,12 +627,10 @@ class SketchField extends Component {
       const canvasEl = document.getElementById('canvas')
       canvasEl.style.height = `${currentWidth * windowAspectRatio}px`
 
-      console.log(currentWidth * windowAspectRatio, 'currentWidth * windowAspectRatio')
-
       this.setState({
         windowWidth: currentWidth,
         windowHeight: currentWidth * windowAspectRatio,
-        // parentWidth: currentWidth,
+        windowAspectRatio
       })
       this.setBackgroundImage(lines)
     }
