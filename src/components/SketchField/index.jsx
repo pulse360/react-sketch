@@ -699,7 +699,7 @@ class SketchField extends Component {
       marginTop: 10,
     }
 
-    addPageButtonStyles = {
+    const addPageButtonStyles = {
       position: 'absolute',
       cursor: 'pointer',
       left: '10px',
