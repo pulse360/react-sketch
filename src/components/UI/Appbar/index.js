@@ -1,4 +1,6 @@
 import React from 'react'
+import IconButton from '@material-ui/core/IconButton'
+import AddAlertIcon from '@material-ui/icons/AddAlert'
 // import IconButton from '@material-ui/core/IconButton'
 // import CopyIcon from '@material-ui/icons/FileCopy'
 import {
@@ -12,6 +14,15 @@ import {
 } from '../../'
 
 import './styles.css'
+
+const addAlertStyles = {
+  outline: 'none',
+  position: 'absolute',
+  bottom: '10px',
+  left: '10px',
+  width: '50px',
+  zIndex: 100,
+}
 
 const styles = {
   backgroundColor: '#F6F7FB',
@@ -54,7 +65,9 @@ const Appbar = ({
   onNotifyUsers
 }) => (
   <div style={styles}>
-    <button onClick={onNotifyUsers} className='appbar__delegate-button' >Delegate</button>
+    <IconButton onClick={onNotifyUsers} style={addAlertStyles} color='primary' onсlick >
+      <AddAlertIcon />
+    </IconButton>
     <SaveButtons save={save} clear={clear} print={print} />
     <HistoryButtons undo={undo} redo={redo} canRedo={canRedo} canUndo={canUndo} />
     <Slider value={lineWidth} onChange={changeLineWidth} />

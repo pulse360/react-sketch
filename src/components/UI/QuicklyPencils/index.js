@@ -46,7 +46,7 @@ const QuicklyPen = ({ onClick, color, lineWidth, active }) => {
 
   return (
     <>
-      <button type='button' onClick={onClick} className='quickly-pen'>
+      <button type='button' onclick onClick={onClick} className='quickly-pen'>
         <div
           style={{ backgroundColor: color, width: size, height: size }}
           className={`quickly-pen__indicator ${active ? 'quickly-pen__active' : ''}`}

@@ -19,28 +19,28 @@ import {
 const ToolsPanel = ({ selectTool, addImage, addText, selectedTool }) => {
   return (
     <div className='left-toolbar'>
-      <IconButton onClick={() => selectTool('select')} selectedTool={selectedTool} tool='select'>
+      <IconButton onClick={() => selectTool('select')} onclick selectedTool={selectedTool} tool='select'>
         <SelectIcon />
       </IconButton>
-      <IconButton onClick={() => selectTool('pencil')} selectedTool={selectedTool} tool='pencil'>
+      <IconButton onClick={() => selectTool('pencil')} onclick selectedTool={selectedTool} tool='pencil'>
         <PencilIcon />
       </IconButton>
-      <IconButton onClick={() => selectTool('arrow')} selectedTool={selectedTool} tool='arrow'>
+      <IconButton onClick={() => selectTool('arrow')} onclick selectedTool={selectedTool} tool='arrow'>
         <ArrowIcon />
       </IconButton>
-      <IconButton onClick={() => selectTool('line')} selectedTool={selectedTool} tool='line'>
+      <IconButton onClick={() => selectTool('line')} onclick selectedTool={selectedTool} tool='line'>
         <LineIcon />
       </IconButton>
-      <IconButton onClick={() => selectTool('highlighter')} selectedTool={selectedTool} tool='highlighter'>
+      <IconButton onClick={() => selectTool('highlighter')} onclick selectedTool={selectedTool} tool='highlighter'>
         <HighlighterIcon />
       </IconButton>
-      <IconButton onClick={() => selectTool('rectangle')} selectedTool={selectedTool} tool='rectangle'>
+      <IconButton onClick={() => selectTool('rectangle')} onclick selectedTool={selectedTool} tool='rectangle'>
         <RectangleIcon />
       </IconButton>
-      <IconButton onClick={() => selectTool('circle')} selectedTool={selectedTool} tool='circle'>
+      <IconButton onClick={() => selectTool('circle')} onclick selectedTool={selectedTool} tool='circle'>
         <CircleleIcon />
       </IconButton>
-      <IconButton onClick={() => selectTool('text')} selectedTool={selectedTool} tool='text'>
+      <IconButton onClick={() => selectTool('text')} onclick selectedTool={selectedTool} tool='text'>
         <AddTextIcon />
       </IconButton>
       {/* <IconButton onClick={addText}>
@@ -61,7 +61,7 @@ const ToolsPanel = ({ selectTool, addImage, addText, selectedTool }) => {
       >
         <PastImageIcon />
       </DropZone>
-      <IconButton onClick={() => selectTool('eraser')} selectedTool={selectedTool} tool='eraser'>
+      <IconButton onClick={() => selectTool('eraser')} onclick selectedTool={selectedTool} tool='eraser'>
         <EraserIcon />
       </IconButton>
     </div>

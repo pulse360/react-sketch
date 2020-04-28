@@ -15,6 +15,9 @@ import Highlighter from '../SketchTools/highlighter'
 import Text from '../SketchTools/text'
 import './styles.css'
 import { debounce, omit } from 'lodash'
+import IconButton from '@material-ui/core/IconButton'
+import AddCircle from '@material-ui/icons/AddCircle'
+import lines from '../UI/BackgroundImage/images/lines.png'
 
 const fabric = require('fabric').fabric
 
@@ -210,7 +213,7 @@ class SketchField extends Component {
     }
     let canvas = this._fc
 
-    const currentWidth = window.innerWidth * 0.6
+    const currentWidth = window.innerWidth * 0.8
 
     this.setState({
       prevWidth: canvas.getWidth(),
@@ -261,7 +264,7 @@ class SketchField extends Component {
   _resizeWithPrevSizies = () => {
     let canvas = this._fc
 
-    const currentWidth = window.innerWidth * 0.6
+    const currentWidth = window.innerWidth * 0.8
 
     const { prevDeviceHeight, prevDeviceWidth, defaultValue } = this.props
 
@@ -272,6 +275,8 @@ class SketchField extends Component {
 
     if (defaultValue.background) {
       this.setBackgroundImage(defaultValue.background.source)
+    } else {
+      this.setBackgroundImage(lines)
     }
 
     let objects = canvas.getObjects()
@@ -566,6 +571,7 @@ class SketchField extends Component {
       this.setDefaultValue()
     } else {
       this._resize()
+      this.setBackgroundImage(lines)
     }
   }
 
@@ -628,7 +634,7 @@ class SketchField extends Component {
   }
 
   _heightNormalizer = () => {
-    const currentWidth = window.innerWidth * 0.6
+    const currentWidth = window.innerWidth * 0.8
 
     let canvas = this._fc
 
@@ -680,7 +686,7 @@ class SketchField extends Component {
     let { className } = this.props
     const { heightFactor } = this.state
 
-    const width = window.innerWidth * 0.6
+    const width = window.innerWidth * 0.8
     const height = width * this.state.windowAspectRatio * heightFactor
 
     let canvasDivStyle = {
@@ -688,6 +694,13 @@ class SketchField extends Component {
       height: height,
       margin: '0 auto',
       marginTop: 10,
+    }
+
+    const addPageButtonStyles = {
+      position: 'absolute',
+      left: '10px',
+      bottom: '60px',
+      zIndex: 100,
     }
 
     // let canvasDivStyle = {
@@ -698,9 +711,9 @@ class SketchField extends Component {
 
     return (
       <>
-        <div className='sketchfield__add-page-button' onClick={this.addPage}>
-          Add page
-        </div>
+        <IconButton color='primary' style={addPageButtonStyles} onсlick onClick={this.addPage}>
+          <AddCircle />
+        </IconButton>
         <div className={className} ref={(c) => (this._container = c)} style={canvasDivStyle} id='canvas'>
           <canvas id={uuid4()} ref={(c) => (this._canvas = c)}>
             Sorry, Canvas HTML5 element is not supported by your browser :(
