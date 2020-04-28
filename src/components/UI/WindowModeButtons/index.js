@@ -21,7 +21,7 @@ const WindowModeButtons = ({
         <OpenNewWindowIcon />
       </AppbarButton>
       <AppbarButton onClick={handleClick} disabled={fullScreenHandlerDisabled}>
-        {!fullScreen ? <HalfScreen /> : <FullScreen />}
+        {fullScreen ? <HalfScreen /> : <FullScreen />}
       </AppbarButton>
     </div>
   )
