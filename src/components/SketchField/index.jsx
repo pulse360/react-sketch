@@ -595,7 +595,7 @@ class SketchField extends Component {
     })
 
     setTimeout(this._resizeWithPrevSizies, 100)
-    // this._heightNormalizer()
+    this._heightNormalizer()
   }
 
   componentWillUnmount = () => window.removeEventListener('resize', this._resize)
