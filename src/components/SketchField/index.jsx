@@ -18,6 +18,7 @@ import { debounce, omit } from 'lodash'
 import IconButton from '@material-ui/core/IconButton'
 import AddCircle from '@material-ui/icons/AddCircle'
 import lines from '../UI/BackgroundImage/images/lines.png'
+import Tappable from 'react-tappable'
 
 const fabric = require('fabric').fabric
 
@@ -126,11 +127,11 @@ class SketchField extends Component {
     this._history.keep([obj, state, state])
   }
 
-  _onObjectMoving = (e) => {}
+  _onObjectMoving = (e) => { }
 
-  _onObjectScaling = (e) => {}
+  _onObjectScaling = (e) => { }
 
-  _onObjectRotating = (e) => {}
+  _onObjectRotating = (e) => { }
 
   _onObjectModified = (e) => {
     let obj = e.target
@@ -716,9 +717,11 @@ class SketchField extends Component {
 
     return (
       <>
-        <IconButton color='primary' style={addPageButtonStyles} onсlick onClick={this.addPage}>
-          <AddCircle />
-        </IconButton>
+        <Tappable onTap={this.addPage}>
+          <IconButton color='primary' style={addPageButtonStyles} onсlick onClick={this.addPage}>
+            <AddCircle />
+          </IconButton>
+        </Tappable>
         <div className={className} ref={(c) => (this._container = c)} style={canvasDivStyle} id='canvas'>
           <canvas id={uuid4()} ref={(c) => (this._canvas = c)}>
             Sorry, Canvas HTML5 element is not supported by your browser :(

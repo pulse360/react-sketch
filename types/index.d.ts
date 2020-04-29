@@ -1,3 +1,4 @@
+declare module 'react-tappable/lib/Tappable'
 declare module 'react-sketch' {
 	import * as React from 'react'
 
@@ -175,8 +176,8 @@ declare module 'react-sketch' {
 			stretchedY?: boolean
 			[name: string]: any
 		}): void
-		
+
 		addText(text: string, options?: {}): void
-		
+
 	}
 }
