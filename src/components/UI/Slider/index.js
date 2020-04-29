@@ -7,9 +7,9 @@ class Slider extends React.Component {
   }
 
   componentDidMount() {
-    if (!!navigator.platform.match(/iPhone|iPod|iPad/)) {
-      diagramSlider.addEventListener("touchend", this.handleChange, {passive: true})
-    }
+    // if (!!navigator.platform.match(/iPhone|iPod|iPad/)) {
+    //   diagramSlider.addEventListener("touchend", this.handleChange, {passive: true})
+    // }
   }
 
   render() {
