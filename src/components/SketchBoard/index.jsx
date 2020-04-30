@@ -68,8 +68,6 @@ class SketchBoard extends React.Component {
     }
 
     if (tool !== 'pen' && tool !== 'highlighter') {
-      console.log(tool)
-      console.log(inQuicklyPen)
       this.setState({
         tool: tool,
         enableRemoveSelected: tool === Tools.Select,

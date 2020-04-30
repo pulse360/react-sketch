@@ -1,8 +1,8 @@
 import React from 'react'
 import './styles.css'
-import Slider from '@material-ui/lab/Slider';
+import Slider from '@material-ui/lab/Slider'
 
-class Sliderr extends React.Component {
+class SliderComponent extends React.Component {
   handleChange = (event) => {
     this.props.onChange(Number(event.currentTarget.value))
   }
@@ -14,6 +14,7 @@ class Sliderr extends React.Component {
   }
 
   render() {
+
     return (
       <div className='slider-wrapper'>
         <svg width='20' height='20' viewBox='0 0 20 20' fill='none' xmlns='http://www.w3.org/2000/svg'>
@@ -22,7 +23,7 @@ class Sliderr extends React.Component {
           <path d='M10 20L7 17L17 7L20 10L10 20Z' fill='black' />
         </svg>
         <div className='input-wrapper'>
-          <svg
+          {/* <svg
             className='track-line'
             width='198'
             height='5'
@@ -32,7 +33,7 @@ class Sliderr extends React.Component {
             version='1.1'
           >
             <path d='M2.5 2.5L198 0L198 5Z' fill='black' />
-          </svg>
+          </svg> */}
           <Slider
             step={1} min={1} max={50}
             aria-labelledby="slider"
@@ -41,11 +42,10 @@ class Sliderr extends React.Component {
               this.props.onChange(v)
             }
           />
-          {/* <input className='slider' onchange type='range' min='1' max='50' onChange={this.handleChange} value={this.props.value}></input> */}
         </div>
       </div>
     )
   }
 }
 
-export default Sliderr
+export default SliderComponent
