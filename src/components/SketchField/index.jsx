@@ -214,9 +214,9 @@ class SketchField extends Component {
     }
     let canvas = this._fc
 
-    const currentWidth = this.props.parentContainerWidth || window.innerWidth * 0.8
+    const currentWidth = window.innerWidth * 0.8
 
-    // let { offsetWidth, offsetHeight } = this._container
+    let { offsetWidth, offsetHeight } = this._container
 
     this.setState({
       prevWidth: canvas.getWidth(),
@@ -270,7 +270,7 @@ class SketchField extends Component {
   _resizeWithPrevSizies = () => {
     let canvas = this._fc
 
-    const currentWidth = this.props.parentContainerWidth || window.innerWidth * 0.8
+    const currentWidth = window.innerWidth * 0.8
 
     const { prevDeviceHeight, prevDeviceWidth, defaultValue } = this.props
 
@@ -640,7 +640,7 @@ class SketchField extends Component {
   }
 
   _heightNormalizer = () => {
-    const currentWidth = this.props.parentContainerWidth || window.innerWidth * 0.8
+    const currentWidth = window.innerWidth * 0.8
 
     let canvas = this._fc
 
@@ -692,7 +692,7 @@ class SketchField extends Component {
     let { className } = this.props
     const { heightFactor } = this.state
 
-    const width = this.props.parentContainerWidth || window.innerWidth * 0.8
+    const width = window.innerWidth * 0.8
     const height = width * this.state.windowAspectRatio * heightFactor
 
     let canvasDivStyle = {
@@ -705,7 +705,7 @@ class SketchField extends Component {
     const addPageButtonStyles = {
       position: 'absolute',
       left: '10px',
-      bottom: '60px',
+      bottom: '10px',
       zIndex: 100,
     }
 

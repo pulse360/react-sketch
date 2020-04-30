@@ -18,8 +18,8 @@ import './styles.css'
 const addAlertStyles = {
   outline: 'none',
   position: 'absolute',
-  bottom: '10px',
-  left: '10px',
+  right: '15px',
+  top: '60px',
   width: '50px',
   zIndex: 100,
 }
@@ -64,31 +64,31 @@ const Appbar = ({
   fullScreenHandlerDisabled,
   onNotifyUsers
 }) => (
-  <div style={styles}>
-    <IconButton onClick={onNotifyUsers} style={addAlertStyles} color='primary' onсlick >
-      <AddAlertIcon />
-    </IconButton>
-    <SaveButtons save={save} clear={clear} print={print} />
-    <HistoryButtons undo={undo} redo={redo} canRedo={canRedo} canUndo={canUndo} />
-    <Slider value={lineWidth} onChange={changeLineWidth} />
-    <QuicklyPencils
-      changeActiveQuicklyPenID={changeActiveQuicklyPenID}
-      selectQuicklyPen={(color, width) => selectQuicklyPen(color, width)}
-      activeQuicklyPenID={activeQuicklyPenID}
-    />
-    <ColorButtons setAnchorEl={setAnchorEl} open={openPopup} fillColor={fillColor} lineColor={lineColor} />
-    {/* <IconButton color='primary' disabled={enableCopyPaste} onClick={copyPasteClick}>
+    <div style={styles}>
+      <IconButton onClick={onNotifyUsers} style={addAlertStyles} color='primary' onсlick >
+        <AddAlertIcon />
+      </IconButton>
+      <SaveButtons save={save} clear={clear} print={print} />
+      <HistoryButtons undo={undo} redo={redo} canRedo={canRedo} canUndo={canUndo} />
+      <Slider value={lineWidth} onChange={changeLineWidth} />
+      <QuicklyPencils
+        changeActiveQuicklyPenID={changeActiveQuicklyPenID}
+        selectQuicklyPen={(color, width) => selectQuicklyPen(color, width)}
+        activeQuicklyPenID={activeQuicklyPenID}
+      />
+      <ColorButtons setAnchorEl={setAnchorEl} open={openPopup} fillColor={fillColor} lineColor={lineColor} />
+      {/* <IconButton color='primary' disabled={enableCopyPaste} onClick={copyPasteClick}>
       <CopyIcon />
     </IconButton> */}
-    <ZoomButtons zoomIn={zoomIn} zoomOut={zoomOut} />
-    <WindowModeButtons
-      fullScreen={fullScreen}
-      handleFullScreen={handleFullScreen}
-      getFullScreenStatus={getFullScreenStatus}
-      onOpenInNewWindow={onOpenInNewWindow}
-      fullScreenHandlerDisabled={fullScreenHandlerDisabled}
-    />
-  </div>
-)
+      <ZoomButtons zoomIn={zoomIn} zoomOut={zoomOut} />
+      <WindowModeButtons
+        fullScreen={fullScreen}
+        handleFullScreen={handleFullScreen}
+        getFullScreenStatus={getFullScreenStatus}
+        onOpenInNewWindow={onOpenInNewWindow}
+        fullScreenHandlerDisabled={fullScreenHandlerDisabled}
+      />
+    </div>
+  )
 
 export default Appbar
