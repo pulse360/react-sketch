@@ -3,6 +3,7 @@ input[type=range] {
   margin: 18px 0;
   width: 100%;
   z-index: 100;
+  -webkit-tap-highlight-color: transparent;
 }
 input[type=range]:focus {
   outline: none;
@@ -102,16 +103,19 @@ input[type=range]:focus::-ms-fill-upper {
   border-right: 0;
   border-top-left-radius: 4px;
   border-bottom-left-radius: 4px;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .input-wrapper {
   display: flex;
   width: 200px;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .track-line {
   position: absolute;
   top: 17px;
+  -webkit-tap-highlight-color: transparent;
 }
 
 /* .slider {
