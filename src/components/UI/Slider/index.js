@@ -1,7 +1,8 @@
 import React from 'react'
 import './styles.css'
+import Slider from '@material-ui/lab/Slider';
 
-class Slider extends React.Component {
+class Sliderr extends React.Component {
   handleChange = (event) => {
     this.props.onChange(Number(event.currentTarget.value))
   }
@@ -32,11 +33,19 @@ class Slider extends React.Component {
           >
             <path d='M2.5 2.5L198 0L198 5Z' fill='black' />
           </svg>
-          <input className='slider' onchange type='range' min='1' max='50' onChange={this.handleChange} value={this.props.value}></input>
+          <Slider
+            step={1} min={1} max={50}
+            aria-labelledby="slider"
+            value={this.props.value}
+            onChange={(e, v) =>
+              this.props.onChange(v)
+            }
+          />
+          {/* <input className='slider' onchange type='range' min='1' max='50' onChange={this.handleChange} value={this.props.value}></input> */}
         </div>
       </div>
     )
   }
 }
 
-export default Slider
+export default Sliderr
