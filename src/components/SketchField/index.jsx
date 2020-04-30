@@ -656,7 +656,7 @@ class SketchField extends Component {
 
   addPage = () => {
     this.setState({
-      heightFactor: (this.state.heightFactor += 1),
+      heightFactor: this.state.heightFactor += 1,
     })
     this._heightNormalizer()
   }
@@ -717,11 +717,11 @@ class SketchField extends Component {
 
     return (
       <>
-        <Tappable onTap={this.addPage}>
-          <IconButton color='primary' style={addPageButtonStyles} onсlick onClick={this.addPage}>
-            <AddCircle />
-          </IconButton>
-        </Tappable>
+        {/* <Tappable onTap={this.addPage}> */}
+        <IconButton color='primary' style={addPageButtonStyles} onClick={this.addPage}>
+          <AddCircle />
+        </IconButton>
+        {/* </Tappable> */}
         <div className={className} ref={(c) => (this._container = c)} style={canvasDivStyle} id='canvas'>
           <canvas id={uuid4()} ref={(c) => (this._canvas = c)}>
             Sorry, Canvas HTML5 element is not supported by your browser :(
