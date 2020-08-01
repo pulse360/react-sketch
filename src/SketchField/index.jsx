@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import History from '../SketchTools/history'
-import { uuid4 } from '../utils'
+import { uuid4, debounce } from '../utils'
 import Select from '../SketchTools/select'
 import Pencil from '../SketchTools/pencil'
 import Line from '../SketchTools/line'
@@ -14,7 +14,7 @@ import Eraser from '../SketchTools/eraser'
 import Highlighter from '../SketchTools/highlighter'
 import Text from '../SketchTools/text'
 // import './styles.css'
-import { debounce, omit } from 'lodash'
+
 import IconButton from '@material-ui/core/IconButton'
 import AddCircle from '@material-ui/icons/AddCircle'
 import lines from '../UI/BackgroundImage/images/lines.png'
@@ -127,11 +127,11 @@ class SketchField extends Component {
     this._history.keep([obj, state, state])
   }
 
-  _onObjectMoving = (e) => { }
+  _onObjectMoving = (e) => {}
 
-  _onObjectScaling = (e) => { }
+  _onObjectScaling = (e) => {}
 
-  _onObjectRotating = (e) => { }
+  _onObjectRotating = (e) => {}
 
   _onObjectModified = (e) => {
     let obj = e.target
@@ -304,7 +304,7 @@ class SketchField extends Component {
       obj.setCoords()
     }
 
-    const newHeight = (offsetHeight / this.state.windowAspectRatio)
+    const newHeight = offsetHeight / this.state.windowAspectRatio
 
     canvas.setWidth(currentWidth)
     canvas.setHeight(offsetHeight / this.state.windowAspectRatio)
@@ -590,8 +590,7 @@ class SketchField extends Component {
 
   setDefaultValue = () => {
     const { defaultValue, defaultHeightFactor } = this.props
-
-    const data = omit(defaultValue, ['background'])
+    const { background, ...data } = defaultValue || {}
 
     this.fromJSON(data)
 
@@ -656,7 +655,7 @@ class SketchField extends Component {
 
   addPage = () => {
     this.setState({
-      heightFactor: this.state.heightFactor += 1,
+      heightFactor: (this.state.heightFactor += 1),
     })
     this._heightNormalizer()
   }
