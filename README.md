@@ -34,7 +34,7 @@ yarn
 
 There's 3 commands currently:
 
-- `yarn start` will make a hot-reloading version, that will be accesible in [http://localhost:23000]http://localhost:23000
+- `yarn start` will make a hot-reloading version, that will be accesible in [http://localhost:23000](http://localhost:23000)
 - `yarn build` is the production build, you can link it to your project to try it out
 - `yarn build:light` is the human readable build.... currently not working!
 - You can check the original version demo [here](http://tbolis.github.io/showcase/react-sketch/)
@@ -58,7 +58,7 @@ MIT, do remember to add a reference if you find it useful :)
 [travis-image]: https://img.shields.io/travis/tbolis/react-sketch.svg
 [travis-url]: https://travis-ci.org/tbolis/react-sketch
 
-# OLD DOCS - Maybe Outdated
+# OLD DOCS - OLD DOCS - Maybe Outdated - OLD DOCS - OLD DOCS
 
 ## Usage
 
