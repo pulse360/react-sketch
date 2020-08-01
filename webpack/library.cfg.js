@@ -6,22 +6,22 @@ const OccurrenceOrderPlugin = require('webpack/lib/optimize/OccurrenceOrderPlugi
 const AggressiveMergingPlugin = require('webpack/lib/optimize/AggressiveMergingPlugin')
 const ModuleConcatenationPlugin = require('webpack/lib/optimize/ModuleConcatenationPlugin')
 
-function containsObject(obj, list) {
-  var i
-  for (i = 0; i < list.length; i++) {
-    if (list[i] === obj) {
-      return true
-    }
-  }
-  return false
-}
+// function containsObject(obj, list) {
+//   var i
+//   for (i = 0; i < list.length; i++) {
+//     if (list[i] === obj) {
+//       return true
+//     }
+//   }
+//   return false
+// }
 
-const externals = []
-const internals = ['fabric', 'canvas']
+// const externals = []
+// const internals = ['fabric', 'canvas']
 
 module.exports = {
   entry: {
-    src: './src/components/index.js',
+    src: './src/index.js',
   },
   performance: {
     hints: false,

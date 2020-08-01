@@ -25,7 +25,7 @@ const style = {
   overflowX: 'visible',
 }
 
-const devImages = [{ image: lines }, { image: cell }, { image: white }, { image: yellow }, { image: blue }]
+const devImages = [{ image: paper },{ image: lines }, { image: cell }, { image: white }, { image: yellow }, { image: blue }]
 
 const BackgroundImage = ({ open, handleOpen, anchorEl, changeImage, images = devImages, addBackgroundImage }) => {
   const handleClick = (image) => {
@@ -60,7 +60,6 @@ const BackgroundImage = ({ open, handleOpen, anchorEl, changeImage, images = dev
         {images.map((item, index) => {
           return (
             <button
-              onclick
               key={index}
               onClick={() => handleClick(item.image)}
               style={{ backgroundImage: `url(${item.image})` }}

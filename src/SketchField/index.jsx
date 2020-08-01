@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import History from '../SketchTools/history'
-import { uuid4 } from '../../utils'
+import { uuid4 } from '../utils'
 import Select from '../SketchTools/select'
 import Pencil from '../SketchTools/pencil'
 import Line from '../SketchTools/line'
@@ -13,12 +13,12 @@ import Tool from '../Tools'
 import Eraser from '../SketchTools/eraser'
 import Highlighter from '../SketchTools/highlighter'
 import Text from '../SketchTools/text'
-import './styles.css'
+// import './styles.css'
 import { debounce, omit } from 'lodash'
 import IconButton from '@material-ui/core/IconButton'
 import AddCircle from '@material-ui/icons/AddCircle'
 import lines from '../UI/BackgroundImage/images/lines.png'
-import Tappable from 'react-tappable'
+// import Tappable from 'react-tappable'
 
 const fabric = require('fabric').fabric
 
