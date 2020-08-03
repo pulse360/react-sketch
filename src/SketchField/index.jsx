@@ -424,8 +424,10 @@ class SketchField extends Component {
 
   clear = (propertiesToInclude) => {
     let discarded = this.toJSON(propertiesToInclude)
+    const background = this._fc.backgroundColor && this._fc.backgroundColor.source && this._fc.backgroundColor.source.currentSrc
     this._fc.clear()
     this._history.clear()
+    this.setBackgroundImage(background || lines)
     return discarded
   }
 
