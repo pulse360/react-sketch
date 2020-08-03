@@ -11,17 +11,17 @@ const ColorButtons = ({ setAnchorEl, open, fillColor, lineColor }) => {
 
   return (
     <div className='color-tools'>
-      <AppbarButton onClick={(event) => handleClick(event, 'expandFillColor')}>
+      <AppbarButton title="Fill Color" onClick={(event) => handleClick(event, 'expandFillColor')}>
         {fillColor !== 'transparent' && (
           <div className='color-tools__color-indicator' style={{ backgroundColor: fillColor }}></div>
         )}
         <FillColorIcon />
       </AppbarButton>
-      <AppbarButton onClick={(event) => handleClick(event, 'expandStrokeColor')}>
+      <AppbarButton title="Stroke Color" onClick={(event) => handleClick(event, 'expandStrokeColor')}>
         <div className='color-tools__color-indicator' style={{ backgroundColor: lineColor }}></div>
         <StrokeColorIcon />
       </AppbarButton>
-      <AppbarButton onClick={(event) => handleClick(event, 'expandBackground')}>
+      <AppbarButton title="Background Image" onClick={(event) => handleClick(event, 'expandBackground')}>
         <BackgroundImageIcon />
       </AppbarButton>
     </div>

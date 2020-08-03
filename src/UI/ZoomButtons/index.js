@@ -6,10 +6,10 @@ import './styles.css'
 const ZoomButtons = ({ zoomIn, zoomOut }) => {
   return (
     <div className='zoom-tools'>
-      <AppbarButton onClick={zoomIn}>
+      <AppbarButton title="Zoom In" onClick={zoomIn}>
         <ZoomIn />
       </AppbarButton>
-      <AppbarButton onClick={zoomOut}>
+      <AppbarButton title="Zoom Out" onClick={zoomOut}>
         <ZoomOut />
       </AppbarButton>
     </div>

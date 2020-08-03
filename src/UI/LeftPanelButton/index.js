@@ -1,19 +1,21 @@
 import React from 'react'
 import './styles.css'
 import Tappable from 'react-tappable'
+import { Tooltip } from '@material-ui/core'
 
-const LeftPanelButton = ({ children, onClick, selectedTool, tool = null }) => {
+const LeftPanelButton = ({ children, onClick, selectedTool, tool = null, title='' }) => {
   return (
     <Tappable onTap={onClick}>
-      <button
-        type='button'
-        onClick={onClick}
-        onTouchStart={onClick}
-        onclick
-        className={`left-bar-button ${selectedTool === tool ? 'left-bar-button__active' : ''}`}
-      >
-        {children}
-      </button>
+        <Tooltip title={title} arrow placement="right">
+          <button
+            type='button'
+            onClick={onClick}
+            onTouchStart={onClick}
+            className={`left-bar-button ${selectedTool === tool ? 'left-bar-button__active' : ''}`}
+          >
+            {children}
+          </button>
+      </Tooltip>
     </Tappable>
   )
 }

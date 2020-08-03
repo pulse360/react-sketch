@@ -1,6 +1,7 @@
 import React from 'react'
 import './styles.css'
 import Slider from '@material-ui/lab/Slider'
+import { Tooltip } from '@material-ui/core'
 
 class SliderComponent extends React.Component {
   handleChange = (event) => {
@@ -16,6 +17,7 @@ class SliderComponent extends React.Component {
   render() {
 
     return (
+      <Tooltip title={"Stroke width: " + this.props.value} arrow>      
       <div className='slider-wrapper'>
         <svg width='20' height='20' viewBox='0 0 20 20' fill='none' xmlns='http://www.w3.org/2000/svg'>
           <path d='M11 1L10 0L0 10L1 11L11 1Z' fill='black' />
@@ -44,6 +46,8 @@ class SliderComponent extends React.Component {
           />
         </div>
       </div>
+      </Tooltip>
+
     )
   }
 }

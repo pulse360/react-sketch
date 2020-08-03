@@ -1,5 +1,6 @@
 import React from 'react'
 import './styles.css'
+import { Tooltip } from '@material-ui/core'
 
 const quicklyPencils = [
   { id: 'pen_1', defaultColor: '#383838', defaultWidth: 5 },
@@ -46,12 +47,14 @@ const QuicklyPen = ({ onClick, color, lineWidth, active }) => {
 
   return (
     <>
-      <button type='button' onclick onClick={onClick} className='quickly-pen'>
+      <Tooltip title={"Quick Color: "+color} arrow>
+        <button type='button' onClick={onClick} className='quickly-pen'>
         <div
           style={{ backgroundColor: color, width: size, height: size }}
           className={`quickly-pen__indicator ${active ? 'quickly-pen__active' : ''}`}
         ></div>
-      </button>
+        </button>
+      </Tooltip>
     </>
   )
 }

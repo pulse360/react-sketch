@@ -5,10 +5,10 @@ import './styles.css'
 
 const HistoryTools = ({ undo, redo, canUndo, canRedo }) => (
   <div className='history-tools'>
-    <AppbarButton onClick={undo} disabled={!canUndo}>
+    <AppbarButton title="Undo Last Action" onClick={undo} disabled={!canUndo}>
       <UndoIcon />
     </AppbarButton>
-    <AppbarButton onClick={redo} disabled={!canRedo}>
+    <AppbarButton title="Redo Last Action" onClick={redo} disabled={!canRedo}>
       <RedoIcon />
     </AppbarButton>
   </div>

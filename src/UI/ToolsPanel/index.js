@@ -15,37 +15,39 @@ import {
   SelectIcon,
   AddTextIcon,
 } from '../SVG'
+import { Tooltip } from '@material-ui/core'
 
 const ToolsPanel = ({ selectTool, addImage, addText, selectedTool }) => {
   return (
     <div className='left-toolbar'>
-      <IconButton onClick={() => selectTool('select')} onclick selectedTool={selectedTool} tool='select'>
+      <IconButton onClick={() => selectTool('select')} onclick selectedTool={selectedTool} tool='select' title="Select">
         <SelectIcon />
       </IconButton>
-      <IconButton onClick={() => selectTool('pencil')} onclick selectedTool={selectedTool} tool='pencil'>
+      <IconButton onClick={() => selectTool('pencil')} onclick selectedTool={selectedTool} tool='pencil' title="Pencil">
         <PencilIcon />
       </IconButton>
-      <IconButton onClick={() => selectTool('arrow')} onclick selectedTool={selectedTool} tool='arrow'>
+      <IconButton onClick={() => selectTool('arrow')} onclick selectedTool={selectedTool} tool='arrow' title="Arrow">
         <ArrowIcon />
       </IconButton>
-      <IconButton onClick={() => selectTool('line')} onclick selectedTool={selectedTool} tool='line'>
+      <IconButton onClick={() => selectTool('line')} onclick selectedTool={selectedTool} tool='line' title="Line">
         <LineIcon />
       </IconButton>
-      <IconButton onClick={() => selectTool('highlighter')} onclick selectedTool={selectedTool} tool='highlighter'>
+      <IconButton onClick={() => selectTool('highlighter')} onclick selectedTool={selectedTool} tool='highlighter' title="Hightlight">
         <HighlighterIcon />
       </IconButton>
-      <IconButton onClick={() => selectTool('rectangle')} onclick selectedTool={selectedTool} tool='rectangle'>
+      <IconButton onClick={() => selectTool('rectangle')} onclick selectedTool={selectedTool} tool='rectangle' title="Rectangle">
         <RectangleIcon />
       </IconButton>
-      <IconButton onClick={() => selectTool('circle')} onclick selectedTool={selectedTool} tool='circle'>
+      <IconButton onClick={() => selectTool('circle')} onclick selectedTool={selectedTool} tool='circle' title="Circle">
         <CircleleIcon />
       </IconButton>
-      <IconButton onClick={() => selectTool('text')} onclick selectedTool={selectedTool} tool='text'>
+      <IconButton onClick={() => selectTool('text')} onclick selectedTool={selectedTool} tool='text' title="Add Text">
         <AddTextIcon />
       </IconButton>
       {/* <IconButton onClick={addText}>
         <AddTextIcon />
       </IconButton> */}
+              <Tooltip title="Add Image" placement="right">
       <DropZone
         accept='image/*'
         multiple={false}
@@ -60,9 +62,12 @@ const ToolsPanel = ({ selectTool, addImage, addText, selectedTool }) => {
           reader.readAsDataURL(file[0])
         }}
       >
-        <PastImageIcon />
+
+          <PastImageIcon />
+  
       </DropZone>
-      <IconButton onClick={() => selectTool('eraser')} onclick selectedTool={selectedTool} tool='eraser'>
+      </Tooltip>
+      <IconButton onClick={() => selectTool('eraser')} onclick selectedTool={selectedTool} tool='eraser' title="Element Eraser">
         <EraserIcon />
       </IconButton>
     </div>

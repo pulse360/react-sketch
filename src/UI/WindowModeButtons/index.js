@@ -17,10 +17,10 @@ const WindowModeButtons = ({
 
   return (
     <div className='window-mode-tools'>
-      <AppbarButton onClick={onOpenInNewWindow} disabled={fullScreenHandlerDisabled}>
+      <AppbarButton title="Open in a new Window" onClick={onOpenInNewWindow} disabled={fullScreenHandlerDisabled}>
         <OpenNewWindowIcon />
       </AppbarButton>
-      <AppbarButton onClick={handleClick} disabled={fullScreenHandlerDisabled}>
+      <AppbarButton title="Open in fullscreen" onClick={handleClick} disabled={fullScreenHandlerDisabled}>
         {fullScreen ? <HalfScreen /> : <FullScreen />}
       </AppbarButton>
     </div>

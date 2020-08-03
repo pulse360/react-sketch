@@ -65,6 +65,9 @@ const BackgroundImage = ({ open, handleOpen, anchorEl, changeImage, images = dev
         <div className='background-image-indicator-wrapper'>
           <BackgroundImageIcon />
         </div>
+        <label htmlFor='strokeColor' className='background-image__label'>
+          Background Image
+        </label>
         {images.map((item, index) => {
           return (
             <button
