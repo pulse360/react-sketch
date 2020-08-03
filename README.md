@@ -1,35 +1,65 @@
 # react-sketch
 
-[![GitHub release][github-image]][github-url]
-[![NPM release][npm-image]][npm-url]
-[![NPM downloads][downloads-image]][downloads-url]
-[![Build status][travis-image]][travis-url]
-
 A Sketch tool for React based applications, backed-up by [FabricJS](http://fabricjs.com/)
 
-![idea-image] _Please note that this module is still in development! Feel free to send me enhancements and ideas :)_
+## Development
 
-## Installation
+- You'll probably need to install the following
+
+  ```sh
+  sudo apt-get install build-essential libcairo2-dev libpango1.0-dev libjpeg-dev libgif-dev librsvg2-dev xdg-utils --fix-missing
+  ```
+
+- And Update `.bashrc` or `.zshrc` (this might not be necessary in a unix SO, test it without this)
+
+  ```sh
+   export DISPLAY=$(awk '/nameserver / {print $2; exit}' /etc/resolv.conf 2>/dev/null):0
+   export LIBGL_ALWAYS_INDIRECT=1
+  ```
+
+Then install the dependencies (Tested with node versions 10,12)
 
 ```sh
-npm install react-sketch --save
+yarn
 ```
 
-or with yarn
+> ### Warning
+>
+> If it fails with a bunch of `node-gyp` (in the Canvas build) it will probably still work. Weird stuff
 
-```sh
-yarn add react-sketch
-```
+> This comes from the old docs, didn't use it... yet.
+> In order to build from source, read the [relevant instructions](http://fabricjs.com/fabric-intro-part-4#node) first.
 
-### (August 2020) From WSL Development Instructions
 
-To install
+### Development Builds
 
-### Source installation
+There's 3 commands currently:
 
-In order to build from source, read the [relevant instructions](http://fabricjs.com/fabric-intro-part-4#node) first.
+- `yarn start` will make a hot-reloading version, that will be accesible in [http://localhost:23000](http://localhost:23000)
+- `yarn build` is the production build, you can link it to your project to try it out
+- `yarn build:light` is the human readable build.... currently not working!
+- EXTRA: You can check the original version demo [here](http://tbolis.github.io/showcase/react-sketch/)
 
-Tested with node versions 6,7,8.
+## Issues
+
+See the original repo: [here](https://github.com/tbolis/react-sketch/issues)
+
+## License
+
+MIT, do remember to add a reference if you find it useful :)
+
+[warning-image]: /docs/img/warning.png
+[idea-image]: /docs/img/idea.png
+[github-image]: https://img.shields.io/github/release/tbolis/react-sketch.svg
+[github-url]: https://github.com/tbolis/react-sketch/releases
+[npm-image]: https://img.shields.io/npm/v/react-sketch.svg
+[npm-url]: https://www.npmjs.com/package/react-sketch
+[downloads-image]: https://img.shields.io/npm/dm/react-sketch.svg
+[downloads-url]: https://www.npmjs.com/package/react-sketch
+[travis-image]: https://img.shields.io/travis/tbolis/react-sketch.svg
+[travis-url]: https://travis-ci.org/tbolis/react-sketch
+
+# OLD DOCS - OLD DOCS - Maybe Outdated - OLD DOCS - OLD DOCS
 
 ## Usage
 
@@ -74,40 +104,3 @@ Available tools
 | Rectangle | Create Rectangles                                                                                                                                                                        |
 | Select    | Disables drawing and gives you the ability to modify existing elements in the canvas                                                                                                     |
 | Pan       | Disables drawing and gives you the ability to move the complete canvas at will, useful to adjust the canvas when zooming in or out (thank you [wmaillard](https://github.com/wmaillard)) |
-
-## Examples
-
-The project includes a webpack server for running the examples, just run:
-
-```sh
-git clone https://github.com/tbolis/react-sketch.git
-yarn install
-npm start
-```
-
-and navigate to http://localhost:23000
-
-You can as well check the live showcase here: http://tbolis.github.io/showcase/react-sketch/
-
-## Issues
-
-See https://github.com/tbolis/react-sketch/issues
-
-## Changelog
-
-See https://github.com/tbolis/react-sketch/blob/master/CHANGELOG.md
-
-## License
-
-MIT, do remember to add a reference if you find it useful :)
-
-[warning-image]: /docs/img/warning.png
-[idea-image]: /docs/img/idea.png
-[github-image]: https://img.shields.io/github/release/tbolis/react-sketch.svg
-[github-url]: https://github.com/tbolis/react-sketch/releases
-[npm-image]: https://img.shields.io/npm/v/react-sketch.svg
-[npm-url]: https://www.npmjs.com/package/react-sketch
-[downloads-image]: https://img.shields.io/npm/dm/react-sketch.svg
-[downloads-url]: https://www.npmjs.com/package/react-sketch
-[travis-image]: https://img.shields.io/travis/tbolis/react-sketch.svg
-[travis-url]: https://travis-ci.org/tbolis/react-sketch
