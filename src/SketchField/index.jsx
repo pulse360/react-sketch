@@ -216,7 +216,7 @@ class SketchField extends Component {
 
     const currentWidth = window.innerWidth * 0.8
 
-    let { offsetWidth, offsetHeight } = this._container
+    // let { offsetWidth, offsetHeight } = this._container
 
     this.setState({
       prevWidth: canvas.getWidth(),
