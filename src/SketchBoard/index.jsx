@@ -5,11 +5,12 @@ import 'flexboxgrid'
 import './styles.css'
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles'
 import color from '@material-ui/core/colors/blueGrey'
-import { SketchField, Appbar, AddTextDrawer, FillColor, BackgroundImage, ToolsPanel, StrokeColor, Tabs } from '../'
+// import { SketchField, Appbar, AddTextDrawer, FillColor, BackgroundImage, ToolsPanel, StrokeColor, Tabs } from '../'
+import { SketchField, Appbar, AddTextDrawer, FillColor, BackgroundImage, ToolsPanel, StrokeColor } from '../'
 import Tools from '../Tools'
 // import jsPDF from 'jspdf'
 import printJS from 'print-js'
-import { data } from './dumyData'
+// import { data } from './dumyData'
 
 class SketchBoard extends React.Component {
   constructor(props) {
@@ -213,7 +214,7 @@ class SketchBoard extends React.Component {
   }
 
   componentDidMount = () => {
-    ; (function (console) {
+     (function (console) {
       console.save = function (data, filename) {
         if (!data) {
           console.error('Console.save: No data')

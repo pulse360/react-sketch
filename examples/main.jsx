@@ -1,5 +1,5 @@
 import React from 'react'
-import { SketchBoard } from '../src/components'
+import { SketchBoard } from '../src/index'
 
 class SketchFieldDemo extends React.Component {
   render() {

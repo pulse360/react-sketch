@@ -26,7 +26,6 @@ const addAlertStyles = {
 
 const styles = {
   backgroundColor: '#F6F7FB',
-  padding: 0,
   padding: '0 10px',
   height: 61,
   display: 'flex',

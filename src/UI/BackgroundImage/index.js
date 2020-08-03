@@ -4,12 +4,13 @@ import './styles.css'
 import { BackgroundImageIcon } from '../SVG'
 import DropZone from 'react-dropzone'
 
-import paper from './images/paper.png'
 import lines from './images/lines.png'
 import white from './images/white.png'
 import yellow from './images/yellow.png'
 import blue from './images/blue.png'
 import cell from './images/cell.png'
+// import paper from './images/paper.png'
+// for some weird reason, if this is not commented, the build includes it into the dist build
 
 const style = {
   padding: 20,
@@ -25,7 +26,14 @@ const style = {
   overflowX: 'visible',
 }
 
-const devImages = [{ image: lines }, { image: cell }, { image: white }, { image: yellow }, { image: blue }]
+const devImages = [
+  { image: lines },
+  // { image: paper },
+  { image: cell },
+  { image: white },
+  { image: yellow },
+  { image: blue },
+]
 
 const BackgroundImage = ({ open, handleOpen, anchorEl, changeImage, images = devImages, addBackgroundImage }) => {
   const handleClick = (image) => {
@@ -60,7 +68,6 @@ const BackgroundImage = ({ open, handleOpen, anchorEl, changeImage, images = dev
         {images.map((item, index) => {
           return (
             <button
-              onclick
               key={index}
               onClick={() => handleClick(item.image)}
               style={{ backgroundImage: `url(${item.image})` }}
