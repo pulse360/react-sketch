@@ -1,6 +1,6 @@
 import React from 'react'
 import './styles.css'
-import Slider from '@material-ui/lab/Slider'
+import Slider from '@material-ui/core/Slider';
 import { Tooltip } from '@material-ui/core'
 
 class SliderComponent extends React.Component {
