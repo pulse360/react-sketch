@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React from 'react'
 import IconButton from '@material-ui/core/IconButton'
 import AddAlertIcon from '@material-ui/icons/AddAlert'
