@@ -14,10 +14,12 @@ import Eraser from '../SketchTools/eraser'
 import Highlighter from '../SketchTools/highlighter'
 import Text from '../SketchTools/text'
 // import './styles.css'
-
+import CloseIcon from '@material-ui/icons/Close'
 import IconButton from '@material-ui/core/IconButton'
 import AddCircle from '@material-ui/icons/AddCircle'
 import lines from '../UI/BackgroundImage/images/lines.png'
+import AppbarButton from '../UI/AppbarButton'
+import { Snackbar } from '@material-ui/core'
 // import Tappable from 'react-tappable'
 
 const fabric = require('fabric').fabric
@@ -424,7 +426,8 @@ class SketchField extends Component {
 
   clear = (propertiesToInclude) => {
     let discarded = this.toJSON(propertiesToInclude)
-    const background = this._fc.backgroundColor && this._fc.backgroundColor.source && this._fc.backgroundColor.source.currentSrc
+    const background =
+      this._fc.backgroundColor && this._fc.backgroundColor.source && this._fc.backgroundColor.source.currentSrc
     this._fc.clear()
     this._history.clear()
     this.setBackgroundImage(background || lines)
@@ -658,6 +661,7 @@ class SketchField extends Component {
   addPage = () => {
     this.setState({
       heightFactor: (this.state.heightFactor += 1),
+      showMessage: true,
     })
     this._heightNormalizer()
   }
@@ -691,7 +695,7 @@ class SketchField extends Component {
 
   render = () => {
     let { className } = this.props
-    const { heightFactor } = this.state
+    const { heightFactor, showMessage } = this.state
 
     const width = window.innerWidth * 0.8
     const height = width * this.state.windowAspectRatio * heightFactor
@@ -708,6 +712,9 @@ class SketchField extends Component {
       left: '10px',
       bottom: '10px',
       zIndex: 100,
+      color: '#20A0FF',
+      background: 'transparent',
+      borderColor: 'transparent',
     }
 
     // let canvasDivStyle = {
@@ -719,9 +726,27 @@ class SketchField extends Component {
     return (
       <>
         {/* <Tappable onTap={this.addPage}> */}
-        <IconButton color='primary' style={addPageButtonStyles} onClick={this.addPage}>
+        <AppbarButton title='Add new page' style={addPageButtonStyles} onClick={this.addPage}>
           <AddCircle />
-        </IconButton>
+        </AppbarButton>
+        <Snackbar
+          anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+          open={showMessage}
+          autoHideDuration={1500}
+          onClose={() => this.setState({ showMessage: false })}
+          message={'New page added'}
+          action={
+            <IconButton
+              size='small'
+              aria-label='close'
+              color='inherit'
+              direction='up'
+              onClick={() => this.setState({ showMessage: false })}
+            >
+              <CloseIcon fontSize='small' />
+            </IconButton>
+          }
+        />
         {/* </Tappable> */}
         <div className={className} ref={(c) => (this._container = c)} style={canvasDivStyle} id='canvas'>
           <canvas id={uuid4()} ref={(c) => (this._canvas = c)}>

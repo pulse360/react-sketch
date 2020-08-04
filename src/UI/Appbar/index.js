@@ -1,9 +1,8 @@
 /* eslint-disable no-unused-vars */
 import React from 'react'
-import IconButton from '@material-ui/core/IconButton'
-import AddAlertIcon from '@material-ui/icons/AddAlert'
-// import IconButton from '@material-ui/core/IconButton'
-// import CopyIcon from '@material-ui/icons/FileCopy'
+import AppbarButton from '../AppbarButton'
+import NotifyIcon from '../SVG/notify'
+
 import {
   SaveButtons,
   HistoryButtons,
@@ -15,15 +14,6 @@ import {
 } from '../../'
 
 import './styles.css'
-
-const addAlertStyles = {
-  outline: 'none',
-  position: 'absolute',
-  right: '15px',
-  top: '60px',
-  width: '50px',
-  zIndex: 100,
-}
 
 const styles = {
   backgroundColor: '#F6F7FB',
@@ -62,33 +52,34 @@ const Appbar = ({
   print,
   onOpenInNewWindow,
   fullScreenHandlerDisabled,
-  onNotifyUsers
+  onNotifyUsers,
 }) => (
-    <div style={styles}>
-      <IconButton onClick={onNotifyUsers} style={addAlertStyles} color='primary' onсlick >
-        <AddAlertIcon />
-      </IconButton>
-      <SaveButtons save={save} clear={clear} print={print} />
-      <HistoryButtons undo={undo} redo={redo} canRedo={canRedo} canUndo={canUndo} />
-      <Slider value={lineWidth} onChange={changeLineWidth} />
-      <QuicklyPencils
-        changeActiveQuicklyPenID={changeActiveQuicklyPenID}
-        selectQuicklyPen={(color, width) => selectQuicklyPen(color, width)}
-        activeQuicklyPenID={activeQuicklyPenID}
-      />
-      <ColorButtons setAnchorEl={setAnchorEl} open={openPopup} fillColor={fillColor} lineColor={lineColor} />
-      {/* <IconButton color='primary' disabled={enableCopyPaste} onClick={copyPasteClick}>
+  <div style={styles}>
+    <SaveButtons save={save} clear={clear} print={print} />
+    <HistoryButtons undo={undo} redo={redo} canRedo={canRedo} canUndo={canUndo} />
+    <Slider value={lineWidth} onChange={changeLineWidth} />
+    <QuicklyPencils
+      changeActiveQuicklyPenID={changeActiveQuicklyPenID}
+      selectQuicklyPen={(color, width) => selectQuicklyPen(color, width)}
+      activeQuicklyPenID={activeQuicklyPenID}
+    />
+    <ColorButtons setAnchorEl={setAnchorEl} open={openPopup} fillColor={fillColor} lineColor={lineColor} />
+    {/* <IconButton color='primary' disabled={enableCopyPaste} onClick={copyPasteClick}>
       <CopyIcon />
     </IconButton> */}
-      <ZoomButtons zoomIn={zoomIn} zoomOut={zoomOut} />
-      <WindowModeButtons
-        fullScreen={fullScreen}
-        handleFullScreen={handleFullScreen}
-        getFullScreenStatus={getFullScreenStatus}
-        onOpenInNewWindow={onOpenInNewWindow}
-        fullScreenHandlerDisabled={fullScreenHandlerDisabled}
-      />
-    </div>
-  )
+    <ZoomButtons zoomIn={zoomIn} zoomOut={zoomOut} />
+    <WindowModeButtons
+      fullScreen={fullScreen}
+      handleFullScreen={handleFullScreen}
+      getFullScreenStatus={getFullScreenStatus}
+      onOpenInNewWindow={onOpenInNewWindow}
+      fullScreenHandlerDisabled={fullScreenHandlerDisabled}
+    />
+
+    <AppbarButton title='Alert other advisors' onClick={onNotifyUsers} style={{ marginLeft: '30px', color: '#20A0FF' }}>
+      <NotifyIcon />
+    </AppbarButton>
+  </div>
+)
 
 export default Appbar
