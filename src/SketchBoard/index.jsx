@@ -437,7 +437,7 @@ class SketchBoard extends React.Component {
             onTabClick={this.onTabClick}
             onAddTab={this.addTab}
             currentTabID={this.state.currentTabID}
-          /> */}
+          />  */}
         </div>
       </MuiThemeProvider>
     )
