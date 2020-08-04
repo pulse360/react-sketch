@@ -19,8 +19,8 @@ const Fullscreen = () => (
       fill='#3A4757'
     />
     <path
-      fill-rule='evenodd'
-      clip-rule='evenodd'
+      fillRule='evenodd'
+      clipRule='evenodd'
       d='M6 9C6 8.44772 6.44771 8 7 8H17C17.5523 8 18 8.44772 18 9V15C18 15.5523 17.5523 16 17 16H7C6.44772 16 6 15.5523 6 15V9ZM7 9H17V15H7V9Z'
       fill='#3A4757'
     />

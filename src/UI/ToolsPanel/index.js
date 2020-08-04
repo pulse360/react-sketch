@@ -17,7 +17,7 @@ import {
 } from '../SVG'
 import { Tooltip } from '@material-ui/core'
 
-const ToolsPanel = ({ selectTool, addImage, addText, selectedTool }) => {
+const ToolsPanel = ({ selectTool, addImage, selectedTool }) => {
   return (
     <div className='left-toolbar'>
       <IconButton onClick={() => selectTool('select')} onclick selectedTool={selectedTool} tool='select' title="Select">

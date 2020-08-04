@@ -178,5 +178,4 @@ export const data = {
       width: 825.26
     },
   ],
-  version: "3.6.3",
 }

@@ -11,8 +11,8 @@ const PastImageIcon = () => (
       fill='#B7BCC1'
     />
     <path
-      fill-rule='evenodd'
-      clip-rule='evenodd'
+      fillRule='evenodd'
+      clipRule='evenodd'
       d='M14 0C15.1046 0 16 0.895431 16 2V14C16 15.1046 15.1046 16 14 16H2C0.895431 16 0 15.1046 0 14V2C0 0.895431 0.895431 0 2 0H14ZM2 2H14V14H2V2Z'
       fill='#B7BCC1'
     />

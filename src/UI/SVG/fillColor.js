@@ -3,8 +3,8 @@ import React from 'react'
 const FillColorIcon = () => (
   <svg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'>
     <path
-      fill-rule='evenodd'
-      clip-rule='evenodd'
+      fillRule='evenodd'
+      clipRule='evenodd'
       d='M19.2929 11.7071C19.6834 11.3166 19.6834 10.6834 19.2929 10.2929L12.7071 3.70711C12.3166 3.31658 11.6834 3.31658 11.2929 3.70711L4.76777 10.2322C3.79146 11.2085 3.79145 12.7915 4.76777 13.7678L9.23223 18.2322C10.2085 19.2085 11.7915 19.2085 12.7678 18.2322L19.2929 11.7071ZM12 6L17 11H7L12 6Z'
       fill='#3A4757'
     />
