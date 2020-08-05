@@ -27,14 +27,16 @@ class Arrow extends FabricCanvasTool {
       selectable: false,
       evented: false,
     })
+    
+    const visibleArrowHeadModifier = 6 - this._width >0?6 -this._width:0
     this.head = new fabric.Triangle({
       fill: this._color,
       left: pointer.x,
       top: pointer.y,
       originX: 'center',
       originY: 'center',
-      height: 3 * this._width,
-      width: 3 * this._width,
+      height: 3 * this._width + visibleArrowHeadModifier,
+      width: 3 * this._width + visibleArrowHeadModifier ,
       selectable: false,
       evented: false,
       angle: 90,
