@@ -1,6 +1,6 @@
 {
   "name": "react-sketch",
-  "version": "0.0.22",
+  "version": "0.6.5",
   "description": "Sketch Element for React based applications, backed-up by fabricjs as its core",
   "keywords": [
     "react",
@@ -32,7 +32,6 @@
     "lint:fix": "eslint --fix ./src",
     "precommit": "lint-staged",
     "prepublish": "npm run test && npm run build",
-    "prebuild": "rimraf dist",
     "start": "node webpack/server.js",
     "test": "jest --coverage"
   },
@@ -85,9 +84,9 @@
     "@babel/preset-react": "7.10.4",
     "@babel/register": "7.10.5",
     "@babel/runtime": "7.11.1",
-    "@material-ui/core": "^4.11.0",
-    "@material-ui/icons": "^4.9.1",
-    "@material-ui/lab": "^4.0.0-alpha.56",
+    "@material-ui/core": "^3.9.3",
+    "@material-ui/icons": "^3.0.2",
+    "@material-ui/lab": "^3.0.0-alpha.30",
     "babel-core": "7.0.0-beta.3",
     "babel-eslint": "10.1.0",
     "babel-jest": "26.2.2",
@@ -139,8 +138,8 @@
     "create-react-class": "15.6.3"
   },
   "dependencies": {
-    "prop-types": "^15.6.2",
-    "react": "^16.6.1",
-    "react-dom": "^16.6.1"
+    "prop-types": "15.7.2",
+    "react": "16.12.0",
+    "react-dom": "16.12.0"
   }
 }
