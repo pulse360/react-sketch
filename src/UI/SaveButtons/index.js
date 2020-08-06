@@ -14,14 +14,14 @@ class SaveButtons extends Component {
 
     return (
       <div className='save-tools'>
-        <AppbarButton title="Save Changes" onClick={save}>
+        <AppbarButton title='Save Changes' onClick={save}>
           <SaveIcon />
         </AppbarButton>
         <ConfirmClear open={this.state.open} clear={clear} onClose={() => this.setState({ open: false })} />
-        <AppbarButton title="Print/Save as PDF" onClick={print}>
+        <AppbarButton title='Save as PDF' onClick={print}>
           <PrintIcon />
         </AppbarButton>
-        <AppbarButton title="Clear Sketchpad" onClick={() => this.setState({ open: true })}>
+        <AppbarButton title='Clear Sketchpad' onClick={() => this.setState({ open: true })}>
           <CleareIcon />
         </AppbarButton>
       </div>

@@ -8,8 +8,7 @@ import color from '@material-ui/core/colors/blueGrey'
 // import { SketchField, Appbar, AddTextDrawer, FillColor, BackgroundImage, ToolsPanel, StrokeColor, Tabs } from '../'
 import { SketchField, Appbar, AddTextDrawer, FillColor, BackgroundImage, ToolsPanel, StrokeColor } from '../'
 import Tools from '../Tools'
-// import jsPDF from 'jspdf'
-import printJS from 'print-js'
+import jsPDF from 'jspdf'
 // import { data } from './dumyData'
 
 class SketchBoard extends React.Component {
@@ -210,11 +209,38 @@ class SketchBoard extends React.Component {
   }
 
   _print = () => {
-    printJS('canvas', 'html')
+    const dateTime =
+      'D' +
+      new Date().toLocaleDateString() +
+      ' T' +
+      new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }).replace(/:/gm, '-')
+
+    const pdf = new jspdf({
+      orientation: 'p',
+      unit: 'mm',
+      format: 'a4',
+      putOnlyUsedFonts: true,
+      floatPrecision: 'smart',
+    })
+    const amountOfPages = this._sketch.state.heightFactor
+    const pageHeight = this._sketch.state.windowWidth * this._sketch.state.windowAspectRatio
+    for (let page = 0; page < amountOfPages; page++) {
+      const opts = {
+        format: 'jpeg',
+        quality: 0.8,
+        top: page * pageHeight,
+        height: pageHeight,
+      }
+      const image = this._sketch.toDataURL(opts)
+
+      pdf.addImage(image, 'JPEG', 10, 10, 190, 280)
+      if (amountOfPages - 1 !== page) pdf.addPage()
+    }
+    pdf.save(dateTime + ' - exported notes.pdf')
   }
 
   componentDidMount = () => {
-     (function (console) {
+    ;(function (console) {
       console.save = function (data, filename) {
         if (!data) {
           console.error('Console.save: No data')
@@ -341,7 +367,7 @@ class SketchBoard extends React.Component {
 
               if (!this.state.activeQuicklyPenID) {
                 this.setState({
-                  passedLineWidth: value
+                  passedLineWidth: value,
                 })
               }
 
@@ -381,7 +407,7 @@ class SketchBoard extends React.Component {
 
               if (!this.state.activeQuicklyPenID) {
                 this.setState({
-                  passedLineColor: color.hex
+                  passedLineColor: color.hex,
                 })
               }
 
