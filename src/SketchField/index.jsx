@@ -216,7 +216,7 @@ class SketchField extends Component {
     }
     let canvas = this._fc
 
-    const currentWidth = window.innerWidth * 0.8
+    const currentWidth = window.innerWidth
 
     // let { offsetWidth, offsetHeight } = this._container
 
@@ -272,7 +272,7 @@ class SketchField extends Component {
   _resizeWithPrevSizies = () => {
     let canvas = this._fc
 
-    const currentWidth = window.innerWidth * 0.8
+    const currentWidth = window.innerWidth * 1
 
     const { prevDeviceHeight, prevDeviceWidth, defaultValue } = this.props
 
@@ -526,6 +526,7 @@ class SketchField extends Component {
   componentDidMount = () => {
     this.setState({
       windowAspectRatio: this.state.windowWidth / window.innerHeight,
+      heightFactor: this.props.defaultHeightFactor,
     })
 
     let { tool, undoSteps, defaultValue, backgroundColor } = this.props
@@ -638,13 +639,13 @@ class SketchField extends Component {
 
   clearHeightFactor = () => {
     this.setState({
-      heightFactor: 1,
+      heightFactor: this.props.defaultHeightFactor || 1,
     })
     this._resize()
   }
 
   _heightNormalizer = () => {
-    const currentWidth = window.innerWidth * 0.8
+    const currentWidth = window.innerWidth * 1
 
     let canvas = this._fc
 
@@ -697,7 +698,9 @@ class SketchField extends Component {
     let { className } = this.props
     const { heightFactor, showMessage } = this.state
 
-    const width = window.innerWidth * 0.8
+    const width = window.innerWidth
+    // previously used for width correction (with a multiplier), but the black bars were annoying
+
     const height = width * this.state.windowAspectRatio * heightFactor
 
     let canvasDivStyle = {

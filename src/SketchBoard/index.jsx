@@ -422,7 +422,7 @@ class SketchBoard extends React.Component {
               onChange={this._onSketchChange}
               tool={this.state.tool}
               defaultValue={this.props.defaultValue}
-              defaultHeightFactor={this.props.heightFactor || 1}
+              defaultHeightFactor={this.props.heightFactor || 5}
               fullScreen={this.state.fullScreen}
               selectTool={() => this._selectTool('select')}
               selectPan={() => this._selectTool('pan')}
