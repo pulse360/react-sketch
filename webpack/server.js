@@ -1,8 +1,6 @@
 /*eslint no-console:0 */
-
 const Paths = require('./paths')
 const webpack = require('webpack')
-const myLocalIP = require('my-local-ip')
 const WebpackDevServer = require('webpack-dev-server')
 const DefinePlugin = require('webpack/lib/DefinePlugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
@@ -100,5 +98,5 @@ const config = {
 
 new WebpackDevServer(webpack(config), config.devServer).listen(port, '0.0.0.0', function(err) {
   err && console.log(err)
-  console.log('Serving from http://' + myLocalIP() + ':' + port)
+  console.log('Serving from http://localhost:' + port)
 })
