@@ -76,7 +76,7 @@ const Appbar = ({
       fullScreenHandlerDisabled={fullScreenHandlerDisabled}
     />
 
-    <AppbarButton title='Alert other advisors' onClick={onNotifyUsers} style={{ marginLeft: '30px', color: '#20A0FF' }}>
+    <AppbarButton title='Alert Team Members' onClick={onNotifyUsers} style={{ marginLeft: '20px', color: '#20A0FF' }}>
       <NotifyIcon />
     </AppbarButton>
   </div>
