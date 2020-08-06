@@ -215,7 +215,7 @@ class SketchBoard extends React.Component {
       ' T' +
       new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }).replace(/:/gm, '-')
 
-    const pdf = new jspdf({
+    const pdf = new jsPDF({
       orientation: 'p',
       unit: 'mm',
       format: 'a4',
