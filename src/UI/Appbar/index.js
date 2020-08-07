@@ -56,6 +56,9 @@ const Appbar = ({
 }) => (
   <div style={styles}>
     <SaveButtons save={save} clear={clear} print={print} />
+    <AppbarButton title='Alert Team Members' onClick={onNotifyUsers} style={{ marginLeft: '20px', color: '#20A0FF' }}>
+      <NotifyIcon />
+    </AppbarButton>
     <HistoryButtons undo={undo} redo={redo} canRedo={canRedo} canUndo={canUndo} />
     <Slider value={lineWidth} onChange={changeLineWidth} />
     <QuicklyPencils
@@ -67,18 +70,16 @@ const Appbar = ({
     {/* <IconButton color='primary' disabled={enableCopyPaste} onClick={copyPasteClick}>
       <CopyIcon />
     </IconButton> */}
-    <ZoomButtons zoomIn={zoomIn} zoomOut={zoomOut} />
-    <WindowModeButtons
+    {/* <ZoomButtons zoomIn={zoomIn} zoomOut={zoomOut} /> */}
+    {/* <WindowModeButtons
       fullScreen={fullScreen}
       handleFullScreen={handleFullScreen}
       getFullScreenStatus={getFullScreenStatus}
       onOpenInNewWindow={onOpenInNewWindow}
       fullScreenHandlerDisabled={fullScreenHandlerDisabled}
-    />
+    /> */}
 
-    <AppbarButton title='Alert Team Members' onClick={onNotifyUsers} style={{ marginLeft: '20px', color: '#20A0FF' }}>
-      <NotifyIcon />
-    </AppbarButton>
+
   </div>
 )
 
