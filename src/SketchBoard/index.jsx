@@ -5,11 +5,9 @@ import 'flexboxgrid'
 import './styles.css'
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles'
 import color from '@material-ui/core/colors/blueGrey'
-// import { SketchField, Appbar, AddTextDrawer, FillColor, BackgroundImage, ToolsPanel, StrokeColor, Tabs } from '../'
 import { SketchField, Appbar, AddTextDrawer, FillColor, BackgroundImage, ToolsPanel, StrokeColor } from '../'
 import Tools from '../Tools'
 import jsPDF from 'jspdf'
-// import { data } from './dumyData'
 
 class SketchBoard extends React.Component {
   constructor(props) {
@@ -100,13 +98,14 @@ class SketchBoard extends React.Component {
 
   _save = ({ withClose }) => {
     const data = this._sketch.toJSON()
-    data.sketchWidth = this._sketch.state.windowWidth.toFixed(2)
-    data.sketchHeight = this._sketch._container.offsetHeight.toFixed(2)
+    data.sketchWidth = this._sketch.state.windowWidth
+    data.sketchHeight = this._sketch._container.offsetHeight
+    data.heightFactor = this._sketch.state.heightFactor
     data.prevAspectRatio = this._sketch.state.windowAspectRatio
     this.props.onSaveCanvas(
       {
         data,
-        heightFactor: this._sketch.state.heightFactor,
+        heightFactor: data.heightFactor
       },
       withClose
     )
@@ -195,6 +194,19 @@ class SketchBoard extends React.Component {
     }
   }
 
+  _calculateInitialHeightFactor = () => {
+    const wrapperElement= document.querySelector('body') || document
+    const isVertical = wrapperElement.clientHeight > wrapperElement.clientWidth;
+    if(isVertical){
+      let numberOfPagesNecessary = 3;
+      while(wrapperElement.clientWidth*numberOfPagesNecessary < wrapperElement.clientHeight+100){
+        numberOfPagesNecessary++
+      }
+      return numberOfPagesNecessary
+    }
+    return 2
+  }
+  
   _onBackgroundImageDrop = (imageUrl) => {
     let sketch = this._sketch
     sketch.setBackgroundImage(imageUrl, {})
@@ -307,8 +319,8 @@ class SketchBoard extends React.Component {
             fullScreenHandlerDisabled={this.props.fullScreenHandlerDisabled}
             onOpenInNewWindow={() => {
               const data = this._sketch.toJSON()
-              data.sketchWidth = this._sketch.state.windowWidth.toFixed(2)
-              data.sketchHeight = this._sketch._container.offsetHeight.toFixed(2)
+              data.sketchWidth = this._sketch.state.windowWidth
+              data.sketchHeight = this._sketch._container.offsetHeight
 
               this.props.onOpenNewWindow(data)
             }}
@@ -449,13 +461,13 @@ class SketchBoard extends React.Component {
               onChange={this._onSketchChange}
               tool={this.state.tool}
               defaultValue={this.props.defaultValue}
-              defaultHeightFactor={this.props.heightFactor || 5}
+              defaultHeightFactor={this.props.defaultValue.heightFactor || this._calculateInitialHeightFactor()}
               fullScreen={this.state.fullScreen}
               selectTool={() => this._selectTool('select')}
               selectPan={() => this._selectTool('pan')}
-              prevDeviceWidth={this.props.prevDeviceWidth}
-              prevDeviceHeight={this.props.prevDeviceHeight}
-              prevAspectRatio={this.props.prevAspectRatio}
+              prevDeviceWidth={ this.props.defaultValue.sketchWidth}
+              prevDeviceHeight={ this.props.defaultValue.sketchHeight}
+              prevAspectRatio={ this.props.defaultValue.prevAspectRatio}
               parentContainerWidth={this.props.parentContainerWidth}
             />
           </div>

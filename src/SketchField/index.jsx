@@ -13,14 +13,12 @@ import Tool from '../Tools'
 import Eraser from '../SketchTools/eraser'
 import Highlighter from '../SketchTools/highlighter'
 import Text from '../SketchTools/text'
-// import './styles.css'
 import CloseIcon from '@material-ui/icons/Close'
 import IconButton from '@material-ui/core/IconButton'
 import AddCircle from '@material-ui/icons/AddCircle'
 import lines from '../UI/BackgroundImage/images/lines.png'
 import AppbarButton from '../UI/AppbarButton'
 import { Snackbar } from '@material-ui/core'
-// import Tappable from 'react-tappable'
 
 const fabric = require('fabric').fabric
 
@@ -54,7 +52,7 @@ class SketchField extends Component {
     opacity: 1.0,
     undoSteps: 25,
     tool: Tool.Pencil,
-    widthCorrection: 2,
+    widthCorrection: 0,
     heightCorrection: 0,
     forceValue: false,
   }
@@ -129,11 +127,11 @@ class SketchField extends Component {
     this._history.keep([obj, state, state])
   }
 
-  _onObjectMoving = (e) => {}
+  _onObjectMoving = () => {}
 
-  _onObjectScaling = (e) => {}
+  _onObjectScaling = () => {}
 
-  _onObjectRotating = (e) => {}
+  _onObjectRotating = () => {}
 
   _onObjectModified = (e) => {
     let obj = e.target
@@ -228,7 +226,7 @@ class SketchField extends Component {
     setTimeout(() => {
       let canvas = this._fc
 
-      let wfactor = (currentWidth / this.state.prevWidth).toFixed(2)
+      let wfactor = currentWidth / this.state.prevWidth
       let hfactor = wfactor
 
       let objects = canvas.getObjects()
@@ -252,7 +250,7 @@ class SketchField extends Component {
 
       canvas.calcOffset()
       canvas.renderAll()
-    }, 100)
+    }, 300)
 
     const newHeight = currentWidth * this.state.windowAspectRatio * this.state.heightFactor
 
@@ -278,7 +276,7 @@ class SketchField extends Component {
 
     let { offsetWidth, offsetHeight } = this._container
 
-    let wfactor = (offsetWidth / prevDeviceWidth).toFixed(2)
+    let wfactor = offsetWidth / prevDeviceWidth
     let hfactor = wfactor
 
     if (defaultValue.background) {
@@ -309,7 +307,7 @@ class SketchField extends Component {
     const newHeight = offsetHeight / this.state.windowAspectRatio
 
     canvas.setWidth(currentWidth)
-    canvas.setHeight(offsetHeight / this.state.windowAspectRatio)
+    canvas.setHeight(newHeight)
 
     const canvasEl = document.getElementById('canvas')
     canvasEl.style.height = `${newHeight}px`
