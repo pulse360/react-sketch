@@ -230,17 +230,18 @@ class SketchBoard extends React.Component {
         quality: 0.8,
         top: page * pageHeight,
         height: pageHeight,
+        width: this._sketch.state.windowWidth
       }
       const image = this._sketch.toDataURL(opts)
 
-      pdf.addImage(image, 'JPEG', 10, 10, 190, 280)
+      pdf.addImage(image, 'JPEG', 0, 43.5, 210, 210)
       if (amountOfPages - 1 !== page) pdf.addPage()
     }
     pdf.save(dateTime + ' - exported notes.pdf')
   }
 
   componentDidMount = () => {
-    ;(function (console) {
+    (function (console) {
       console.save = function (data, filename) {
         if (!data) {
           console.error('Console.save: No data')
