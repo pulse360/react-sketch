@@ -5,8 +5,7 @@ import { SketchBoard } from '../src/index'
 
 const dummyData = {
   id: null,
-  json: { objects: [], heightFactor: 5 },
-  heightFactor: 5
+  json: '',
 }
 
 class SketchFieldDemo extends React.Component {
