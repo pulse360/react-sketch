@@ -1,6 +1,10 @@
 {
   "parser": "babel-eslint",
-  "plugins": ["react", "jest", "eslint-plugin-react"],
+  "plugins": [
+    "react",
+    "jest",
+    "eslint-plugin-react"
+  ],
   "env": {
     "es6": true,
     "jest": true,
@@ -8,7 +12,10 @@
     "browser": true,
     "node": true
   },
-  "extends": ["eslint:recommended", "plugin:react/recommended"],
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended"
+  ],
   "globals": {
     "React": true,
     "document": true,
@@ -18,5 +25,13 @@
   },
   "rules": {
     "react/prop-types": 0
+  },
+  "settings": {
+    "react": {
+      "createClass": "createReactClass", // Regex for Component Factory to use,
+      // default to "createReactClass"
+      "pragma": "React", // Pragma to use, default to "React"
+      "version": "16.12"
+    },
   }
 }
