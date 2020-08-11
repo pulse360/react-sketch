@@ -13,12 +13,10 @@ import Tool from '../Tools'
 import Eraser from '../SketchTools/eraser'
 import Highlighter from '../SketchTools/highlighter'
 import Text from '../SketchTools/text'
-import CloseIcon from '@material-ui/icons/Close'
-import IconButton from '@material-ui/core/IconButton'
-import AddCircle from '@material-ui/icons/AddCircle'
 import lines from '../UI/BackgroundImage/images/lines.png'
 import AppbarButton from '../UI/AppbarButton'
-import { Snackbar } from '@material-ui/core'
+import { Snackbar, IconButton } from '@material-ui/core'
+import {  AddCircleIcon, CloseIcon } from '../UI/SVG'
 
 const fabric = require('fabric').fabric
 
@@ -713,7 +711,6 @@ class SketchField extends Component {
       left: '10px',
       bottom: '10px',
       zIndex: 100,
-      color: '#20A0FF',
       background: 'transparent',
       borderColor: 'transparent',
     }
@@ -728,7 +725,7 @@ class SketchField extends Component {
       <>
         {/* <Tappable onTap={this.addPage}> */}
         <AppbarButton title='Add new page' style={addPageButtonStyles} onClick={this.addPage}>
-          <AddCircle />
+          <AddCircleIcon />
         </AppbarButton>
         <Snackbar
           anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}

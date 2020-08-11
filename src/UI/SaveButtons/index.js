@@ -5,7 +5,7 @@ import './styles.css'
 
 export default function SaveButtons({save, exit, print, notify}) {
   return <div className='save-tools'>
-    <AppbarButton title='Discard changes and Exit' onClick={exit} style={{ color: 'rgb(246, 79, 100)', transform: 'rotate(180deg)' }}>
+    <AppbarButton title='Discard changes and Exit' onClick={exit} style={{ transform: 'rotate(180deg)' }}>
       <ExitIcon />
     </AppbarButton>
     <AppbarButton title='Download as PDF' onClick={print}>
@@ -14,7 +14,7 @@ export default function SaveButtons({save, exit, print, notify}) {
     <AppbarButton title='Save Changes' onClick={save} >
       <SaveIcon />
     </AppbarButton>
-    <AppbarButton title='Alert Team Members' onClick={notify} style={{ color: '#20A0FF' }}>
+    <AppbarButton title='Alert Team Members' onClick={notify} >
       <NotifyIcon />
     </AppbarButton>
   </div>
