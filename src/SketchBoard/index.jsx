@@ -7,7 +7,7 @@ import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles'
 import color from '@material-ui/core/colors/blueGrey'
 import { SketchField, Appbar, AddTextDrawer, FillColor, BackgroundImage, ToolsPanel, StrokeColor } from '../'
 import Tools from '../Tools'
-import jsPDF from 'jspdf'
+import fileDownloader from '../fileDownloader'
 
 class SketchBoard extends React.Component {
   constructor(props) {
@@ -220,36 +220,33 @@ class SketchBoard extends React.Component {
     })
   }
 
+  /**
+   * exports the current canvas as a pdf or print dialog
+   */
   _print = () => {
     const dateTime =
       'D' +
       new Date().toLocaleDateString() +
       ' T' +
       new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }).replace(/:/gm, '-')
-
-    const pdf = new jsPDF({
-      orientation: 'p',
-      unit: 'mm',
-      format: 'a4',
-      putOnlyUsedFonts: true,
-      floatPrecision: 'smart',
-    })
+    
+    const filename = dateTime + ' - exported notes'
     const amountOfPages = this._sketch.state.heightFactor
-    const pageHeight = this._sketch.state.windowWidth * this._sketch.state.windowAspectRatio
+    const pageWidth = this._sketch.state.windowWidth
+    const pageHeight = pageWidth * this._sketch.state.windowAspectRatio
+
+    const images = []
     for (let page = 0; page < amountOfPages; page++) {
       const opts = {
         format: 'jpeg',
         quality: 0.8,
         top: page * pageHeight,
         height: pageHeight,
-        width: this._sketch.state.windowWidth
+        width: pageWidth
       }
-      const image = this._sketch.toDataURL(opts)
-
-      pdf.addImage(image, 'JPEG', 0, 43.5, 210, 210)
-      if (amountOfPages - 1 !== page) pdf.addPage()
+      images.push(this._sketch.toDataURL(opts))
     }
-    pdf.save(dateTime + ' - exported notes.pdf')
+    fileDownloader({filename, images})
   }
 
   componentDidMount = () => {
