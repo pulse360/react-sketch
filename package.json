@@ -36,7 +36,7 @@
     "test": "jest --coverage"
   },
   "engines": {
-    "node": ">= 8"
+    "node": ">= 12"
   },
   "lint-staged": {
     "*.{js,jsx,css,md}": [
