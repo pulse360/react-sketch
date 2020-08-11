@@ -1,3 +1,2 @@
-import PictureAsPdfIcon from '@material-ui/icons/PictureAsPdf';
-
-export default PictureAsPdfIcon
+import CloudDownloadSharpIcon from '@material-ui/icons/CloudDownloadSharp';
+export default CloudDownloadSharpIcon

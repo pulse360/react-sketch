@@ -315,6 +315,7 @@ class SketchBoard extends React.Component {
       <MuiThemeProvider theme={theme}>
         <div className='wrapper'>
           <Appbar
+            onExit={this.props.onExit}
             onNotifyUsers={this.props.onNotifyUsers}
             fullScreenHandlerDisabled={this.props.fullScreenHandlerDisabled}
             onOpenInNewWindow={() => {

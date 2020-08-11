@@ -1,7 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React from 'react'
-import AppbarButton from '../AppbarButton'
-import NotifyIcon from '../SVG/notify'
+
 
 import {
   SaveButtons,
@@ -27,6 +26,7 @@ const Appbar = ({
   canUndo,
   canRedo,
   save,
+  onExit,
   download,
   clear,
   redo,
@@ -53,13 +53,10 @@ const Appbar = ({
   onOpenInNewWindow,
   fullScreenHandlerDisabled,
   onNotifyUsers,
-}) => (
+  }) => (
   <div style={styles}>
-    <SaveButtons save={save} clear={clear} print={print} />
-    <AppbarButton title='Alert Team Members' onClick={onNotifyUsers} style={{ marginLeft: '20px', color: '#20A0FF' }}>
-      <NotifyIcon />
-    </AppbarButton>
-    <HistoryButtons undo={undo} redo={redo} canRedo={canRedo} canUndo={canUndo} />
+    <SaveButtons save={save} exit={onExit}  print={print} notify={onNotifyUsers} />
+    <HistoryButtons  clear={clear} undo={undo} redo={redo} canRedo={canRedo} canUndo={canUndo} />
     <Slider value={lineWidth} onChange={changeLineWidth} />
     <QuicklyPencils
       changeActiveQuicklyPenID={changeActiveQuicklyPenID}

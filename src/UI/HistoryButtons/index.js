@@ -1,10 +1,22 @@
-import React from 'react'
-import { UndoIcon, RedoIcon } from '../SVG'
+import React, { Component } from 'react'
+import { UndoIcon, CleareIcon, RedoIcon } from '../SVG'
 import AppbarButton from '../AppbarButton'
+import ConfirmClear from './ConfirmClear'
 import './styles.css'
 
-const HistoryTools = ({ undo, redo, canUndo, canRedo }) => (
-  <div className='history-tools'>
+class HistoryTools extends Component {
+  state = {
+    open: false,
+  }
+
+  render() {
+    const { undo, redo, canUndo, canRedo, clear } = this.props
+    return <div className='history-tools'>
+    <AppbarButton title='Clear Sketchpad' onClick={() => this.setState({ open: true })}>
+      <CleareIcon />
+    </AppbarButton>
+    <ConfirmClear open={this.state.open} clear={clear} onClose={() => this.setState({ open: false })} />
+
     <AppbarButton title="Undo Last Action" onClick={undo} disabled={!canUndo}>
       <UndoIcon />
     </AppbarButton>
@@ -12,6 +24,6 @@ const HistoryTools = ({ undo, redo, canUndo, canRedo }) => (
       <RedoIcon />
     </AppbarButton>
   </div>
-)
+}}
 
 export default HistoryTools
