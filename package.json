@@ -24,16 +24,15 @@
   "main": "./dist",
   "types": "./types/index.d.ts",
   "scripts": {
-    "build": "cross-env NODE_ENV=production webpack --mode production --config webpack/library.cfg.js --display-modules",
-    "build:light": "babel ./src --out-dir ./dist",
-    "build:examples": "cross-env NODE_ENV=production webpack --mode production --config webpack/examples.cfg.js",
-    "clean": "rimraf dist build",
+    "start": "node webpack/server.js",
+    "start:embedded": "NODE_ENV=development webpack --mode development --config webpack/library.cfg.dev.js --watch",
+    "build": "rm -rf dist && NODE_ENV=production webpack --mode production --config webpack/library.cfg.js",
     "lint": "eslint ./src",
     "lint:fix": "eslint --fix ./src",
     "precommit": "lint-staged",
     "prepublish": "npm run test && npm run build",
-    "start": "node webpack/server.js",
-    "test": "jest --coverage"
+    "test": "jest --coverage",
+    "analyze": "rm -rf dist && yarn build dev && source-map-explorer 'dist/*.js' --html > analyzer-result.html"
   },
   "engines": {
     "node": ">= 12"
@@ -85,15 +84,14 @@
     "@babel/register": "7.10.5",
     "@babel/runtime": "7.11.1",
     "@material-ui/core": "^3.9.3",
-    "@material-ui/icons": "^3.0.2",
     "@material-ui/lab": "^3.0.0-alpha.30",
     "babel-core": "7.0.0-beta.3",
     "babel-eslint": "10.1.0",
     "babel-jest": "26.2.2",
     "babel-loader": "8.1.0",
     "canvas": "^2.6.1",
+    "compression-webpack-plugin": "^4.0.0",
     "create-react-class": "15.6.3",
-    "cross-env": "^7.0.2",
     "css-loader": "^4.2.0",
     "enzyme": "3.11.0",
     "enzyme-adapter-react-16": "1.15.2",
@@ -116,7 +114,6 @@
     "jest-environment-jsdom": "^26.2.0",
     "jest-enzyme": "7.1.2",
     "jsdom": "^16.3.0",
-    "jspdf": "^1.5.3",
     "lint-staged": "10.2.11",
     "open": "7.1.0",
     "open-browser-webpack-plugin": "0.0.5",
@@ -127,7 +124,7 @@
     "react-tappable": "1.0.4",
     "react-test-renderer": "^16.6.1",
     "react-transform-hmr": "^1.0.4",
-    "rimraf": "^3.0.2",
+    "source-map-explorer": "^2.4.2",
     "style-loader": "^1.2.1",
     "uglifyjs-webpack-plugin": "^2.2.0",
     "url-loader": "4.1.0",
@@ -138,6 +135,7 @@
   "dependencies": {
     "prop-types": "15.7.2",
     "react": "16.12.0",
-    "react-dom": "16.12.0"
+    "react-dom": "16.12.0",
+    "jspdf": "^1.5.3"
   }
 }
