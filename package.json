@@ -32,10 +32,10 @@
     "precommit": "lint-staged",
     "prepublish": "npm run test && npm run build",
     "test": "jest --coverage",
-    "analyze": "rm -rf dist && yarn build dev && source-map-explorer 'dist/*.js' --html > analyzer-result.html"
+    "analyze": "source-map-explorer 'dist/*' --html > analyzer-result.html"
   },
   "engines": {
-    "node": ">= 12"
+    "node": ">= 10"
   },
   "lint-staged": {
     "*.{js,jsx,css,md}": [
