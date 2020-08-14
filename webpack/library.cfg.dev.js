@@ -7,18 +7,16 @@ const AggressiveMergingPlugin = require('webpack/lib/optimize/AggressiveMergingP
 const ModuleConcatenationPlugin = require('webpack/lib/optimize/ModuleConcatenationPlugin')
 const SourceMapDevToolPlugin = require ('webpack/lib/SourceMapDevToolPlugin')
 
-module.exports = {
+module.exports = module.exports = [
+  'source-map'
+].map(devtool=>({
   entry: {
     index: './src/index.js',
   },
+  devtool,
   optimization: {
-    minimizer: [new UglifyJsPlugin({      
-      parallel: true,
-      sourceMap:true,
-      uglifyOptions: {
-        warnings: false,
-      },
-    })],
+    minimize: false,
+    runtimeChunk: true
   },
   performance: {
     hints: false,
@@ -57,11 +55,12 @@ module.exports = {
     new NoEmitOnErrorsPlugin(),
     new OccurrenceOrderPlugin(),
     new AggressiveMergingPlugin(),
-    new SourceMapDevToolPlugin({
-      filename: '[name].js.map'
-    }),
+    // new SourceMapDevToolPlugin({
+    //   filename: '[name].js.map'
+    // }),
     new DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify('development'),
     }),
   ],
-}
+})
+)

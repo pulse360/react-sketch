@@ -46,6 +46,7 @@ const config = {
     lazy: false,
     port: port,
     hot: true,
+    disableHostCheck: true
   },
   module: {
     rules: [
