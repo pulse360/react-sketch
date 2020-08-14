@@ -12,6 +12,7 @@ import fileDownloader from '../fileDownloader'
 class SketchBoard extends React.Component {
   constructor(props) {
     super(props)
+    this.scrollAreaRef = React.createRef();
 
     this.state = {
       lineWidth: 1,
@@ -150,6 +151,25 @@ class SketchBoard extends React.Component {
 
   _removeSelected = () => {
     this._sketch.removeSelected()
+  }
+
+  _scrollUp = () =>{
+    const currentScroll= this.scrollAreaRef.current.scrollTop || 0
+    let nextScrollPosition = currentScroll-350
+    if(nextScrollPosition<0) nextScrollPosition=0
+    this.scrollAreaRef.current.scrollTo(0, nextScrollPosition)   
+  }
+  
+  _scrollDown = () =>{
+    const currentScroll= this.scrollAreaRef.current.scrollTop || 0
+    const currentMaxScroll = this.scrollAreaRef.current.scrollHeight -  this.scrollAreaRef.current.clientHeight;
+    const nextScrollPosition =  currentScroll+350
+    
+    if(nextScrollPosition+350>currentMaxScroll){
+      this._sketch.addPage()
+    }
+    this.scrollAreaRef.current.scrollTo(0, nextScrollPosition)
+
   }
 
   // addTab = () => {
@@ -436,7 +456,7 @@ class SketchBoard extends React.Component {
             images={this.props.backgroundImages}
             addBackgroundImage={(img) => this.addBackgroundImage(img)}
           />
-          <div className='bottom'>
+          <div className='bottom' ref={this.scrollAreaRef}>
             <ToolsPanel
               selectTool={(tool) => this._selectTool(tool)}
               addImage={(image) => this._sketch.addImg(image)}
@@ -445,6 +465,9 @@ class SketchBoard extends React.Component {
                   expandText: true,
                 })
               }
+              addPage={()=>this._sketch.addPage()}
+              scrollDown={this._scrollDown}
+              scrollUp={this._scrollUp}
               selectedTool={this.state.tool}
             />
             <SketchField

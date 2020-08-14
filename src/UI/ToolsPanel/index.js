@@ -14,11 +14,15 @@ import {
   EraserIcon,
   SelectIcon,
   AddTextIcon,
+  AddCircleIcon,
+  ArrowUpIcon,
+  ArrowDownIcon
 } from '../SVG'
 import { Tooltip } from '@material-ui/core'
 
-const ToolsPanel = ({ selectTool, addImage, selectedTool }) => {
+const ToolsPanel = ({ selectTool, addImage, selectedTool, scrollUp, scrollDown, addPage }) => {
   return (
+    <>
     <div className='left-toolbar'>
       <IconButton onClick={() => selectTool('select')} selectedTool={selectedTool} tool='select' title='Select'>
         <SelectIcon />
@@ -84,6 +88,27 @@ const ToolsPanel = ({ selectTool, addImage, selectedTool }) => {
         <EraserIcon />
       </IconButton>
     </div>
+    <div className="left-toolbar navigation">
+    <IconButton
+        onClick={scrollUp}
+        title='Scroll Up'
+      >
+        <ArrowUpIcon />
+      </IconButton>
+      <IconButton
+        onClick={scrollDown}
+        title='Scroll Down'
+      >
+        <ArrowDownIcon />
+      </IconButton>
+      <IconButton 
+        onClick={addPage} 
+        title='Add new page'
+      >
+        <AddCircleIcon />
+      </IconButton>
+    </div>
+    </>
   )
 }
 

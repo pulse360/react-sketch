@@ -661,6 +661,7 @@ class SketchField extends Component {
       showMessage: true,
     })
     this._heightNormalizer()
+    console.log('Height', this._fc.height)
   }
 
   setBackgroundFromDataUrl = (dataUrl, options = {}) => {
@@ -693,7 +694,6 @@ class SketchField extends Component {
   render = () => {
     let { className } = this.props
     const { heightFactor, showMessage } = this.state
-
     const width = window.innerWidth
     // previously used for width correction (with a multiplier), but the black bars were annoying
 
@@ -706,27 +706,9 @@ class SketchField extends Component {
       // marginTop: 10,
     }
 
-    const addPageButtonStyles = {
-      position: 'absolute',
-      left: '10px',
-      bottom: '10px',
-      zIndex: 100,
-      background: 'transparent',
-      borderColor: 'transparent',
-    }
-
-    // let canvasDivStyle = {
-    //   width: '100%',
-    //   height: '100%',
-    //   // margin: '10px auto',
-    // }
-
     return (
       <>
         {/* <Tappable onTap={this.addPage}> */}
-        <AppbarButton title='Add new page' style={addPageButtonStyles} onClick={this.addPage}>
-          <AddCircleIcon />
-        </AppbarButton>
         <Snackbar
           anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
           open={showMessage}
