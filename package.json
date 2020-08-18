@@ -26,7 +26,7 @@
   "scripts": {
     "start": "node webpack/server.js",
     "start:embedded": "NODE_ENV=development webpack --mode development --config webpack/library.cfg.dev.js --watch",
-    "build": "rm -rf dist && NODE_ENV=production webpack --mode production --config webpack/library.cfg.js",
+    "build": "NODE_ENV=production webpack --mode production --config webpack/library.cfg.js",
     "lint": "eslint ./src",
     "lint:fix": "eslint --fix ./src",
     "precommit": "lint-staged",
