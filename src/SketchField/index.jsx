@@ -528,7 +528,7 @@ class SketchField extends Component {
 
     let { tool, undoSteps, defaultValue, backgroundColor } = this.props
     let canvas = (this._fc = new fabric.Canvas(this._canvas))
-
+    canvas.enableRetinaScaling = false
     this._initTools(canvas)
 
     // this._backgroundColor(backgroundColor)
