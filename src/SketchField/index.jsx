@@ -1,3 +1,4 @@
+// @ts-check
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import History from '../SketchTools/history'
@@ -16,7 +17,7 @@ import Text from '../SketchTools/text'
 import lines from '../UI/BackgroundImage/images/lines.png'
 import AppbarButton from '../UI/AppbarButton'
 import { Snackbar, IconButton } from '@material-ui/core'
-import {  AddCircleIcon, CloseIcon } from '../UI/SVG'
+import { AddCircleIcon, CloseIcon } from '../UI/SVG'
 
 const fabric = require('fabric').fabric
 
@@ -125,11 +126,11 @@ class SketchField extends Component {
     this._history.keep([obj, state, state])
   }
 
-  _onObjectMoving = () => {}
+  _onObjectMoving = () => { }
 
-  _onObjectScaling = () => {}
+  _onObjectScaling = () => { }
 
-  _onObjectRotating = () => {}
+  _onObjectRotating = () => { }
 
   _onObjectModified = (e) => {
     let obj = e.target
@@ -526,7 +527,6 @@ class SketchField extends Component {
     })
 
     let { tool, undoSteps, defaultValue, backgroundColor } = this.props
-
     let canvas = (this._fc = new fabric.Canvas(this._canvas))
 
     this._initTools(canvas)
@@ -657,10 +657,10 @@ class SketchField extends Component {
 
   addPage = () => {
     this.setState({
-      heightFactor: (this.state.heightFactor += 1),
+      heightFactor: this.state.heightFactor + 1,
       showMessage: true,
-    })
-    this._heightNormalizer()
+    }, () => this._heightNormalizer());
+
     console.log('Height', this._fc.height)
   }
 
@@ -703,7 +703,12 @@ class SketchField extends Component {
       width: width,
       height: height,
       margin: '0 auto',
+      transform: 'translate3d(0,0,1px)'
       // marginTop: 10,
+    }
+
+    const canvaStyle = {
+      transform: 'translate3d(0,0,1px)'
     }
 
     return (
@@ -729,7 +734,7 @@ class SketchField extends Component {
         />
         {/* </Tappable> */}
         <div className={className} ref={(c) => (this._container = c)} style={canvasDivStyle} id='canvas'>
-          <canvas id={uuid4()} ref={(c) => (this._canvas = c)}>
+          <canvas id={uuid4()} ref={(c) => (this._canvas = c)} style={canvaStyle}>
             Sorry, Canvas HTML5 element is not supported by your browser :(
           </canvas>
         </div>
