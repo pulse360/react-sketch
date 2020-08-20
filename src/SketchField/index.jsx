@@ -2,7 +2,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import History from '../SketchTools/history'
-import { uuid4, debounce } from '../utils'
+import { debounce } from '../utils'
 import Select from '../SketchTools/select'
 import Pencil from '../SketchTools/pencil'
 import Line from '../SketchTools/line'
@@ -15,9 +15,8 @@ import Eraser from '../SketchTools/eraser'
 import Highlighter from '../SketchTools/highlighter'
 import Text from '../SketchTools/text'
 import lines from '../UI/BackgroundImage/images/lines.png'
-import AppbarButton from '../UI/AppbarButton'
 import { Snackbar, IconButton } from '@material-ui/core'
-import { AddCircleIcon, CloseIcon } from '../UI/SVG'
+import { CloseIcon } from '../UI/SVG'
 
 const fabric = require('fabric').fabric
 
@@ -82,25 +81,14 @@ class SketchField extends Component {
     this._tools[Tool.Text] = new Text(fabricCanvas)
   }
 
-  enableTouchScroll = () => {
-    let canvas = this._fc
-    if (canvas.allowTouchScrolling) return
-    canvas.allowTouchScrolling = true
-  }
-
-  disableTouchScroll = () => {
-    let canvas = this._fc
-    if (canvas.allowTouchScrolling) {
-      canvas.allowTouchScrolling = false
-    }
-  }
-
   addImg = (dataUrl, options = {}) => {
     let canvas = this._fc
     fabric.Image.fromURL(dataUrl, (oImg) => {
+      const lowerCanvasElement = document.querySelector('.bottom');
+      const currentUserViewportPosition =  Math.abs(lowerCanvasElement.scrollHeight-lowerCanvasElement.scrollTop)
       let opts = {
         left: Math.random() * (canvas.getWidth() - oImg.width * 0.5),
-        top: canvas.getHeight() - this.state.viewerPosition + 100,
+        top: canvas.getHeight() - currentUserViewportPosition + 100,
         scale: 0.5,
       }
       Object.assign(opts, options)
@@ -529,6 +517,7 @@ class SketchField extends Component {
     let { tool, undoSteps, defaultValue, backgroundColor } = this.props
     let canvas = (this._fc = new fabric.Canvas(this._canvas))
     canvas.enableRetinaScaling = false
+    canvas.allowTouchScrolling = false
     this._initTools(canvas)
 
     // this._backgroundColor(backgroundColor)
@@ -560,16 +549,16 @@ class SketchField extends Component {
     canvas.on('mouse:up', this._onMouseUp)
     canvas.on('mouse:move', this._onMouseMove)
     canvas.on('mouse:out', this._onMouseOut)
+    
+    // DEBUG
+    canvas.on('mouse:wheel', console.log)
+    canvas.on('after:render', console.log)
 
     canvas.on('object:moving', this._onObjectMoving)
     canvas.on('object:scaling', this._onObjectScaling)
     canvas.on('object:rotating', this._onObjectRotating)
 
-    this.enableTouchScroll()
-
     document.addEventListener('paste', this._onPaste, false)
-
-    document.addEventListener('scroll', this.trackScrolling, true)
 
     this.setState({
       viewerPosition: document.body.scrollHeight - document.body.scrollTop,
@@ -583,12 +572,6 @@ class SketchField extends Component {
     }
   }
 
-  trackScrolling = (e) => {
-    const viewerPosition = e.target.scrollHeight - e.target.scrollTop
-    this.setState({
-      viewerPosition: viewerPosition,
-    })
-  }
 
   setDefaultValue = () => {
     const { defaultValue, defaultHeightFactor } = this.props
@@ -660,8 +643,6 @@ class SketchField extends Component {
       heightFactor: this.state.heightFactor + 1,
       showMessage: true,
     }, () => this._heightNormalizer());
-
-    console.log('Height', this._fc.height)
   }
 
   setBackgroundFromDataUrl = (dataUrl, options = {}) => {
@@ -734,7 +715,7 @@ class SketchField extends Component {
         />
         {/* </Tappable> */}
         <div className={className} ref={(c) => (this._container = c)} style={canvasDivStyle} id='canvas'>
-          <canvas id={uuid4()} ref={(c) => (this._canvas = c)} style={canvaStyle}>
+          <canvas id='canvas' ref={(c) => (this._canvas = c)} style={canvaStyle}>
             Sorry, Canvas HTML5 element is not supported by your browser :(
           </canvas>
         </div>
