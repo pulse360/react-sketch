@@ -215,7 +215,7 @@ class SketchBoard extends React.Component {
   }
 
   _calculateInitialHeightFactor = () => {
-    const wrapperElement= document.querySelector('body') || document
+   /*  const wrapperElement= document.querySelector('body') || document
     const isVertical = wrapperElement.clientHeight > wrapperElement.clientWidth;
     if(isVertical){
       let numberOfPagesNecessary = 3;
@@ -223,8 +223,8 @@ class SketchBoard extends React.Component {
         numberOfPagesNecessary++
       }
       return numberOfPagesNecessary
-    }
-    return 2
+    } */
+    return 1
   }
   
   _onBackgroundImageDrop = (imageUrl) => {
