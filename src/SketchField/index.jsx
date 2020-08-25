@@ -59,11 +59,7 @@ class SketchField extends Component {
     // parentWidth: 550,
     action: true,
     heightFactor: 1,
-    windowWidth: 1000,
-    windowHeight: 1000,
-    prevWidth: null,
-    prevHeight: null,
-    viewerPosition: null,
+    windowAspectRatio: window.innerWidth / window.innerHeight,
   }
 
   _initTools = (fabricCanvas) => {
@@ -84,8 +80,8 @@ class SketchField extends Component {
   addImg = (dataUrl, options = {}) => {
     let canvas = this._fc
     fabric.Image.fromURL(dataUrl, (oImg) => {
-      const lowerCanvasElement = document.querySelector('.bottom');
-      const currentUserViewportPosition =  Math.abs(lowerCanvasElement.scrollHeight-lowerCanvasElement.scrollTop)
+      const lowerCanvasElement = document.querySelector('.bottom')
+      const currentUserViewportPosition = Math.abs(lowerCanvasElement.scrollHeight - lowerCanvasElement.scrollTop)
       let opts = {
         left: Math.random() * (canvas.getWidth() - oImg.width * 0.5),
         top: canvas.getHeight() - currentUserViewportPosition + 100,
@@ -156,15 +152,13 @@ class SketchField extends Component {
     if (this.props.tool !== Tool.Pencil) {
       const canvas = this._fc
       const objects = canvas.getObjects()
-      let newObj = objects[objects.length - 1]
-
+      const newObj = objects[objects.length - 1]
       if (newObj && newObj.__version === 1) {
         newObj.__originalState = newObj.toJSON()
       }
     }
-
     if (this.props.onChange) {
-      let onChange = this.props.onChange
+      const onChange = this.props.onChange
       setTimeout(() => {
         onChange(e.e)
       }, 10)
@@ -173,15 +167,15 @@ class SketchField extends Component {
 
   _onPaste = (e) => {
     if (e.clipboardData) {
-      var items = e.clipboardData.items
+      const items = e.clipboardData.items
       if (!items) return
 
-      var is_image = false
-      for (var i = 0; i < items.length; i++) {
+      let is_image = false
+      for (let i = 0; i < items.length; i++) {
         if (items[i].type.indexOf('image') !== -1) {
-          var blob = items[i].getAsFile()
-          var URLObj = window.URL || window.webkitURL
-          var source = URLObj.createObjectURL(blob)
+          const blob = items[i].getAsFile()
+          const URLObj = window.URL || window.webkitURL
+          const source = URLObj.createObjectURL(blob)
           this.addImg(source)
           is_image = true
         }
@@ -199,91 +193,36 @@ class SketchField extends Component {
     if (e) {
       e.preventDefault()
     }
-    let canvas = this._fc
+
+    console.log('resize')
+    const canvas = this._fc
 
     const currentWidth = window.innerWidth
+    const currentHeight = window.innerHeight
+    const prevWidth = canvas.getWidth()
+    const prevHeight = canvas.getHeight()
 
-    // let { offsetWidth, offsetHeight } = this._container
+    const wfactor = currentWidth / prevWidth
+    const hfactor = wfactor
+    const newHeight = prevHeight < currentHeight ? currentHeight: prevHeight * hfactor
 
-    this.setState({
-      prevWidth: canvas.getWidth(),
-      prevHeight: canvas.getHeight(),
-    })
-
-    setTimeout(() => {
-      let canvas = this._fc
-
-      let wfactor = currentWidth / this.state.prevWidth
-      let hfactor = wfactor
-
-      let objects = canvas.getObjects()
-
-      for (let i in objects) {
-        let obj = objects[i]
-        let scaleX = obj.scaleX
-        let scaleY = obj.scaleY
-        let left = obj.left
-        let top = obj.top
-        let tempScaleX = scaleX * wfactor
-        let tempScaleY = scaleY * hfactor
-        let tempLeft = left * wfactor
-        let tempTop = top * hfactor
-        obj.scaleX = tempScaleX
-        obj.scaleY = tempScaleY
-        obj.left = tempLeft
-        obj.top = tempTop
-        obj.setCoords()
-      }
-
-      canvas.calcOffset()
-      canvas.renderAll()
-    }, 300)
-
-    const newHeight = currentWidth * this.state.windowAspectRatio * this.state.heightFactor
-
-    const canvasEl = document.getElementById('canvas')
-    canvasEl.style.height = `${newHeight}px`
+    console.log('resize values', JSON.stringify({currentHeight, currentWidth, prevWidth, prevHeight, wfactor, newHeight}))
 
     canvas.setWidth(currentWidth)
     canvas.setHeight(newHeight)
 
-    this.setState({
-      windowWidth: currentWidth,
-      windowHeight: currentWidth * this.state.windowAspectRatio * this.state.heightFactor,
-      // parentWidth: offsetWidth,
-    })
-  }, 300)
+    const objects = canvas.getObjects()
 
-  _resizeWithPrevSizies = () => {
-    let canvas = this._fc
-
-    const currentWidth = window.innerWidth * 1
-
-    const { prevDeviceHeight, prevDeviceWidth, defaultValue } = this.props
-
-    let { offsetWidth, offsetHeight } = this._container
-
-    let wfactor = offsetWidth / prevDeviceWidth
-    let hfactor = wfactor
-
-    if (defaultValue.background) {
-      this.setBackgroundImage(defaultValue.background.source)
-    } else {
-      this.setBackgroundImage(lines)
-    }
-
-    let objects = canvas.getObjects()
-
-    for (let i in objects) {
-      let obj = objects[i]
-      let scaleX = obj.scaleX
-      let scaleY = obj.scaleY
-      let left = obj.left
-      let top = obj.top
-      let tempScaleX = scaleX * wfactor
-      let tempScaleY = scaleY * hfactor
-      let tempLeft = left * wfactor
-      let tempTop = top * hfactor
+    for (const i in objects) {
+      const obj = objects[i]
+      const scaleX = obj.scaleX
+      const scaleY = obj.scaleY
+      const left = obj.left
+      const top = obj.top
+      const tempScaleX = scaleX * wfactor
+      const tempScaleY = scaleY * hfactor
+      const tempLeft = left * wfactor
+      const tempTop = top * hfactor
       obj.scaleX = tempScaleX
       obj.scaleY = tempScaleY
       obj.left = tempLeft
@@ -291,37 +230,64 @@ class SketchField extends Component {
       obj.setCoords()
     }
 
-    const newHeight = offsetHeight / this.state.windowAspectRatio
+    canvas.renderAll()
+    canvas.calcOffset()
+
+  }, 300)
+
+  _resizeWithPrevSizies = () => {
+    let canvas = this._fc
+
+    const { defaultValue } = this.props
+
+    const currentWidth = window.innerWidth
+    const currentHeight = window.innerHeight
+    const prevWidth = defaultValue.sketchWidth
+    const prevHeight = defaultValue.sketchHeight
+
+    const wfactor = currentWidth / prevWidth
+    const hfactor = wfactor
+
+    console.log('prevSizies ', JSON.stringify({prevWidth, prevHeight, currentHeight, isBiggerThanOld: prevHeight < currentHeight, wfactor, hfactor}))
+
+    const newHeight = prevHeight < currentHeight ? currentHeight: prevHeight * defaultValue.prevAspectRatio * defaultValue.heightFactor
 
     canvas.setWidth(currentWidth)
     canvas.setHeight(newHeight)
 
-    const canvasEl = document.getElementById('canvas')
-    canvasEl.style.height = `${newHeight}px`
+    if (defaultValue.background) {
+      this.setBackgroundImage(defaultValue.background.source)
+    } else {
+      this.setBackgroundImage(lines)
+    }
 
-    this.setState({
-      windowWidth: currentWidth,
-      windowHeight: currentWidth * this.state.windowAspectRatio,
-      // parentWidth: currentWidth,
-    })
+    const objects = canvas.getObjects()
+
+    for (const i in objects) {
+      const obj = objects[i]
+      const scaleX = obj.scaleX
+      const scaleY = obj.scaleY
+      const left = obj.left
+      const top = obj.top
+      const tempScaleX = scaleX * wfactor
+      const tempScaleY = scaleY * hfactor
+      const tempLeft = left * wfactor
+      const tempTop = top * hfactor
+      obj.scaleX = tempScaleX
+      obj.scaleY = tempScaleY
+      obj.left = tempLeft
+      obj.top = tempTop
+      obj.setCoords()
+    }
 
     canvas.renderAll()
     canvas.calcOffset()
+    
   }
 
   _backgroundColor = (color) => {
     if (!color) return
     let canvas = this._fc
-    const objects = canvas.getObjects()
-    let newObj = objects.forEach((obj) => {
-      if (obj.type === 'eraser') {
-        obj.set('stroke', color)
-      }
-    })
-
-    if (newObj && newObj.__version === 1) {
-      newObj.__originalState = newObj.toJSON()
-    }
 
     canvas.setBackgroundColor(color, () => canvas.renderAll())
   }
@@ -509,20 +475,15 @@ class SketchField extends Component {
   }
 
   componentDidMount = () => {
-    this.setState({
-      windowAspectRatio: this.state.windowWidth / window.innerHeight,
-      heightFactor: this.props.defaultHeightFactor,
-    })
-
-    let { tool, undoSteps, defaultValue, backgroundColor } = this.props
-    let canvas = (this._fc = new fabric.Canvas(this._canvas))
+    const { tool, undoSteps, defaultValue, backgroundColor } = this.props
+    const canvas = (this._fc = new fabric.Canvas(this._canvas))
     canvas.enableRetinaScaling = false
     canvas.allowTouchScrolling = false
     this._initTools(canvas)
 
     // this._backgroundColor(backgroundColor)
 
-    let selectedTool = this._tools[tool]
+    const selectedTool = this._tools[tool]
     selectedTool.configureCanvas(this.props)
     this._selectedTool = selectedTool
 
@@ -549,10 +510,9 @@ class SketchField extends Component {
     canvas.on('mouse:up', this._onMouseUp)
     canvas.on('mouse:move', this._onMouseMove)
     canvas.on('mouse:out', this._onMouseOut)
-    
+
     // DEBUG
-    canvas.on('mouse:wheel', console.log)
-    canvas.on('after:render', console.log)
+    // canvas.on('after:render', console.log)
 
     canvas.on('object:moving', this._onObjectMoving)
     canvas.on('object:scaling', this._onObjectScaling)
@@ -560,9 +520,12 @@ class SketchField extends Component {
 
     document.addEventListener('paste', this._onPaste, false)
 
-    this.setState({
+    // this is not used
+    /* this.setState({
       viewerPosition: document.body.scrollHeight - document.body.scrollTop,
-    })
+    }) */
+
+    console.log('default', JSON.stringify(defaultValue))
 
     if (defaultValue) {
       this.setDefaultValue()
@@ -574,14 +537,10 @@ class SketchField extends Component {
 
 
   setDefaultValue = () => {
-    const { defaultValue, defaultHeightFactor } = this.props
+    const { defaultValue } = this.props
     const { background, ...data } = defaultValue || {}
 
     this.fromJSON(data)
-
-    this.setState({
-      heightFactor: defaultHeightFactor,
-    })
 
     setTimeout(this._resizeWithPrevSizies, 100)
     // this._heightNormalizer()
@@ -628,11 +587,6 @@ class SketchField extends Component {
 
     let canvas = this._fc
 
-    this.setState({
-      windowWidth: currentWidth,
-      windowHeight: currentWidth * this.state.windowAspectRatio,
-    })
-
     canvas.setWidth(currentWidth)
     canvas.setHeight(currentWidth * this.state.windowAspectRatio * this.state.heightFactor)
     canvas.renderAll()
@@ -642,7 +596,7 @@ class SketchField extends Component {
     this.setState({
       heightFactor: this.state.heightFactor + 1,
       showMessage: true,
-    }, () => this._heightNormalizer());
+    }, () => this._heightNormalizer())
   }
 
   setBackgroundFromDataUrl = (dataUrl, options = {}) => {
@@ -673,19 +627,13 @@ class SketchField extends Component {
   }
 
   render = () => {
-    let { className } = this.props
-    const { heightFactor, showMessage } = this.state
-    const width = window.innerWidth
-    // previously used for width correction (with a multiplier), but the black bars were annoying
+    const { className } = this.props
+    const { showMessage } = this.state
 
-    const height = width * this.state.windowAspectRatio * heightFactor
-
-    let canvasDivStyle = {
-      width: width,
-      height: height,
+    const canvasDivStyle = {
       margin: '0 auto',
-      transform: 'translate3d(0,0,1px)'
-      // marginTop: 10,
+      transform: 'translate3d(0,0,1px)',
+      marginTop: -1
     }
 
     const canvaStyle = {
@@ -695,6 +643,7 @@ class SketchField extends Component {
     return (
       <>
         {/* <Tappable onTap={this.addPage}> */}
+        {console.log('render')}
         <Snackbar
           anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
           open={showMessage}
@@ -714,7 +663,7 @@ class SketchField extends Component {
           }
         />
         {/* </Tappable> */}
-        <div className={className} ref={(c) => (this._container = c)} style={canvasDivStyle} id='canvas'>
+        <div className={className} ref={(c) => (this._container = c)} style={canvasDivStyle} id='container_canvas'>
           <canvas id='canvas' ref={(c) => (this._canvas = c)} style={canvaStyle}>
             Sorry, Canvas HTML5 element is not supported by your browser :(
           </canvas>
