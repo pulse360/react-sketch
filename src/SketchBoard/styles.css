@@ -29,6 +29,11 @@ html {
   height: 100%;
   background-color: #ffffff;
   overflow-x: hidden !important;
+
+}
+.canvas-area.mobile {
+  overflow-x: hidden !important;
+  position: fixed
 }
 
 .bottom {

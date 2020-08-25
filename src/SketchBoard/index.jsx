@@ -317,6 +317,8 @@ class SketchBoard extends React.Component {
   }
 
   render = () => {
+    const isMobile = (/Mobi|Android/i.test(navigator.userAgent));
+  
     const theme = createMuiTheme({
       typography: {
         useNextVariants: true,
@@ -471,7 +473,7 @@ class SketchBoard extends React.Component {
             />
             <SketchField
               name='sketch'
-              className='canvas-area'
+              className={isMobile ? 'canvas-area mobile':'canvas-area'}
               ref={(c) => (this._sketch = c)}
               lineColor={this.state.lineColor}
               lineWidth={this.state.lineWidth}
