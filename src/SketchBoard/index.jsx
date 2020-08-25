@@ -154,21 +154,20 @@ class SketchBoard extends React.Component {
   }
 
   _scrollUp = () =>{
-    const currentScroll= this.scrollAreaRef.current.scrollTop || 0
+    const currentScroll= this._sketch._container.scrollTop || 0
     let nextScrollPosition = currentScroll-350
     if(nextScrollPosition<0) nextScrollPosition=0
-    this.scrollAreaRef.current.scrollTo(0, nextScrollPosition)   
+    this._sketch._container.scrollTo(0, nextScrollPosition)   
   }
   
-  _scrollDown = () =>{
-    const currentScroll= this.scrollAreaRef.current.scrollTop || 0
-    const currentMaxScroll = this.scrollAreaRef.current.scrollHeight -  this.scrollAreaRef.current.clientHeight;
+  _scrollDown = () =>{  
+    const currentScroll= this._sketch._container.scrollTop || 0
     const nextScrollPosition =  currentScroll+350
     
     // if(nextScrollPosition+350>currentMaxScroll){
     //   this._sketch.addPage()
     // }
-    this.scrollAreaRef.current.scrollTo(0, nextScrollPosition)
+    this._sketch._container.scrollTo(0, nextScrollPosition)
 
   }
 
