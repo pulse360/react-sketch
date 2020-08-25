@@ -1,6 +1,6 @@
 import React from 'react'
 import { HalfScreen, FullScreen, OpenNewWindowIcon } from '../SVG'
-import AppbarButton from '../AppbarButton'
+import StyledButton from '../StyledButton'
 import './styles.css'
 
 const WindowModeButtons = ({
@@ -17,12 +17,12 @@ const WindowModeButtons = ({
 
   return (
     <div className='window-mode-tools'>
-      <AppbarButton title="Open in a new Window" onClick={onOpenInNewWindow} disabled={fullScreenHandlerDisabled}>
+      <StyledButton title="Open in a new Window" onClick={onOpenInNewWindow} disabled={fullScreenHandlerDisabled}>
         <OpenNewWindowIcon />
-      </AppbarButton>
-      <AppbarButton title="Open in fullscreen" onClick={handleClick} disabled={fullScreenHandlerDisabled}>
+      </StyledButton>
+      <StyledButton title="Open in fullscreen" onClick={handleClick} disabled={fullScreenHandlerDisabled}>
         {fullScreen ? <HalfScreen /> : <FullScreen />}
-      </AppbarButton>
+      </StyledButton>
     </div>
   )
 }

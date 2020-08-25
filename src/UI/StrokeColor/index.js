@@ -36,8 +36,7 @@ const StrokeColor = ({ open, handleOpen, changeColor, color, anchorEl }) => {
       onClose={handleOpen}
       transition
     >
-      <>
-        <div className='stroke-color-indicator-wrapper'>
+      <div className='stroke-color-indicator-wrapper'>
           {color !== 'transparent' && (
             <div className='stroke-color__color-indicator' style={{ backgroundColor: color }}></div>
           )}
@@ -47,7 +46,6 @@ const StrokeColor = ({ open, handleOpen, changeColor, color, anchorEl }) => {
           Line color
         </label>
         <CirclePicker id='strokeColor' color={color} onChange={onChangeColor} />
-      </>
     </Popover>
   )
 }

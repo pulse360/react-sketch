@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { UndoIcon, CleareIcon, RedoIcon } from '../SVG'
-import AppbarButton from '../AppbarButton'
+import StyledButton from '../StyledButton'
 import ConfirmClear from './ConfirmClear'
 import './styles.css'
 
@@ -12,17 +12,17 @@ class HistoryTools extends Component {
   render() {
     const { undo, redo, canUndo, canRedo, clear } = this.props
     return <div className='history-tools'>
-    <AppbarButton title='Clear Sketchpad' onClick={() => this.setState({ open: true })}>
+    <StyledButton title='Clear Sketchpad' onClick={() => this.setState({ open: true })}>
       <CleareIcon />
-    </AppbarButton>
+    </StyledButton>
     <ConfirmClear open={this.state.open} clear={clear} onClose={() => this.setState({ open: false })} />
 
-    <AppbarButton title="Undo Last Action" onClick={undo} disabled={!canUndo}>
+    <StyledButton title="Undo Last Action" onClick={undo} disabled={!canUndo}>
       <UndoIcon />
-    </AppbarButton>
-    <AppbarButton title="Redo Last Action" onClick={redo} disabled={!canRedo}>
+    </StyledButton>
+    <StyledButton title="Redo Last Action" onClick={redo} disabled={!canRedo}>
       <RedoIcon />
-    </AppbarButton>
+    </StyledButton>
   </div>
 }}
 
