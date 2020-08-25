@@ -78,7 +78,7 @@ class SketchField extends Component {
   }
 
   addImg = (dataUrl, options = {}) => {
-    let canvas = this._fc
+    const canvas = this._fc
     fabric.Image.fromURL(dataUrl, (oImg) => {
       const lowerCanvasElement = document.querySelector('.bottom')
       const currentUserViewportPosition = Math.abs(lowerCanvasElement.scrollHeight - lowerCanvasElement.scrollTop)
@@ -102,11 +102,11 @@ class SketchField extends Component {
       this.setState({ action: true })
       return
     }
-    let obj = e.target
+    const obj = e.target
     obj.__version = 1
-    let objState = obj.toJSON()
+    const objState = obj.toJSON()
     obj.__originalState = objState
-    let state = JSON.stringify(objState)
+    const state = JSON.stringify(objState)
     this._history.keep([obj, state, state])
   }
 
@@ -117,17 +117,17 @@ class SketchField extends Component {
   _onObjectRotating = () => { }
 
   _onObjectModified = (e) => {
-    let obj = e.target
+    const obj = e.target
     obj.__version += 1
-    let prevState = JSON.stringify(obj.__originalState)
-    let objState = obj.toJSON()
+    const prevState = JSON.stringify(obj.__originalState)
+    const objState = obj.toJSON()
     obj.__originalState = objState
-    let currState = JSON.stringify(objState)
+    const currState = JSON.stringify(objState)
     this._history.keep([obj, prevState, currState])
   }
 
   _onObjectRemoved = (e) => {
-    let obj = e.target
+    const obj = e.target
     if (obj.__removed) {
       obj.__version += 1
       return
@@ -180,13 +180,41 @@ class SketchField extends Component {
           is_image = true
         }
         if (items[i].type.indexOf('text/plain') !== -1) {
+          // TODO: event as global is deprecated
           this.addText(event.clipboardData.getData('text/plain'), { left: 10, top: 10 })
         }
       }
-      if (is_image == true) {
+      if (is_image) {
         e.preventDefault()
       }
     }
+  }
+
+  scaleElementsAndCanvas(canvas, newWidth, newHeight, wfactor, hfactor) {
+    canvas.setWidth(newWidth)
+    canvas.setHeight(newHeight)
+
+    const objects = canvas.getObjects()
+
+    for (const i in objects) {
+      const obj = objects[i]
+      const scaleX = obj.scaleX
+      const scaleY = obj.scaleY
+      const left = obj.left
+      const top = obj.top
+      const tempScaleX = scaleX * wfactor
+      const tempScaleY = scaleY * hfactor
+      const tempLeft = left * wfactor
+      const tempTop = top * hfactor
+      obj.scaleX = tempScaleX
+      obj.scaleY = tempScaleY
+      obj.left = tempLeft
+      obj.top = tempTop
+      obj.setCoords()
+    }
+
+    canvas.renderAll()
+    canvas.calcOffset()
   }
 
   _resize = debounce((e) => {
@@ -208,35 +236,13 @@ class SketchField extends Component {
 
     console.log('resize values', JSON.stringify({currentHeight, currentWidth, prevWidth, prevHeight, wfactor, newHeight}))
 
-    canvas.setWidth(currentWidth)
-    canvas.setHeight(newHeight)
 
-    const objects = canvas.getObjects()
-
-    for (const i in objects) {
-      const obj = objects[i]
-      const scaleX = obj.scaleX
-      const scaleY = obj.scaleY
-      const left = obj.left
-      const top = obj.top
-      const tempScaleX = scaleX * wfactor
-      const tempScaleY = scaleY * hfactor
-      const tempLeft = left * wfactor
-      const tempTop = top * hfactor
-      obj.scaleX = tempScaleX
-      obj.scaleY = tempScaleY
-      obj.left = tempLeft
-      obj.top = tempTop
-      obj.setCoords()
-    }
-
-    canvas.renderAll()
-    canvas.calcOffset()
+    this.scaleElementsAndCanvas(canvas, currentWidth, newHeight, wfactor, hfactor)
 
   }, 300)
 
   _resizeWithPrevSizies = () => {
-    let canvas = this._fc
+    const canvas = this._fc
 
     const { defaultValue } = this.props
 
@@ -252,50 +258,27 @@ class SketchField extends Component {
 
     const newHeight = prevHeight < currentHeight ? currentHeight: prevHeight * defaultValue.prevAspectRatio * defaultValue.heightFactor
 
-    canvas.setWidth(currentWidth)
-    canvas.setHeight(newHeight)
-
     if (defaultValue.background) {
       this.setBackgroundImage(defaultValue.background.source)
     } else {
       this.setBackgroundImage(lines)
     }
 
-    const objects = canvas.getObjects()
-
-    for (const i in objects) {
-      const obj = objects[i]
-      const scaleX = obj.scaleX
-      const scaleY = obj.scaleY
-      const left = obj.left
-      const top = obj.top
-      const tempScaleX = scaleX * wfactor
-      const tempScaleY = scaleY * hfactor
-      const tempLeft = left * wfactor
-      const tempTop = top * hfactor
-      obj.scaleX = tempScaleX
-      obj.scaleY = tempScaleY
-      obj.left = tempLeft
-      obj.top = tempTop
-      obj.setCoords()
-    }
-
-    canvas.renderAll()
-    canvas.calcOffset()
+    this.scaleElementsAndCanvas(canvas, currentWidth, newHeight, wfactor, hfactor)
     
   }
 
   _backgroundColor = (color) => {
     if (!color) return
-    let canvas = this._fc
+    const canvas = this._fc
 
     canvas.setBackgroundColor(color, () => canvas.renderAll())
   }
 
   zoom = (factor) => {
-    let canvas = this._fc
-    let objects = canvas.getObjects()
-    for (let i in objects) {
+    const canvas = this._fc
+    const objects = canvas.getObjects()
+    for (const i in objects) {
       objects[i].scaleX = objects[i].scaleX * factor
       objects[i].scaleY = objects[i].scaleY * factor
       objects[i].left = objects[i].left * factor
@@ -307,8 +290,8 @@ class SketchField extends Component {
   }
 
   undo = () => {
-    let history = this._history
-    let [obj, prevState, currState] = history.getCurrent()
+    const history = this._history
+    const [obj, prevState, currState] = history.getCurrent()
     history.undo()
     if (obj.__removed) {
       this.setState({ action: false }, () => {
@@ -330,10 +313,10 @@ class SketchField extends Component {
   }
 
   redo = () => {
-    let history = this._history
+    const history = this._history
     if (history.canRedo()) {
-      let canvas = this._fc
-      let [obj, prevState, currState] = history.redo()
+      const canvas = this._fc
+      const [obj, prevState, currState] = history.redo()
       if (obj.__version === 0) {
         this.setState({ action: false }, () => {
           canvas.add(obj)
@@ -365,7 +348,7 @@ class SketchField extends Component {
 
   fromJSON = (json) => {
     if (!json) return
-    let canvas = this._fc
+    const canvas = this._fc
     setTimeout(() => {
       canvas.loadFromJSON(json, () => {
         if (this.props.onChange) {
@@ -376,7 +359,7 @@ class SketchField extends Component {
   }
 
   clear = (propertiesToInclude) => {
-    let discarded = this.toJSON(propertiesToInclude)
+    const discarded = this.toJSON(propertiesToInclude)
     const background =
       this._fc.backgroundColor && this._fc.backgroundColor.source && this._fc.backgroundColor.source.currentSrc
     this._fc.clear()
@@ -386,10 +369,10 @@ class SketchField extends Component {
   }
 
   removeSelected = () => {
-    let canvas = this._fc
-    let activeObj = canvas.getActiveObject()
+    const canvas = this._fc
+    const activeObj = canvas.getActiveObject()
     if (activeObj) {
-      let selected = []
+      const selected = []
       if (activeObj.type === 'activeSelection') {
         activeObj.forEachObject((obj) => selected.push(obj))
       } else {
@@ -397,9 +380,9 @@ class SketchField extends Component {
       }
       selected.forEach((obj) => {
         obj.__removed = true
-        let objState = obj.toJSON()
+        const objState = obj.toJSON()
         obj.__originalState = objState
-        let state = JSON.stringify(objState)
+        const state = JSON.stringify(objState)
         this._history.keep([obj, state, state])
         canvas.remove(obj)
       })
@@ -409,13 +392,13 @@ class SketchField extends Component {
   }
 
   copy = () => {
-    let canvas = this._fc
+    const canvas = this._fc
     canvas.getActiveObject().clone((cloned) => (this._clipboard = cloned))
   }
 
   paste = () => {
     this._clipboard.clone((clonedObj) => {
-      let canvas = this._fc
+      const canvas = this._fc
       canvas.discardActiveObject()
       clonedObj.set({
         left: clonedObj.left + 10,
@@ -437,15 +420,15 @@ class SketchField extends Component {
   }
 
   setBackgroundImage = (dataUrl, options = {}) => {
-    let canvas = this._fc
+    const canvas = this._fc
     canvas.setBackgroundColor({ source: dataUrl, repeat: 'repeat' }, function () {
       canvas.renderAll()
     })
   }
 
   addText = (text, options = {}) => {
-    let canvas = this._fc
-    let textBox = new fabric.Textbox(text, options)
+    const canvas = this._fc
+    const textBox = new fabric.Textbox(text, options)
     let opts = {
       left: (canvas.getWidth() - textBox.width) * 0.5,
       top: (canvas.getHeight() - textBox.height) * 0.5,
@@ -583,9 +566,9 @@ class SketchField extends Component {
   }
 
   _heightNormalizer = () => {
-    const currentWidth = window.innerWidth * 1
+    const currentWidth = window.innerWidth
 
-    let canvas = this._fc
+    const canvas = this._fc
 
     canvas.setWidth(currentWidth)
     canvas.setHeight(currentWidth * this.state.windowAspectRatio * this.state.heightFactor)
@@ -600,7 +583,7 @@ class SketchField extends Component {
   }
 
   setBackgroundFromDataUrl = (dataUrl, options = {}) => {
-    let canvas = this._fc
+    const canvas = this._fc
     if (options.stretched) {
       delete options.stretched
       Object.assign(options, {
@@ -620,7 +603,7 @@ class SketchField extends Component {
         height: canvas.height,
       })
     }
-    let img = new Image()
+    const img = new Image()
     img.setAttribute('crossOrigin', 'anonymous')
     img.onload = () => canvas.setBackgroundImage(new fabric.Image(img), () => canvas.renderAll(), options)
     img.src = dataUrl

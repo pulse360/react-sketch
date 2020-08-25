@@ -6,7 +6,7 @@ const fabric = require('fabric').fabric
 
 class Rectangle extends FabricCanvasTool {
   configureCanvas(props) {
-    let canvas = this._canvas
+    const canvas = this._canvas
     canvas.isDrawingMode = canvas.selection = false
     canvas.forEachObject((o) => (o.selectable = o.evented = false))
     this._width = props.lineWidth
@@ -15,9 +15,9 @@ class Rectangle extends FabricCanvasTool {
   }
 
   doMouseDown(o) {
-    let canvas = this._canvas
+    const canvas = this._canvas
     this.isDown = true
-    let pointer = canvas.getPointer(o.e)
+    const pointer = canvas.getPointer(o.e)
     this.startX = pointer.x
     this.startY = pointer.y
     this.rect = new fabric.Rect({
@@ -41,8 +41,8 @@ class Rectangle extends FabricCanvasTool {
 
   doMouseMove(o) {
     if (!this.isDown) return
-    let canvas = this._canvas
-    let pointer = canvas.getPointer(o.e)
+    const canvas = this._canvas
+    const pointer = canvas.getPointer(o.e)
     if (this.startX > pointer.x) {
       this.rect.set({ left: Math.abs(pointer.x) })
     }

@@ -6,7 +6,7 @@ const fabric = require('fabric').fabric
 
 class Line extends FabricCanvasTool {
   configureCanvas(props) {
-    let canvas = this._canvas
+    const canvas = this._canvas
     canvas.isDrawingMode = canvas.selection = false
     canvas.forEachObject((o) => (o.selectable = o.evented = false))
     this._width = props.lineWidth
@@ -15,9 +15,9 @@ class Line extends FabricCanvasTool {
 
   doMouseDown(o) {
     this.isDown = true
-    let canvas = this._canvas
-    var pointer = canvas.getPointer(o.e)
-    var points = [pointer.x, pointer.y, pointer.x, pointer.y]
+    const canvas = this._canvas
+    const pointer = canvas.getPointer(o.e)
+    const points = [pointer.x, pointer.y, pointer.x, pointer.y]
     this.line = new fabric.Line(points, {
       strokeWidth: this._width,
       fill: this._color,
@@ -30,8 +30,8 @@ class Line extends FabricCanvasTool {
 
   doMouseMove(o) {
     if (!this.isDown) return
-    let canvas = this._canvas
-    var pointer = canvas.getPointer(o.e)
+    const canvas = this._canvas
+    const pointer = canvas.getPointer(o.e)
     this.line.set({ x2: pointer.x, y2: pointer.y })
     this.line.setCoords()
     canvas.renderAll()

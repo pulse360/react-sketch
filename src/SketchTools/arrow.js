@@ -6,7 +6,7 @@ const fabric = require('fabric').fabric
 
 class Arrow extends FabricCanvasTool {
   configureCanvas(props) {
-    let canvas = this._canvas
+    const canvas = this._canvas
     canvas.isDrawingMode = canvas.selection = false
     canvas.forEachObject((o) => (o.selectable = o.evented = false))
     this._width = props.lineWidth
@@ -15,9 +15,9 @@ class Arrow extends FabricCanvasTool {
 
   doMouseDown(o) {
     this.isDown = true
-    let canvas = this._canvas
-    var pointer = canvas.getPointer(o.e)
-    var points = [pointer.x, pointer.y, pointer.x, pointer.y]
+    const canvas = this._canvas
+    const pointer = canvas.getPointer(o.e)
+    const points = [pointer.x, pointer.y, pointer.x, pointer.y]
     this.line = new fabric.Line(points, {
       strokeWidth: this._width,
       fill: this._color,
@@ -47,13 +47,13 @@ class Arrow extends FabricCanvasTool {
 
   doMouseMove(o) {
     if (!this.isDown) return
-    let canvas = this._canvas
-    var pointer = canvas.getPointer(o.e)
+    const canvas = this._canvas
+    const pointer = canvas.getPointer(o.e)
     this.line.set({ x2: pointer.x, y2: pointer.y })
     this.line.setCoords()
 
-    let x_delta = pointer.x - this.line.x1
-    let y_delta = pointer.y - this.line.y1
+    const x_delta = pointer.x - this.line.x1
+    const y_delta = pointer.y - this.line.y1
 
     this.head.set({
       left: pointer.x,
@@ -66,11 +66,11 @@ class Arrow extends FabricCanvasTool {
 
   doMouseUp(o) {
     this.isDown = false
-    let canvas = this._canvas
+    const canvas = this._canvas
 
     canvas.remove(this.line)
     canvas.remove(this.head)
-    let arrow = new fabric.Group([this.line, this.head])
+    const arrow = new fabric.Group([this.line, this.head])
     arrow.selectable = arrow.evented = false
     arrow.selection = false
     canvas.add(arrow)

@@ -9,7 +9,7 @@
  */
 export const pointerPosition = (event) => {
   event = event || window.event
-  var target = event.target || event.srcElement,
+  const target = event.target || event.srcElement,
     style = target.currentStyle || window.getComputedStyle(target, null),
     borderLeftWidth = parseInt(style['borderLeftWidth'], 10),
     borderTopWidth = parseInt(style['borderTopWidth'], 10),
@@ -30,8 +30,8 @@ export const pointerPosition = (event) => {
  * @returns {number}
  */
 export const linearDistance = (point1, point2) => {
-  let xs = point2.x - point1.x
-  let ys = point2.y - point1.y
+  const xs = point2.x - point1.x
+  const ys = point2.y - point1.y
   return Math.sqrt(xs * xs + ys * ys)
 }
 

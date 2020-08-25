@@ -2,7 +2,7 @@ import FabricCanvasTool from './fabrictool'
 
 class Eraser extends FabricCanvasTool {
   configureCanvas() {
-    let canvas = this._canvas
+    const canvas = this._canvas
     canvas.isDrawingMode = false
     canvas.selection = false
     canvas.forEachObject((o) => {
@@ -18,7 +18,7 @@ class Eraser extends FabricCanvasTool {
 
   doMouseMove(o) {
     if (!this.isDown) return
-    let canvas = this._canvas
+    const canvas = this._canvas
     canvas.remove(o.target)
   }
 
