@@ -11,7 +11,7 @@ import FillColor from './UI/FillColor'
 import StrokeColor from './UI/StrokeColor'
 import ZoomButtons from './UI/ZoomButtons'
 import Slider from './UI/Slider'
-import Tabs from './UI/Tabs'
+import NavigationAndTabs from './UI/NavigationAndTabs'
 import QuicklyPencils from './UI/QuicklyPencils'
 import WindowModeButtons from './UI/WindowModeButtons'
 
@@ -28,7 +28,7 @@ export { FillColor }
 export { StrokeColor }
 export { ZoomButtons }
 export { Slider }
-export { Tabs }
+export { NavigationAndTabs }
 export { QuicklyPencils }
 export { WindowModeButtons }
 
@@ -46,7 +46,7 @@ export default {
   StrokeColor,
   ZoomButtons,
   Slider,
-  Tabs,
+  NavigationAndTabs,
   QuicklyPencils,
   WindowModeButtons,
 }
