@@ -1,3 +1,4 @@
+// @ts-check
 /*eslint no-unused-vars: 0*/
 
 import FabricCanvasTool from './fabrictool'
@@ -6,7 +7,7 @@ const fabric = require('fabric').fabric
 
 class Text extends FabricCanvasTool {
   configureCanvas(props) {
-    let canvas = this._canvas
+    const canvas = this._canvas
     canvas.isDrawingMode = false
     canvas.selection = true
     canvas.forEachObject((o) => (o.selectable = o.evented = false))
@@ -22,8 +23,8 @@ class Text extends FabricCanvasTool {
   }
 
   doMouseDown(o) {
-    let canvas = this._canvas
-    let pointer = canvas.getPointer(o.e)
+    const canvas = this._canvas
+    const pointer = canvas.getPointer(o.e)
     this.startX = pointer.x
     this.startY = pointer.y
   }
@@ -31,14 +32,14 @@ class Text extends FabricCanvasTool {
   doMouseMove(o) {}
 
   doMouseUp(o) {
-    let canvas = this._canvas
-    let pointer = canvas.getPointer(o.e)
-    let endX = pointer.x
+    const canvas = this._canvas
+    const pointer = canvas.getPointer(o.e)
+    const endX = pointer.x
 
     const clickWithoutMove = Boolean(endX >= this.startX + 50)
 
     if (clickWithoutMove) {
-      let opts = {
+      const opts = {
         left: this.startX,
         top: this.startY,
         fontSize: 18,
@@ -53,7 +54,7 @@ class Text extends FabricCanvasTool {
         lineHeight: 1.25,
       }
 
-      let text = new fabric.Textbox('', opts)
+      const text = new fabric.Textbox('', opts)
       this.textBox = text
 
       canvas.add(text)
@@ -79,7 +80,7 @@ class Text extends FabricCanvasTool {
   }
 
   doMouseOut(event) {
-    // let canvas = this._canvas
+    // const canvas = this._canvas
     // canvas.forEachObject((object) => {
     //   object.selectable = false
     //   object.evented = false

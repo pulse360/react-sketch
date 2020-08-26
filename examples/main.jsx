@@ -1,7 +1,7 @@
 import React from 'react'
 import { SketchBoard } from '../src/index'
 
-// import {data} from './dumyData' // dummy data usage
+import {data} from './dumyData' // dummy data usage
 
 const dummyData = {
   id: null,
@@ -10,7 +10,7 @@ const dummyData = {
 
 class SketchFieldDemo extends React.Component {
   render() {
-    return <SketchBoard defaultValue={dummyData.json} />
+    return <SketchBoard defaultValue={{...data}} />
   }
 }
 

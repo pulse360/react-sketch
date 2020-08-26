@@ -6,10 +6,8 @@ import {
   SaveButtons,
   HistoryButtons,
   ColorButtons,
-  ZoomButtons,
   Slider,
   QuicklyPencils,
-  WindowModeButtons,
 } from '../../'
 
 import './styles.css'

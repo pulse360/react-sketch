@@ -98,15 +98,10 @@ class SketchBoard extends React.Component {
   }
 
   _save = ({ withClose }) => {
-    const data = this._sketch.toJSON()
-    data.sketchWidth = this._sketch.state.windowWidth
-    data.sketchHeight = this._sketch._container.offsetHeight
-    data.heightFactor = this._sketch.state.heightFactor
-    data.prevAspectRatio = this._sketch.state.windowAspectRatio
+    const data = this._sketch.saveToJSON()
     this.props.onSaveCanvas(
       {
-        data,
-        heightFactor: data.heightFactor
+        data
       },
       withClose
     )
@@ -117,7 +112,7 @@ class SketchBoard extends React.Component {
   }
 
   _removeMe = (index) => {
-    let drawings = this.state.drawings
+    const drawings = this.state.drawings
     drawings.splice(index, 1)
     this.setState({ drawings: drawings })
   }
@@ -202,8 +197,8 @@ class SketchBoard extends React.Component {
 
   _onSketchChange = () => {
 
-    let prev = this.state.canUndo
-    let now = this._sketch.canUndo()
+    const prev = this.state.canUndo
+    const now = this._sketch.canUndo()
     if (prev !== now) {
       this.setState({ canUndo: now })
     }
@@ -223,7 +218,7 @@ class SketchBoard extends React.Component {
   }
   
   _onBackgroundImageDrop = (imageUrl) => {
-    let sketch = this._sketch
+    const sketch = this._sketch
     sketch.setBackgroundImage(imageUrl, {})
   }
 
@@ -275,7 +270,7 @@ class SketchBoard extends React.Component {
         if (typeof data === 'object') {
           data = JSON.stringify(data, undefined, 4)
         }
-        var blob = new Blob([data], { type: 'text/json' }),
+        const blob = new Blob([data], { type: 'text/json' }),
           e = document.createEvent('MouseEvents'),
           a = document.createElement('a')
         a.download = filename
@@ -289,9 +284,9 @@ class SketchBoard extends React.Component {
 
   addBackgroundImage = (accepted) => {
     if (accepted && accepted.length > 0) {
-      let sketch = this._sketch
-      let reader = new FileReader()
-      let { stretched, stretchedX, stretchedY, originX, originY } = this.state
+      const sketch = this._sketch
+      const reader = new FileReader()
+      const { stretched, stretchedX, stretchedY, originX, originY } = this.state
       reader.addEventListener(
         'load',
         () =>
@@ -453,7 +448,7 @@ class SketchBoard extends React.Component {
             images={this.props.backgroundImages}
             addBackgroundImage={(img) => this.addBackgroundImage(img)}
           />
-          <div className='bottom' ref={this.scrollAreaRef}>
+          <div className='bottom sketch-area' ref={this.scrollAreaRef}>
             <ToolsPanel
               selectedTool={this.state.tool}
               selectTool={(tool) => this._selectTool(tool)}
