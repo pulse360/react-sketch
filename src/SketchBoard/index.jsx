@@ -5,7 +5,7 @@ import 'flexboxgrid'
 import './styles.css'
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles'
 import color from '@material-ui/core/colors/blueGrey'
-import { SketchField, Appbar, AddTextDrawer, FillColor, BackgroundImage, ToolsPanel, StrokeColor } from '../'
+import { SketchField, Appbar,NavigationAndTabs , AddTextDrawer, FillColor, BackgroundImage, ToolsPanel, StrokeColor } from '../'
 import Tools from '../Tools'
 import fileDownloader from '../fileDownloader'
 
@@ -171,40 +171,36 @@ class SketchBoard extends React.Component {
 
   }
 
-  // addTab = () => {
-  //   if (this.state.tabs.length === 9) {
-  //     return
-  //   }
+  addTab = () => {
+    if (this.state.tabs.length === 9) {
+      return
+    }
 
-  //   this.setState(({ tabs }) => {
-  //     const newTabID = `tab_${tabs.length + 1}`
+    this.setState(({ tabs }) => {
+      const newTabID = `tab_${tabs.length + 1}`
 
-  //     const newTab = {
-  //       data: [],
-  //       id: newTabID,
-  //       name: `Tab #${tabs.length + 1}`,
-  //     }
+      const newTab = {
+        data: [],
+        id: newTabID,
+        name: `Tab #${tabs.length + 1}`,
+      }
 
-  //     return { tabs: [...tabs, newTab], currentTabID: newTabID, sketchValue: [] }
-  //   })
-  // }
+      return { tabs: [...tabs, newTab], currentTabID: newTabID, sketchValue: [] }
+    })
+  }
 
-  // onTabClick = (tab) => {
-  //   this.setState(({ tabs }) => {
-  //     const indx = tabs.findIndex((el) => el.id === tab.id)
-  //     return {
-  //       currentTabID: tab.id,
-  //       sketchValue: tabs[indx].data,
-  //     }
-  //   })
-  // }
+  onTabClick = (tab) => {
+    // TODO: save current sketch data    
+    this.setState(({ tabs }) => {
+      const indx = tabs.findIndex((el) => el.id === tab.id)
+      return {
+        currentTabID: tab.id,
+        sketchValue: tabs[indx].data,
+      }
+    })
+  }
 
   _onSketchChange = () => {
-    // this.setState(({ tabs, currentTabID }) => {
-    //   const indx = tabs.findIndex((el) => el.id === currentTabID)
-    //   const newItem = { ...tabs[indx], data: JSON.stringify(this._sketch.toJSON()) }
-    //   return { tabs: [...tabs.slice(0, indx), newItem, ...tabs.slice(indx + 1)] }
-    // })
 
     let prev = this.state.canUndo
     let now = this._sketch.canUndo()
@@ -459,6 +455,7 @@ class SketchBoard extends React.Component {
           />
           <div className='bottom' ref={this.scrollAreaRef}>
             <ToolsPanel
+              selectedTool={this.state.tool}
               selectTool={(tool) => this._selectTool(tool)}
               addImage={(image) => this._sketch.addImg(image)}
               addText={() =>
@@ -466,10 +463,6 @@ class SketchBoard extends React.Component {
                   expandText: true,
                 })
               }
-              addPage={()=>this._sketch.addPage()}
-              scrollDown={this._scrollDown}
-              scrollUp={this._scrollUp}
-              selectedTool={this.state.tool}
             />
             <SketchField
               name='sketch'
@@ -493,12 +486,15 @@ class SketchBoard extends React.Component {
               parentContainerWidth={this.props.parentContainerWidth}
             />
           </div>
-          {/* <Tabs
-            tabs={this.state.tabs}
-            onTabClick={this.onTabClick}
-            onAddTab={this.addTab}
-            currentTabID={this.state.currentTabID}
-          />  */}
+          <NavigationAndTabs
+              addPage={()=>this._sketch.addPage()}
+              scrollDown={this._scrollDown}
+              scrollUp={this._scrollUp}
+              tabs={this.state.tabs}
+              onTabClick={this.onTabClick}
+              onAddTab={this.addTab}
+              currentTabID={this.state.currentTabID}
+              />
         </div>
       </MuiThemeProvider>
     )
