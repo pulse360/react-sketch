@@ -56,7 +56,7 @@ function Tabs({ tabs, onTabClick, currentTabID }) {
         {showTabs &&
           filteredTabs.map((tab) => <Tab key={tab.id} tab={tab} currentTabID={currentTabID} selectTab={selectTab} />)}
         <StyledButton
-          style={{ width: 25, color: '#20A0FF' }}
+          style={{ width: 25, color: '#20A0FF', transform: showTabs?'rotate(180deg)':'' }}
           tooltipPlacement='top'
           navigationBar={true}
           title='Toggle expanded page list'
