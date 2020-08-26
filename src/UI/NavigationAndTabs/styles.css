@@ -1,12 +1,12 @@
 .tabs {
   position: absolute;
   bottom: 10px;
-  right: 68px;
+  right: 70px;
   height: 50px;
-  padding-right:2px;
+  padding-right: 0px;
   border-top-left-radius: 4px;
   border-bottom-left-radius: 4px;
-  display:flex;
+  display: flex;
   flex-direction: row-reverse;
   background-color: #323e4c;
   z-index: 1;
@@ -27,15 +27,9 @@
   font-weight: 500;
   font-size: 14px;
   line-height: 17px;
-  color: #20A0FF;
+  color: #20a0ff;
 }
-
-.tabs__tab_active {
-  color: white;
-  text-align: center;
-}
-
 
 .tabs__tab:hover {
-  color: #20A0FF;
+  color: #20a0ff;
 }
