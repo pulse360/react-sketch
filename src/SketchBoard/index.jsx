@@ -98,15 +98,10 @@ class SketchBoard extends React.Component {
   }
 
   _save = ({ withClose }) => {
-    const data = this._sketch.toJSON()
-    data.sketchWidth = this._sketch.state.windowWidth
-    data.sketchHeight = this._sketch._container.offsetHeight
-    data.heightFactor = this._sketch.state.heightFactor
-    data.prevAspectRatio = this._sketch.state.windowAspectRatio
+    const data = this._sketch.saveToJSON()
     this.props.onSaveCanvas(
       {
-        data,
-        heightFactor: data.heightFactor
+        data
       },
       withClose
     )
@@ -453,7 +448,7 @@ class SketchBoard extends React.Component {
             images={this.props.backgroundImages}
             addBackgroundImage={(img) => this.addBackgroundImage(img)}
           />
-          <div className='bottom' ref={this.scrollAreaRef}>
+          <div className='bottom sketch-area' ref={this.scrollAreaRef}>
             <ToolsPanel
               selectedTool={this.state.tool}
               selectTool={(tool) => this._selectTool(tool)}

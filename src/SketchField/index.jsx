@@ -58,8 +58,6 @@ class SketchField extends Component {
   state = {
     // parentWidth: 550,
     action: true,
-    heightFactor: 1,
-    windowAspectRatio: window.innerWidth / window.innerHeight,
   }
 
   _initTools = (fabricCanvas) => {
@@ -80,7 +78,7 @@ class SketchField extends Component {
   addImg = (dataUrl, options = {}) => {
     const canvas = this._fc
     fabric.Image.fromURL(dataUrl, (oImg) => {
-      const lowerCanvasElement = document.querySelector('.bottom')
+      const lowerCanvasElement = document.querySelector('.sketch-area')
       const currentUserViewportPosition = Math.abs(lowerCanvasElement.scrollHeight - lowerCanvasElement.scrollTop)
       let opts = {
         left: Math.random() * (canvas.getWidth() - oImg.width * 0.5),
@@ -225,14 +223,14 @@ class SketchField extends Component {
     console.log('resize')
     const canvas = this._fc
 
-    const currentWidth = window.innerWidth
-    const currentHeight = window.innerHeight
+    const currentWidth = this.getSketchWidth()
+    const currentHeight = this.getSketchHeight()
     const prevWidth = canvas.getWidth()
     const prevHeight = canvas.getHeight()
 
     const wfactor = currentWidth / prevWidth
     const hfactor = wfactor
-    const newHeight = prevHeight < currentHeight ? currentHeight: prevHeight * hfactor
+    const newHeight = this.getNewHeight(prevHeight, currentHeight, hfactor);
 
     console.log('resize values', JSON.stringify({currentHeight, currentWidth, prevWidth, prevHeight, wfactor, newHeight}))
 
@@ -246,17 +244,17 @@ class SketchField extends Component {
 
     const { defaultValue } = this.props
 
-    const currentWidth = window.innerWidth
-    const currentHeight = window.innerHeight
-    const prevWidth = defaultValue.sketchWidth
-    const prevHeight = defaultValue.sketchHeight
+    const currentWidth = this.getSketchWidth()
+    const currentHeight = this.getSketchHeight()
+    const prevWidth = defaultValue.canvasWidth
+    const prevHeight = defaultValue.canvasHeight
 
     const wfactor = currentWidth / prevWidth
     const hfactor = wfactor
 
     console.log('prevSizies ', JSON.stringify({prevWidth, prevHeight, currentHeight, isBiggerThanOld: prevHeight < currentHeight, wfactor, hfactor}))
 
-    const newHeight = prevHeight < currentHeight ? currentHeight: prevHeight * defaultValue.prevAspectRatio * defaultValue.heightFactor
+    const newHeight = this.getNewHeight(prevHeight, currentHeight, hfactor);
 
     if (defaultValue.background) {
       this.setBackgroundImage(defaultValue.background.source)
@@ -346,7 +344,22 @@ class SketchField extends Component {
 
   toJSON = (propertiesToInclude) => this._fc.toJSON(propertiesToInclude)
 
+  saveToJSON(propertiesToInclude) {
+    const canvas = this._fc;
+    const data = canvas.toJSON(propertiesToInclude)
+  
+    data.sketchWidth = this.getSketchWidth()
+    data.sketchHeight = this.getSketchHeight()
+    data.canvasWidth = canvas.getWidth()
+    data.canvasHeight = canvas.getHeight()
+
+    return data
+  }
+
+
   fromJSON = (json) => {
+
+    console.log('json', json);
     if (!json) return
     const canvas = this._fc
     setTimeout(() => {
@@ -526,7 +539,6 @@ class SketchField extends Component {
     this.fromJSON(data)
 
     setTimeout(this._resizeWithPrevSizies, 100)
-    // this._heightNormalizer()
   }
 
   componentWillUnmount = () => window.removeEventListener('resize', this._resize)
@@ -565,23 +577,6 @@ class SketchField extends Component {
     this._resize()
   }
 
-  _heightNormalizer = () => {
-    const currentWidth = window.innerWidth
-
-    const canvas = this._fc
-
-    canvas.setWidth(currentWidth)
-    canvas.setHeight(currentWidth * this.state.windowAspectRatio * this.state.heightFactor)
-    canvas.renderAll()
-  }
-
-  addPage = () => {
-    this.setState({
-      heightFactor: this.state.heightFactor + 1,
-      showMessage: true,
-    }, () => this._heightNormalizer())
-  }
-
   setBackgroundFromDataUrl = (dataUrl, options = {}) => {
     const canvas = this._fc
     if (options.stretched) {
@@ -607,6 +602,25 @@ class SketchField extends Component {
     img.setAttribute('crossOrigin', 'anonymous')
     img.onload = () => canvas.setBackgroundImage(new fabric.Image(img), () => canvas.renderAll(), options)
     img.src = dataUrl
+  }
+
+
+  getSketchWidth() {
+    const lowerCanvasElement = document.querySelector('.sketch-area')
+    return lowerCanvasElement.clientWidth
+  }
+
+  getSketchHeight() {
+    const lowerCanvasElement = document.querySelector('.sketch-area')
+    return lowerCanvasElement.clientHeight
+  }
+
+  getNewHeight(prevHeight, currentHeight, hfactor) {
+    // TOOD: if it doesn't exist any elaments => height should be the size of screen
+    // TODO: get the lowest element on the canvas and check the position and compare with currentHeight
+    const newHeight = prevHeight < currentHeight ? currentHeight: prevHeight * hfactor
+
+    return newHeight;
   }
 
   render = () => {

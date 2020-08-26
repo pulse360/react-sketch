@@ -4581,10 +4581,10 @@ extsprintf@^1.2.0:
   resolved "https://registry.yarnpkg.com/extsprintf/-/extsprintf-1.4.0.tgz#e2689f8f356fad62cca65a3a91c5df5f9551692f"
   integrity sha1-4mifjzVvrWLMplo6kcXfX5VRaS8=
 
-fabric@v4:
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/fabric/-/fabric-4.0.0.tgz#6c6a106d1cef99d9b5ae716d33c77ad2b19e5407"
-  integrity sha512-OoPbb/9DkpWla78wI9PPdcgTAeWRH8dpnyug/jb6p7fyW5XJKI62v9zw+d0mjMEjAA0YvD7uTziWYYA5sqz8DQ==
+fabric@4.1.0:
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/fabric/-/fabric-4.1.0.tgz#5585c835198bc8e7707c221a8b7eb1264c2e1e4f"
+  integrity sha512-reykTv08IiTHzsr46hv6xSqFuV5jn2itU51DXv5N7iPgmUjbcjjNHNFA/yJJeAxDGOR+5k0N07CfEoL+qVo7oA==
   optionalDependencies:
     canvas "^2.6.1"
     jsdom "^15.2.1"
