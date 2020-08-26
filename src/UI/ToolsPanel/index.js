@@ -1,7 +1,7 @@
 import React from 'react'
 import DropZone from 'react-dropzone'
 import './styles.css'
-import IconButton from '../LeftPanelButton'
+import StyledButton from '../StyledButton'
 
 import {
   PencilIcon,
@@ -24,40 +24,40 @@ const ToolsPanel = ({ selectTool, addImage, selectedTool, scrollUp, scrollDown, 
   return (
     <>
       <div className='sketch-toolbar left'>
-        <IconButton onClick={() => selectTool('select')} selectedTool={selectedTool} tool='select' title='Select'>
+        <StyledButton onClick={() => selectTool('select')} selectedTool={selectedTool} tool='select' title='Select'>
           <SelectIcon />
-        </IconButton>
-        <IconButton onClick={() => selectTool('pencil')} selectedTool={selectedTool} tool='pencil' title='Pencil'>
+        </StyledButton>
+        <StyledButton onClick={() => selectTool('pencil')} selectedTool={selectedTool} tool='pencil' title='Pencil'>
           <PencilIcon />
-        </IconButton>
-        <IconButton onClick={() => selectTool('arrow')} selectedTool={selectedTool} tool='arrow' title='Arrow'>
+        </StyledButton>
+        <StyledButton onClick={() => selectTool('arrow')} selectedTool={selectedTool} tool='arrow' title='Arrow'>
           <ArrowIcon />
-        </IconButton>
-        <IconButton onClick={() => selectTool('line')} selectedTool={selectedTool} tool='line' title='Line'>
+        </StyledButton>
+        <StyledButton onClick={() => selectTool('line')} selectedTool={selectedTool} tool='line' title='Line'>
           <LineIcon />
-        </IconButton>
-        <IconButton
+        </StyledButton>
+        <StyledButton
           onClick={() => selectTool('highlighter')}
           selectedTool={selectedTool}
           tool='highlighter'
           title='Hightlight'
         >
           <HighlighterIcon />
-        </IconButton>
-        <IconButton
+        </StyledButton>
+        <StyledButton
           onClick={() => selectTool('rectangle')}
           selectedTool={selectedTool}
           tool='rectangle'
           title='Rectangle'
         >
           <RectangleIcon />
-        </IconButton>
-        <IconButton onClick={() => selectTool('circle')} selectedTool={selectedTool} tool='circle' title='Circle'>
+        </StyledButton>
+        <StyledButton onClick={() => selectTool('circle')} selectedTool={selectedTool} tool='circle' title='Circle'>
           <CircleleIcon />
-        </IconButton>
-        <IconButton onClick={() => selectTool('text')} selectedTool={selectedTool} tool='text' title='Add Text'>
+        </StyledButton>
+        <StyledButton onClick={() => selectTool('text')} selectedTool={selectedTool} tool='text' title='Add Text'>
           <AddTextIcon />
-        </IconButton>
+        </StyledButton>
         <Tooltip title='Add Image' placement='right'>
           <DropZone
             accept='image/*'
@@ -76,34 +76,40 @@ const ToolsPanel = ({ selectTool, addImage, selectedTool, scrollUp, scrollDown, 
             <PastImageIcon />
           </DropZone>
         </Tooltip>
-        <IconButton
+        <StyledButton
           onClick={() => selectTool('eraser')}
           selectedTool={selectedTool}
           tool='eraser'
           title='Element Eraser'
         >
           <EraserIcon />
-        </IconButton>
+        </StyledButton>
       </div>
       <div className="sketch-toolbar right">
-        <IconButton
+        <StyledButton
+          tooltipPlacement="left"
           onClick={scrollUp}
+          navigationBar={true}
           title='Scroll Up'
         >
           <ArrowUpIcon />
-        </IconButton>
-        <IconButton
+        </StyledButton>
+        <StyledButton
+          tooltipPlacement="left"
           onClick={scrollDown}
+          navigationBar={true}
           title='Scroll Down'
         >
           <ArrowDownIcon />
-        </IconButton>
-        <IconButton 
-          onClick={addPage} 
+        </StyledButton>
+        <StyledButton 
+          tooltipPlacement="left"
+          onClick={addPage}
+          navigationBar={true}
           title='Add new page'
         >
           <AddCircleIcon />
-        </IconButton>
+        </StyledButton>
       </div>
     </>
   )

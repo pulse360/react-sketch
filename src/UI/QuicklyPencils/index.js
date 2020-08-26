@@ -1,6 +1,6 @@
 import React from 'react'
 import './styles.css'
-import { Tooltip } from '@material-ui/core'
+import StyledButton from '../StyledButton'
 
 const quicklyPencils = [
   { id: 'pen_1', defaultColor: '#383838', defaultWidth: 5 },
@@ -34,7 +34,7 @@ const QuicklyPencils = ({ changeActiveQuicklyPenID, selectQuicklyPen, activeQuic
   )
 }
 
-const QuicklyPen = ({ onClick, color, lineWidth, active }) => {
+const QuicklyPen = ({ onClick, color: backgroundColor, lineWidth, active }) => {
   let size
 
   if (lineWidth <= 10) {
@@ -45,18 +45,14 @@ const QuicklyPen = ({ onClick, color, lineWidth, active }) => {
     size = lineWidth
   }
 
-  return (
-    <>
-      <Tooltip title={"Quick Color: "+color} arrow>
-        <button type='button' onClick={onClick} className='quickly-pen'>
+  return <StyledButton title={"Quick Color: "+ backgroundColor} onClick={onClick}>
         <div
-          style={{ backgroundColor: color, width: size, height: size }}
+          style={{ backgroundColor, width: size, height: size }}
           className={`quickly-pen__indicator ${active ? 'quickly-pen__active' : ''}`}
         ></div>
-        </button>
-      </Tooltip>
-    </>
-  )
+    </StyledButton>
+
+
 }
 
 export default QuicklyPencils

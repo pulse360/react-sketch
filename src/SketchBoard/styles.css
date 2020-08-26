@@ -19,7 +19,7 @@ html {
   width: 100%;
   height: 100%;
   font-weight: 300;
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
   background-color: beige;
   color: #000000;
 }
