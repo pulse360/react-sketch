@@ -618,7 +618,9 @@ class SketchField extends Component {
   getNewHeight(prevHeight, currentHeight, hfactor) {
     // TOOD: if it doesn't exist any elaments => height should be the size of screen
     // TODO: get the lowest element on the canvas and check the position and compare with currentHeight
-    const newHeight = prevHeight < currentHeight ? currentHeight: prevHeight * hfactor
+
+    const scalePrevHeight = prevHeight * hfactor 
+    const newHeight = scalePrevHeight < currentHeight ? currentHeight: scalePrevHeight
 
     return newHeight;
   }
