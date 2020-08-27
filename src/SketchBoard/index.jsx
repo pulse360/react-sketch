@@ -12,7 +12,8 @@ import fileDownloader from '../fileDownloader'
 class SketchBoard extends React.Component {
   constructor(props) {
     super(props)
-    this.scrollAreaRef = React.createRef();
+    const initialData = props.defaultValue.data || props.defaultValue
+    const isEdit = initialData && initialData.currentTabID
 
     this.state = {
       lineWidth: 1,
@@ -35,9 +36,9 @@ class SketchBoard extends React.Component {
       enableCopyPaste: false,
       anchorEl: null,
       fullScreen: false,
-      sketchValue: [],
-      currentTabID: 'tab_1',
-      tabs: [{ data: [], id: 'tab_1', name: 'Tab #1' }],
+      sketchValue: isEdit ? initialData.tabs[initialData.currentTabID].data : "",
+      currentTabID: isEdit ? initialData.currentTabID : 'page_1',
+      tabs: isEdit? initialData.tabs : { page_1: { data: "", id: 'page_1', order: 0, name: 'Page #1' }},
       activeQuicklyPenID: null,
     }
   }
@@ -98,13 +99,27 @@ class SketchBoard extends React.Component {
   }
 
   _save = ({ withClose }) => {
-    const data = this._sketch.saveToJSON()
     this.props.onSaveCanvas(
       {
-        data
+        data: {
+          currentTabID: this.state.currentTabID,
+          tabs: this._getCurrentSketchPadTabsValue(this.state.tabs)
+        }
       },
       withClose
     )
+  }
+  
+  
+  _getCurrentSketchPadTabsValue = (tabs) => {
+    const {currentTabID} = this.state
+    return {
+      ...tabs, 
+      [currentTabID]:{
+        ...tabs[currentTabID], 
+        data: this._sketch.saveToJSON()
+      }
+    }
   }
 
   _download = () => {
@@ -135,7 +150,6 @@ class SketchBoard extends React.Component {
 
   _clear = () => {
     this._sketch.clear()
-    this._sketch.clearHeightFactor()
     this._onSketchChange()
     this.setState({
       backgroundColor: '#ffffff',
@@ -158,41 +172,52 @@ class SketchBoard extends React.Component {
   _scrollDown = () =>{  
     const currentScroll= this._sketch._container.scrollTop || 0
     const nextScrollPosition =  currentScroll+350
-    
-    // if(nextScrollPosition+350>currentMaxScroll){
-    //   this._sketch.addPage()
-    // }
     this._sketch._container.scrollTo(0, nextScrollPosition)
-
   }
 
+  onTabChange = ()=>{
+    const data = this.state.tabs[this.state.currentTabID].data
+    if(!data){
+      this._clear()
+    } else {
+      this.setState({
+        canUndo: this._sketch.canUndo(),
+        canRedo: this._sketch.canRedo(),
+      })
+    }
+  }
+  
   addTab = () => {
-    if (this.state.tabs.length === 9) {
+    const numberOfTabs = Object.keys(this.state.tabs).length;
+    if (numberOfTabs === 9) {
       return
     }
 
     this.setState(({ tabs }) => {
-      const newTabID = `tab_${tabs.length + 1}`
-
-      const newTab = {
-        data: [],
-        id: newTabID,
-        name: `Tab #${tabs.length + 1}`,
+      const newTabId = `page_${numberOfTabs + 1}`
+      return { 
+        currentTabID: newTabId, 
+        sketchValue: "",
+        tabs: {
+          ...this._getCurrentSketchPadTabsValue(tabs),
+          [newTabId]:{
+            data: "",
+            order: numberOfTabs, 
+            id: newTabId,
+            name: `Page #${numberOfTabs + 1}`,
+          }
+        }
       }
-
-      return { tabs: [...tabs, newTab], currentTabID: newTabID, sketchValue: [] }
-    })
+    }, this.onTabChange)
   }
-
+  
   onTabClick = (tab) => {
-    // TODO: save current sketch data    
-    this.setState(({ tabs }) => {
-      const indx = tabs.findIndex((el) => el.id === tab.id)
-      return {
-        currentTabID: tab.id,
-        sketchValue: tabs[indx].data,
-      }
-    })
+    const tabs = this.state.tabs
+    this.setState({
+      currentTabID: tabs[tab.id].id,
+      sketchValue: tabs[tab.id].data,
+      tabs: this._getCurrentSketchPadTabsValue(tabs)
+    }, this.onTabChange)
   }
 
   _onSketchChange = () => {
@@ -204,19 +229,6 @@ class SketchBoard extends React.Component {
     }
   }
 
-  _calculateInitialHeightFactor = () => {
-   /*  const wrapperElement= document.querySelector('body') || document
-    const isVertical = wrapperElement.clientHeight > wrapperElement.clientWidth;
-    if(isVertical){
-      let numberOfPagesNecessary = 3;
-      while(wrapperElement.clientWidth*numberOfPagesNecessary < wrapperElement.clientHeight+100){
-        numberOfPagesNecessary++
-      }
-      return numberOfPagesNecessary
-    } */
-    return 1
-  }
-  
   _onBackgroundImageDrop = (imageUrl) => {
     const sketch = this._sketch
     sketch.setBackgroundImage(imageUrl, {})
@@ -241,46 +253,19 @@ class SketchBoard extends React.Component {
       new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }).replace(/:/gm, '-')
     
     const filename = dateTime + ' - exported notes'
-    const amountOfPages = this._sketch.state.heightFactor
     const pageWidth = this._sketch.state.windowWidth
     const pageHeight = pageWidth * this._sketch.state.windowAspectRatio
 
-    const images = []
-    for (let page = 0; page < amountOfPages; page++) {
-      const opts = {
-        format: 'jpeg',
-        quality: 0.8,
-        top: page * pageHeight,
-        height: pageHeight,
-        width: pageWidth
-      }
-      images.push(this._sketch.toDataURL(opts))
+    const opts = {
+      format: 'jpeg',
+      quality: 0.8,
+      height: pageHeight,
+      width: pageWidth
     }
+    const images = [this._sketch.toDataURL(opts)]
     fileDownloader({filename, images})
   }
 
-  componentDidMount = () => {
-    (function (console) {
-      console.save = function (data, filename) {
-        if (!data) {
-          console.error('Console.save: No data')
-          return
-        }
-        if (!filename) filename = 'console.json'
-        if (typeof data === 'object') {
-          data = JSON.stringify(data, undefined, 4)
-        }
-        const blob = new Blob([data], { type: 'text/json' }),
-          e = document.createEvent('MouseEvents'),
-          a = document.createElement('a')
-        a.download = filename
-        a.href = window.URL.createObjectURL(blob)
-        a.dataset.downloadurl = ['text/json', a.download, a.href].join(':')
-        e.initMouseEvent('click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null)
-        a.dispatchEvent(e)
-      }
-    })(console)
-  }
 
   addBackgroundImage = (accepted) => {
     if (accepted && accepted.length > 0) {
@@ -351,9 +336,6 @@ class SketchBoard extends React.Component {
             }}
             handleFullScreen={() => {
               this.setState({ fullScreen: !this.state.fullScreen })
-              setTimeout(() => {
-                this._sketch._resize()
-              }, 10)
             }}
             fullScreen={this.state.fullScreen}
             fillColor={this.state.fillWithColor ? this.state.fillColor : 'transparent'}
@@ -448,7 +430,7 @@ class SketchBoard extends React.Component {
             images={this.props.backgroundImages}
             addBackgroundImage={(img) => this.addBackgroundImage(img)}
           />
-          <div className='bottom sketch-area' ref={this.scrollAreaRef}>
+          <div className='bottom sketch-area'>
             <ToolsPanel
               selectedTool={this.state.tool}
               selectTool={(tool) => this._selectTool(tool)}
@@ -470,15 +452,10 @@ class SketchBoard extends React.Component {
               forceValue
               onChange={this._onSketchChange}
               tool={this.state.tool}
-              defaultValue={this.props.defaultValue}
-              defaultHeightFactor={this.props.defaultValue.heightFactor || this._calculateInitialHeightFactor()}
+              defaultValue={this.state.sketchValue}
               fullScreen={this.state.fullScreen}
               selectTool={() => this._selectTool('select')}
               selectPan={() => this._selectTool('pan')}
-              prevDeviceWidth={ this.props.defaultValue.sketchWidth}
-              prevDeviceHeight={ this.props.defaultValue.sketchHeight}
-              prevAspectRatio={ this.props.defaultValue.prevAspectRatio}
-              parentContainerWidth={this.props.parentContainerWidth}
             />
           </div>
           <NavigationAndTabs
