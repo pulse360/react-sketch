@@ -12,7 +12,7 @@ class HistoryTools extends Component {
   render() {
     const { undo, redo, canUndo, canRedo, clear } = this.props
     return <div className='history-tools'>
-    <StyledButton title='Clear Sketchpad' onClick={() => this.setState({ open: true })}>
+    <StyledButton title='Clear this page' onClick={() => this.setState({ open: true })}>
       <CleareIcon />
     </StyledButton>
     <ConfirmClear open={this.state.open} clear={clear} onClose={() => this.setState({ open: false })} />
