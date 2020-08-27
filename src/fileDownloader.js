@@ -20,25 +20,18 @@ function getImagePrintSize(proportion){
 }
 
 
-export default function download({filename, images=[] }){ 
+export default function download({filename, data, proportion}){ 
     const pdf = new jsPDF({
-      orientation: images[0].proportion<1?'l':'p',
+      orientation: proportion<1?'l':'p',
       unit: 'mm',
       format,
       putOnlyUsedFonts: true,
       floatPrecision: 'smart',
     })
     
-    for (let page = 0; page < images.length; page++) {
-      const {data, proportion} = images[page]
-      const {width, height} = getImagePrintSize(proportion)
-      console.log("download -> getImagePrintSize() ", getImagePrintSize(proportion))
-
-      pdf.addImage(data, 'JPEG', 10, 10, width, height)
-      if (images.length - 1 !== page) { 
-        pdf.addPage(format, images[page+1].proportion<1?'l':'p')
-      }
-    }
+    const {width, height} = getImagePrintSize(proportion)
+    console.log("download -> getImagePrintSize() ", getImagePrintSize(proportion))
+    pdf.addImage(data, 'JPEG', 10, 10, width, height)
     
     pdf.save(`${filename||"exported digital note"}`+'.pdf')
 

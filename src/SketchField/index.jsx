@@ -344,8 +344,11 @@ class SketchField extends Component {
   print = (filename) => {  
     const currentWidth = this._fc.getWidth()
     const currentHeight = this._fc.getHeight()
-    const images = [{data:this.toDataURL({ format: 'jpeg', quality: 0.8 }), proportion: currentHeight/currentWidth }]
-    fileDownloader({filename, images})
+    fileDownloader({
+      filename, 
+      data: this.toDataURL({ format: 'jpeg', quality: 0.8 }), 
+      proportion: currentHeight/currentWidth
+    })
   }
 
   toDataURL = (options) => this._fc.toDataURL(options)
