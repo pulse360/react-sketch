@@ -1,5 +1,5 @@
 import React from 'react'
-import { FillColorIcon, StrokeColorIcon, BackgroundImageIcon } from '../SVG'
+import { FillColorIcon, StrokeColorIcon } from '../SVG'
 import StyledButton from '../StyledButton'
 import './styles.css'
 
@@ -21,9 +21,9 @@ const ColorButtons = ({ setAnchorEl, open, fillColor, lineColor }) => {
         <div className='color-tools__color-indicator' style={{ backgroundColor: lineColor }}></div>
         <StrokeColorIcon />
       </StyledButton>
-      <StyledButton title="Background Image" onClick={(event) => handleClick(event, 'expandBackground')}>
+      {/* <StyledButton title="Background Image" onClick={(event) => handleClick(event, 'expandBackground')}>
         <BackgroundImageIcon />
-      </StyledButton>
+      </StyledButton> */}
     </div>
   )
 }

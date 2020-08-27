@@ -5,7 +5,7 @@ import 'flexboxgrid'
 import './styles.css'
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles'
 import color from '@material-ui/core/colors/blueGrey'
-import { SketchField, Appbar,NavigationAndTabs , AddTextDrawer, FillColor, BackgroundImage, ToolsPanel, StrokeColor } from '../'
+import { SketchField, Appbar,NavigationAndTabs , AddTextDrawer, FillColor, ToolsPanel, StrokeColor } from '../'
 import Tools from '../Tools'
 import fileDownloader from '../fileDownloader'
 
@@ -38,7 +38,7 @@ class SketchBoard extends React.Component {
       fullScreen: false,
       sketchValue: isEdit ? initialData.tabs[initialData.currentTabID].data : "",
       currentTabID: isEdit ? initialData.currentTabID : 'page_1',
-      tabs: isEdit? initialData.tabs : { page_1: { data: "", id: 'page_1', order: 0, name: 'Page #1' }},
+      tabs: isEdit ? initialData.tabs : { page_1: { data: "", id: 'page_1', order: 0, type:"note", name: '#1' }},
       activeQuicklyPenID: null,
     }
   }
@@ -175,40 +175,33 @@ class SketchBoard extends React.Component {
     this._sketch._container.scrollTo(0, nextScrollPosition)
   }
 
-  onTabChange = ()=>{
-    const data = this.state.tabs[this.state.currentTabID].data
-    if(!data){
-      this._clear()
-    } else {
-      this.setState({
-        canUndo: this._sketch.canUndo(),
-        canRedo: this._sketch.canRedo(),
-      })
-    }
-  }
   
-  addTab = () => {
+  addTab = (type="note", callBack) => {
     const numberOfTabs = Object.keys(this.state.tabs).length;
     if (numberOfTabs === 9) {
       return
     }
-
     this.setState(({ tabs }) => {
-      const newTabId = `page_${numberOfTabs + 1}`
+      const newTab = {
+        type,
+        data: "",
+        order: numberOfTabs, 
+        id: `${type}_${numberOfTabs + 1}`,
+        name: `#${numberOfTabs + 1}`,
+      }
       return { 
-        currentTabID: newTabId, 
-        sketchValue: "",
+        currentTabID: newTab.id, 
+        sketchValue: newTab.data,
         tabs: {
           ...this._getCurrentSketchPadTabsValue(tabs),
-          [newTabId]:{
-            data: "",
-            order: numberOfTabs, 
-            id: newTabId,
-            name: `Page #${numberOfTabs + 1}`,
-          }
+          [newTab.id]:newTab
         }
       }
-    }, this.onTabChange)
+    }, () => {
+      this._clear() 
+      callBack && callBack()
+    }
+    )
   }
   
   onTabClick = (tab) => {
@@ -217,9 +210,16 @@ class SketchBoard extends React.Component {
       currentTabID: tabs[tab.id].id,
       sketchValue: tabs[tab.id].data,
       tabs: this._getCurrentSketchPadTabsValue(tabs)
-    }, this.onTabChange)
+    }, () => this.setState({
+      canUndo: this._sketch.canUndo(),
+      canRedo: this._sketch.canRedo(),
+    }))
   }
 
+  _createNewPresentationPage = () => {
+    this.addTab('whiteboard', () => this._sketch.setBackgroundImage(null,'white'))
+  }
+  
   _onSketchChange = () => {
 
     const prev = this.state.canUndo
@@ -229,10 +229,6 @@ class SketchBoard extends React.Component {
     }
   }
 
-  _onBackgroundImageDrop = (imageUrl) => {
-    const sketch = this._sketch
-    sketch.setBackgroundImage(imageUrl, {})
-  }
 
   _addText = () => {
     this._selectTool('select')
@@ -311,14 +307,14 @@ class SketchBoard extends React.Component {
           <Appbar
             onExit={this.props.onExit}
             onNotifyUsers={this.props.onNotifyUsers}
-            fullScreenHandlerDisabled={this.props.fullScreenHandlerDisabled}
-            onOpenInNewWindow={() => {
-              const data = this._sketch.toJSON()
-              data.sketchWidth = this._sketch.state.windowWidth
-              data.sketchHeight = this._sketch._container.offsetHeight
+            // fullScreenHandlerDisabled={this.props.fullScreenHandlerDisabled}
+            // onOpenInNewWindow={() => {
+            //   const data = this._sketch.toJSON()
+            //   data.sketchWidth = this._sketch.state.windowWidth
+            //   data.sketchHeight = this._sketch._container.offsetHeight
 
-              this.props.onOpenNewWindow(data)
-            }}
+            //   this.props.onOpenNewWindow(data)
+            // }}
             print={this._print}
             activeQuicklyPenID={this.state.activeQuicklyPenID}
             selectQuicklyPen={(color, width) => {
@@ -331,23 +327,23 @@ class SketchBoard extends React.Component {
             changeActiveQuicklyPenID={(id) => {
               this.setState({ activeQuicklyPenID: id })
             }}
-            getFullScreenStatus={() => {
-              this.props.getFullScreenStatus(!this.state.fullScreen)
-            }}
-            handleFullScreen={() => {
-              this.setState({ fullScreen: !this.state.fullScreen })
-            }}
-            fullScreen={this.state.fullScreen}
+            // getFullScreenStatus={() => {
+            //   this.props.getFullScreenStatus(!this.state.fullScreen)
+            // }}
+            // handleFullScreen={() => {
+            //   this.setState({ fullScreen: !this.state.fullScreen })
+            // }}
+            // fullScreen={this.state.fullScreen}
             fillColor={this.state.fillWithColor ? this.state.fillColor : 'transparent'}
             lineColor={this.state.lineColor}
-            zoomIn={() => {
-              this._sketch.zoom(1.25)
-              this._onSketchChange()
-            }}
-            zoomOut={() => {
-              this._sketch.zoom(0.8)
-              this._onSketchChange()
-            }}
+            // zoomIn={() => {
+            //   this._sketch.zoom(1.25)
+            //   this._onSketchChange()
+            // }}
+            // zoomOut={() => {
+            //   this._sketch.zoom(0.8)
+            //   this._onSketchChange()
+            // }}
             openPopup={this.openPopup}
             setAnchorEl={(event) => this.setAnchorEl(event)}
             canUndo={this.state.canUndo}
@@ -363,7 +359,7 @@ class SketchBoard extends React.Component {
             //   this._sketch.paste()
             // }}
             colorsOpen={() => this.setState({ expandColors: !this.state.expandColors })}
-            backgroundOpen={() => this.setState({ expandBack: !this.state.expandBack })}
+            presentationPage={this._createNewPresentationPage}
             lineWidth={this.state.lineWidth}
             changeLineWidth={(value) => {
               this.setState({
@@ -422,14 +418,14 @@ class SketchBoard extends React.Component {
             }}
             anchorEl={this.state.anchorEl}
           />
-          <BackgroundImage
+          {/* <BackgroundImage
             open={this.state.expandBackground}
             handleOpen={(e) => this.setState({ expandBackground: !this.state.expandBackground })}
-            changeImage={this._onBackgroundImageDrop}
+            changeImage={(image)=> this._sketch.setBackgroundImage(image)}
             anchorEl={this.state.anchorEl}
             images={this.props.backgroundImages}
             addBackgroundImage={(img) => this.addBackgroundImage(img)}
-          />
+          /> */}
           <div className='bottom sketch-area'>
             <ToolsPanel
               selectedTool={this.state.tool}
@@ -453,7 +449,7 @@ class SketchBoard extends React.Component {
               onChange={this._onSketchChange}
               tool={this.state.tool}
               defaultValue={this.state.sketchValue}
-              fullScreen={this.state.fullScreen}
+              // fullScreen={this.state.fullScreen}
               selectTool={() => this._selectTool('select')}
               selectPan={() => this._selectTool('pan')}
             />
@@ -464,7 +460,7 @@ class SketchBoard extends React.Component {
               scrollUp={this._scrollUp}
               tabs={this.state.tabs}
               onTabClick={this.onTabClick}
-              onAddTab={this.addTab}
+              onAddTab={()=>this.addTab()}
               currentTabID={this.state.currentTabID}
               />
         </div>
