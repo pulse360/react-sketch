@@ -25,7 +25,7 @@
   "types": "./types/index.d.ts",
   "scripts": {
     "start": "node webpack/server.js",
-    "start:embedded": "NODE_ENV=development webpack --mode development --config webpack/library.cfg.dev.js --watch",
+    "build:watch": "NODE_ENV=development webpack --mode development --config webpack/library.cfg.dev.js --watch",
     "build": "NODE_ENV=production webpack --mode production --config webpack/library.cfg.js",
     "lint": "eslint ./src",
     "lint:fix": "eslint --fix ./src",

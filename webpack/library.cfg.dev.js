@@ -5,18 +5,11 @@ const NoEmitOnErrorsPlugin = require('webpack/lib/NoEmitOnErrorsPlugin')
 const OccurrenceOrderPlugin = require('webpack/lib/optimize/OccurrenceOrderPlugin')
 const AggressiveMergingPlugin = require('webpack/lib/optimize/AggressiveMergingPlugin')
 const ModuleConcatenationPlugin = require('webpack/lib/optimize/ModuleConcatenationPlugin')
-const SourceMapDevToolPlugin = require ('webpack/lib/SourceMapDevToolPlugin')
+// const CompressionPlugin = require('compression-webpack-plugin');
 
-module.exports = module.exports = [
-  'source-map'
-].map(devtool=>({
+module.exports = {
   entry: {
     index: './src/index.js',
-  },
-  devtool,
-  optimization: {
-    minimize: false,
-    runtimeChunk: true
   },
   performance: {
     hints: false,
@@ -25,6 +18,7 @@ module.exports = module.exports = [
     path: Paths.outputPath,
     filename: '[name].js',
     libraryTarget: 'umd',
+    chunkFilename: '[name].bundle.js',
   },
   resolve: {
     extensions: ['.js', '.jsx'],
@@ -52,15 +46,17 @@ module.exports = module.exports = [
   },
   plugins: [
     new ModuleConcatenationPlugin(),
+    new UglifyJsPlugin({
+      parallel: true,
+      uglifyOptions: {
+        warnings: false,
+      },
+    }),
     new NoEmitOnErrorsPlugin(),
     new OccurrenceOrderPlugin(),
     new AggressiveMergingPlugin(),
-    // new SourceMapDevToolPlugin({
-    //   filename: '[name].js.map'
-    // }),
     new DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify('development'),
     }),
   ],
-})
-)
+}
