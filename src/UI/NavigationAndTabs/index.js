@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { Component } from 'react'
 import './styles.css'
 import { AddTabIcon, ArrowUpIcon, ArrowDownIcon } from '../SVG'
 import StyledButton from '../StyledButton'
@@ -22,53 +22,51 @@ function Tab({ tab, currentTabID, selectTab }) {
   )
 }
 
-function Tabs({ tabs, onTabClick, currentTabID }) {
-  const [showTabs, setShowTabs] = useState(false)
-  const [filteredTabs, setFilteredTabs] = useState(tabs)
-  const [selectedTab, setSelectedTab] = useState(tabs[0])
-  const [timer, setTimer] = useState(false)
 
-  useEffect(() => {
-    setSelectedTab(tabs.find((tab) => tab.id === currentTabID) || tabs[0])
-    setFilteredTabs(tabs.filter((tab) => tab.id !== currentTabID))
-  }, [tabs, currentTabID])
-
-  const toggleExpandedTabs = () => {
-    if (timer) {
-      clearTimeout(timer)
-      setTimer(false)
+class Tabs extends Component {
+  constructor(props){
+    super(props)
+    this.state = { showTabs: false }
+  }
+  
+  toggleExpandedTabs = () => {
+    if (this.state.showTabs) {
+      clearTimeout(this.state.showTabs)
+      this.setState({showTabs:false})
+    } else {
+      this.setState({showTabs: setTimeout(() => this.setState({showTabs:false}), 2000)})
     }
-    if (!showTabs) {
-      setTimer(setTimeout(() => setShowTabs(false), 2000))
+  }
+  
+  selectTab = (tab) => {
+    this.props.onTabClick(tab)
+    this.toggleExpandedTabs()
+  }
+  
+  render() {
+    const { currentTabID,tabs } = this.props
+    const { showTabs } = this.state
+    const filteredTabs = Object.values(this.props.tabs).filter((tab) => tab.id !== this.props.currentTabID)
+    if (filteredTabs.length) {
+      return (
+        <div className='tabs'>
+          <Tab tab={tabs[currentTabID]} currentTabID={currentTabID} selectTab={this.selectTab} />
+          {showTabs &&
+            filteredTabs.map((tab) => <Tab key={tab.id} tab={tab} currentTabID={currentTabID} selectTab={this.selectTab} />)}
+          <StyledButton
+            style={{ width: 25, color: '#20A0FF', transform: showTabs?'rotate(180deg)':'' }}
+            tooltipPlacement='top'
+            navigationBar={true}
+            title='Toggle expanded page list'
+            onClick={this.toggleExpandedTabs}
+          >
+            &#9668;
+          </StyledButton>
+        </div>
+      )
     }
-    setShowTabs(!showTabs)
-  }
-
-  const selectTab = (tab) => {
-    onTabClick(tab)
-    toggleExpandedTabs()
-  }
-
-  if (tabs.length > 1) {
-    return (
-      <div className='tabs'>
-        <Tab tab={selectedTab} currentTabID={currentTabID} selectTab={selectTab} />
-        {showTabs &&
-          filteredTabs.map((tab) => <Tab key={tab.id} tab={tab} currentTabID={currentTabID} selectTab={selectTab} />)}
-        <StyledButton
-          style={{ width: 25, color: '#20A0FF', transform: showTabs?'rotate(180deg)':'' }}
-          tooltipPlacement='top'
-          navigationBar={true}
-          title='Toggle expanded page list'
-          onClick={toggleExpandedTabs}
-        >
-          &#9668;
-        </StyledButton>
-      </div>
-    )
-  }
-  return false
-}
+    return false
+}}
 
 export default function toolbar({ scrollUp, scrollDown, onAddTab, tabs = [], onTabClick, currentTabID }) {
   return (
