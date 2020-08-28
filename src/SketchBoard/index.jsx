@@ -7,7 +7,6 @@ import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles'
 import color from '@material-ui/core/colors/blueGrey'
 import { SketchField, Appbar,NavigationAndTabs , AddTextDrawer, FillColor, BackgroundImage, ToolsPanel, StrokeColor } from '../'
 import Tools from '../Tools'
-import fileDownloader from '../fileDownloader'
 
 class SketchBoard extends React.Component {
   constructor(props) {
@@ -242,31 +241,6 @@ class SketchBoard extends React.Component {
     })
   }
 
-  /**
-   * exports the current canvas as a pdf or print dialog
-   */
-  _print = () => {
-    const dateTime =
-      'D' +
-      new Date().toLocaleDateString() +
-      ' T' +
-      new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }).replace(/:/gm, '-')
-    
-    const filename = dateTime + ' - exported notes'
-    const pageWidth = this._sketch.state.windowWidth
-    const pageHeight = pageWidth * this._sketch.state.windowAspectRatio
-
-    const opts = {
-      format: 'jpeg',
-      quality: 0.8,
-      height: pageHeight,
-      width: pageWidth
-    }
-    const images = [this._sketch.toDataURL(opts)]
-    fileDownloader({filename, images})
-  }
-
-
   addBackgroundImage = (accepted) => {
     if (accepted && accepted.length > 0) {
       const sketch = this._sketch
@@ -319,7 +293,7 @@ class SketchBoard extends React.Component {
 
               this.props.onOpenNewWindow(data)
             }}
-            print={this._print}
+            print={()=>this._sketch.print(this.props.fileName)}
             activeQuicklyPenID={this.state.activeQuicklyPenID}
             selectQuicklyPen={(color, width) => {
               this.setState({

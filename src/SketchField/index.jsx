@@ -17,6 +17,7 @@ import Text from '../SketchTools/text'
 import lines from '../UI/BackgroundImage/images/lines.png'
 import { Snackbar, IconButton } from '@material-ui/core'
 import { CloseIcon } from '../UI/SVG'
+import fileDownloader from '../fileDownloader'
 
 const fabric = require('fabric').fabric
 
@@ -338,6 +339,16 @@ class SketchField extends Component {
 
   canRedo = () => {
     return this._history.canRedo()
+  }
+  
+  print = (filename) => {  
+    const currentWidth = this._fc.getWidth()
+    const currentHeight = this._fc.getHeight()
+    fileDownloader({
+      filename, 
+      data: this.toDataURL({ format: 'jpeg', quality: 0.8 }), 
+      proportion: currentHeight/currentWidth
+    })
   }
 
   toDataURL = (options) => this._fc.toDataURL(options)
