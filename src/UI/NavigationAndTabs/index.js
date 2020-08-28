@@ -1,17 +1,19 @@
 import React, { Component } from 'react'
 import './styles.css'
-import { AddTabIcon, ArrowUpIcon, ArrowDownIcon } from '../SVG'
+import { AddTabIcon, ArrowUpIcon, ArrowDownIcon, ArrowLeftIcon } from '../SVG'
 import StyledButton from '../StyledButton'
 
 const tabStyle = {
-  true: { color: '#fff', backgroundColor: '#20A0FF' },
-  false: { color: '#20A0FF', backgroundColor: '#323e4c' },
+  selected_note: { color: '#fff', backgroundColor: '#20A0FF' },
+  selected_whiteboard: { color: '#fff', backgroundColor: '#53BC31' },
+  not_selected_note: { color: '#20A0FF', backgroundColor: '#323e4c' },
+  not_selected_whiteboard: { color: '#53BC31', backgroundColor: '#323e4c' },
 }
 
 function Tab({ tab, currentTabID, selectTab }) {
   return (
     <StyledButton
-      style={tabStyle[currentTabID === tab.id]}
+      style={tabStyle[`${currentTabID === tab.id?"selected":"not_selected"}_${tab.type}`]}
       tooltipPlacement='top'
       navigationBar={true}
       title={tab.name}
@@ -50,17 +52,17 @@ class Tabs extends Component {
     if (filteredTabs.length) {
       return (
         <div className='tabs'>
-          <Tab tab={tabs[currentTabID]} currentTabID={currentTabID} selectTab={this.selectTab} />
+          <Tab tab={tabs[currentTabID]} currentTabID={currentTabID} selectTab={this.toggleExpandedTabs} />
           {showTabs &&
             filteredTabs.map((tab) => <Tab key={tab.id} tab={tab} currentTabID={currentTabID} selectTab={this.selectTab} />)}
           <StyledButton
-            style={{ width: 25, color: '#20A0FF', transform: showTabs?'rotate(180deg)':'' }}
+            style={{ width:25, color: '#20A0FF', transform: showTabs?'rotate(180deg)':'' }}
             tooltipPlacement='top'
             navigationBar={true}
             title='Toggle expanded page list'
             onClick={this.toggleExpandedTabs}
           >
-            &#9668;
+            <ArrowLeftIcon />
           </StyledButton>
         </div>
       )

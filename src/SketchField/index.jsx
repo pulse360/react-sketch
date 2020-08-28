@@ -443,11 +443,9 @@ class SketchField extends Component {
     })
   }
 
-  setBackgroundImage = (dataUrl, options = {}) => {
-    const canvas = this._fc
-    canvas.setBackgroundColor({ source: dataUrl, repeat: 'repeat' }, function () {
-      canvas.renderAll()
-    })
+  setBackgroundImage = (dataUrl, colorCode) => {
+    const params = colorCode? colorCode : { source: dataUrl, repeat: 'repeat' }    
+    this._fc.setBackgroundColor(params, () => this._fc.renderAll())
   }
 
   addText = (text, options = {}) => {

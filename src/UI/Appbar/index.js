@@ -7,10 +7,12 @@ import {
   HistoryButtons,
   ColorButtons,
   Slider,
-  QuicklyPencils,
+  QuicklyPencils
 } from '../../'
 
 import './styles.css'
+import { SlideshowIcon } from '../SVG'
+import StyledButton from '../StyledButton'
 
 const styles = {
   backgroundColor: '#F6F7FB',
@@ -51,6 +53,7 @@ const Appbar = ({
   onOpenInNewWindow,
   fullScreenHandlerDisabled,
   onNotifyUsers,
+  presentationPage
   }) => (
   <div style={styles}>
     <SaveButtons save={save} exit={onExit}  print={print} notify={onNotifyUsers} />
@@ -62,6 +65,9 @@ const Appbar = ({
       activeQuicklyPenID={activeQuicklyPenID}
     />
     <ColorButtons setAnchorEl={setAnchorEl} open={openPopup} fillColor={fillColor} lineColor={lineColor} />
+    <StyledButton title="Create a Whiteboard Page" onClick={presentationPage} style={{marginLeft:'10px'}}>
+      <SlideshowIcon />
+    </StyledButton>
     {/* <IconButton color='primary' disabled={enableCopyPaste} onClick={copyPasteClick}>
       <CopyIcon />
     </IconButton> */}
