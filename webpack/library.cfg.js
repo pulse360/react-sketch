@@ -1,6 +1,6 @@
 const Paths = require('./paths')
 const DefinePlugin = require('webpack/lib/DefinePlugin')
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+const TerserPlugin = require('terser-webpack-plugin')
 const NoEmitOnErrorsPlugin = require('webpack/lib/NoEmitOnErrorsPlugin')
 const OccurrenceOrderPlugin = require('webpack/lib/optimize/OccurrenceOrderPlugin')
 const AggressiveMergingPlugin = require('webpack/lib/optimize/AggressiveMergingPlugin')
@@ -46,12 +46,6 @@ module.exports = {
   },
   plugins: [
     new ModuleConcatenationPlugin(),
-    new UglifyJsPlugin({
-      parallel: true,
-      uglifyOptions: {
-        warnings: false,
-      },
-    }),
     new NoEmitOnErrorsPlugin(),
     new OccurrenceOrderPlugin(),
     new AggressiveMergingPlugin(),
@@ -59,4 +53,12 @@ module.exports = {
       'process.env.NODE_ENV': JSON.stringify('production'),
     }),
   ],
+  optimization: {
+    minimize: true,
+    minimizer: [
+      new TerserPlugin({
+        parallel: true,
+      }),
+    ],
+  },
 }
