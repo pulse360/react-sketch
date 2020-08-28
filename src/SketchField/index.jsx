@@ -79,11 +79,9 @@ class SketchField extends Component {
   addImg = (dataUrl, options = {}) => {
     const canvas = this._fc
     fabric.Image.fromURL(dataUrl, (oImg) => {
-      const lowerCanvasElement = document.querySelector('.sketch-area')
-      const currentUserViewportPosition = Math.abs(lowerCanvasElement.scrollHeight - lowerCanvasElement.scrollTop)
       let opts = {
         left: Math.random() * (canvas.getWidth() - oImg.width * 0.5),
-        top: canvas.getHeight() - currentUserViewportPosition + 100,
+        top: Math.random() * (canvas.getHeight() - oImg.height) * 0.5,
         scale: 0.5,
       }
       Object.assign(opts, options)
@@ -189,9 +187,17 @@ class SketchField extends Component {
     }
   }
 
-  scaleElementsAndCanvas(canvas, newWidth, newHeight, wfactor, hfactor) {
+  scaleElementsAndCanvas(canvas, prevWidth, currentWidth, prevHeight, currentHeight) {
+
+    const wfactor = currentWidth / prevWidth
+    const hfactor = wfactor
+    const newHeight = this.getNewHeight(prevHeight, currentHeight, hfactor)
+    const newWidth = currentWidth
+
     canvas.setWidth(newWidth)
     canvas.setHeight(newHeight)
+
+    console.log('scale ', JSON.stringify({prevWidth, newWidth, prevHeight, currentHeight, newHeight, isBiggerThanOld: prevHeight < currentHeight}))
 
     const objects = canvas.getObjects()
 
@@ -229,14 +235,7 @@ class SketchField extends Component {
     const prevWidth = canvas.getWidth()
     const prevHeight = canvas.getHeight()
 
-    const wfactor = currentWidth / prevWidth
-    const hfactor = wfactor
-    const newHeight = this.getNewHeight(prevHeight, currentHeight, hfactor);
-
-    console.log('resize values', JSON.stringify({currentHeight, currentWidth, prevWidth, prevHeight, wfactor, newHeight}))
-
-
-    this.scaleElementsAndCanvas(canvas, currentWidth, newHeight, wfactor, hfactor)
+    this.scaleElementsAndCanvas(canvas, prevWidth, currentWidth, prevHeight, currentHeight)
 
   }, 300)
 
@@ -250,20 +249,13 @@ class SketchField extends Component {
     const prevWidth = defaultValue.canvasWidth
     const prevHeight = defaultValue.canvasHeight
 
-    const wfactor = currentWidth / prevWidth
-    const hfactor = wfactor
-
-    console.log('prevSizies ', JSON.stringify({prevWidth, prevHeight, currentHeight, isBiggerThanOld: prevHeight < currentHeight, wfactor, hfactor}))
-
-    const newHeight = this.getNewHeight(prevHeight, currentHeight, hfactor);
-
     if (defaultValue.background) {
       this.setBackgroundImage(defaultValue.background.source)
     } else {
       this.setBackgroundImage(lines)
     }
 
-    this.scaleElementsAndCanvas(canvas, currentWidth, newHeight, wfactor, hfactor)
+    this.scaleElementsAndCanvas(canvas, prevWidth, currentWidth, prevHeight, currentHeight)
     
   }
 
@@ -484,6 +476,8 @@ class SketchField extends Component {
     const canvas = (this._fc = new fabric.Canvas(this._canvas))
     canvas.enableRetinaScaling = false
     canvas.allowTouchScrolling = false
+    canvas.setWidth(this.getSketchWidth())
+    canvas.setHeight(this.getSketchHeight())
     this._initTools(canvas)
 
     // this._backgroundColor(backgroundColor)
@@ -516,21 +510,11 @@ class SketchField extends Component {
     canvas.on('mouse:move', this._onMouseMove)
     canvas.on('mouse:out', this._onMouseOut)
 
-    // DEBUG
-    // canvas.on('after:render', console.log)
-
     canvas.on('object:moving', this._onObjectMoving)
     canvas.on('object:scaling', this._onObjectScaling)
     canvas.on('object:rotating', this._onObjectRotating)
 
     document.addEventListener('paste', this._onPaste, false)
-
-    // this is not used
-    /* this.setState({
-      viewerPosition: document.body.scrollHeight - document.body.scrollTop,
-    }) */
-
-    console.log('default', JSON.stringify(defaultValue))
 
     if (defaultValue) {
       this.setDefaultValue()
@@ -553,15 +537,6 @@ class SketchField extends Component {
   componentWillUnmount = () => window.removeEventListener('resize', this._resize)
 
   componentDidUpdate = (prevProps, prevState) => {
-    // if (prevState.parentWidth !== this.state.parentWidth) {
-    //   this.setState({
-    //     heightFactor: this.props.defaultHeightFactor,
-    //   })
-    // }
-
-    // if (prevState.heightFactor !== this.state.heightFactor) {
-    //   this._heightNormalizer()
-    // }
 
     if (this.props.tool !== prevProps.tool) {
       this._selectedTool = this._tools[this.props.tool] || this._tools[Tool.Pencil]
@@ -570,20 +545,10 @@ class SketchField extends Component {
     this._fc.defaultCursor = 'default'
     this._selectedTool.configureCanvas(this.props)
 
-    // if (this.props.backgroundColor !== prevProps.backgroundColor) {
-    //   this._backgroundColor(this.props.backgroundColor)
-    // }
-
     if (this.props.defaultValue !== prevProps.defaultValue) {
       this.fromJSON(this.props.defaultValue)
+      setTimeout(this._resizeWithPrevSizies, 200)
     }
-  }
-
-  clearHeightFactor = () => {
-    this.setState({
-      heightFactor: this.props.defaultHeightFactor || 1,
-    })
-    this._resize()
   }
 
   setBackgroundFromDataUrl = (dataUrl, options = {}) => {

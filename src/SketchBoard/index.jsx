@@ -1,7 +1,5 @@
 /*eslint no-unused-vars: 0, no-console: 0*/
-
 import React from 'react'
-import 'flexboxgrid'
 import './styles.css'
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles'
 import color from '@material-ui/core/colors/blueGrey'
