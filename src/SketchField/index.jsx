@@ -79,11 +79,9 @@ class SketchField extends Component {
   addImg = (dataUrl, options = {}) => {
     const canvas = this._fc
     fabric.Image.fromURL(dataUrl, (oImg) => {
-      const lowerCanvasElement = document.querySelector('.sketch-area')
-      const currentUserViewportPosition = Math.abs(lowerCanvasElement.scrollHeight - lowerCanvasElement.scrollTop)
       let opts = {
         left: Math.random() * (canvas.getWidth() - oImg.width * 0.5),
-        top: canvas.getHeight() - currentUserViewportPosition + 100,
+        top: Math.random() * (canvas.getHeight() - oImg.height) * 0.5,
         scale: 0.5,
       }
       Object.assign(opts, options)
