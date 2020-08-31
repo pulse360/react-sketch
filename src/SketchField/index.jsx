@@ -197,7 +197,7 @@ class SketchField extends Component {
     canvas.setWidth(newWidth)
     canvas.setHeight(newHeight)
 
-    console.log('scale ', JSON.stringify({prevWidth, newWidth, prevHeight, currentHeight, newHeight, isBiggerThanOld: prevHeight < currentHeight}))
+    console.log('scale ', JSON.stringify({ prevWidth, newWidth, prevHeight, currentHeight, newHeight, isBiggerThanOld: prevHeight < currentHeight }))
 
     const objects = canvas.getObjects()
 
@@ -246,8 +246,8 @@ class SketchField extends Component {
 
     const currentWidth = this.getSketchWidth()
     const currentHeight = this.getSketchHeight()
-    const prevWidth = defaultValue.canvasWidth
-    const prevHeight = defaultValue.canvasHeight
+    const prevWidth = defaultValue.canvasWidth || currentWidth
+    const prevHeight = defaultValue.canvasHeight || currentHeight
 
     if (defaultValue.background) {
       this.setBackgroundImage(defaultValue.background.source)
@@ -256,7 +256,7 @@ class SketchField extends Component {
     }
 
     this.scaleElementsAndCanvas(canvas, prevWidth, currentWidth, prevHeight, currentHeight)
-    
+
   }
 
   _backgroundColor = (color) => {
@@ -332,14 +332,14 @@ class SketchField extends Component {
   canRedo = () => {
     return this._history.canRedo()
   }
-  
-  print = (filename) => {  
+
+  print = (filename) => {
     const currentWidth = this._fc.getWidth()
     const currentHeight = this._fc.getHeight()
     fileDownloader({
-      filename, 
-      data: this.toDataURL({ format: 'jpeg', quality: 0.8 }), 
-      proportion: currentHeight/currentWidth
+      filename,
+      data: this.toDataURL({ format: 'jpeg', quality: 0.8 }),
+      proportion: currentHeight / currentWidth
     })
   }
 
@@ -350,7 +350,7 @@ class SketchField extends Component {
   saveToJSON(propertiesToInclude) {
     const canvas = this._fc;
     const data = canvas.toJSON(propertiesToInclude)
-  
+
     data.sketchWidth = this.getSketchWidth()
     data.sketchHeight = this.getSketchHeight()
     data.canvasWidth = canvas.getWidth()
@@ -436,7 +436,8 @@ class SketchField extends Component {
   }
 
   setBackgroundImage = (dataUrl, colorCode) => {
-    const params = colorCode? colorCode : { source: dataUrl, repeat: 'repeat' }    
+    console.log('set color')
+    const params = colorCode ? colorCode : { source: dataUrl, repeat: 'repeat' }
     this._fc.setBackgroundColor(params, () => this._fc.renderAll())
   }
 
@@ -593,8 +594,8 @@ class SketchField extends Component {
     // TOOD: if it doesn't exist any elaments => height should be the size of screen
     // TODO: get the lowest element on the canvas and check the position and compare with currentHeight
 
-    const scalePrevHeight = prevHeight * hfactor 
-    const newHeight = scalePrevHeight < currentHeight ? currentHeight: scalePrevHeight
+    const scalePrevHeight = prevHeight * hfactor
+    const newHeight = scalePrevHeight < currentHeight ? currentHeight : scalePrevHeight
 
     return newHeight;
   }
