@@ -1,23 +1,23 @@
 // @ts-check
-import React, { Component } from 'react'
+import { IconButton, Snackbar } from '@material-ui/core'
 import PropTypes from 'prop-types'
-import History from '../SketchTools/history'
-import { debounce } from '../utils'
-import Select from '../SketchTools/select'
-import Pencil from '../SketchTools/pencil'
-import Line from '../SketchTools/line'
+import React, { Component } from 'react'
+import Tool from '../Constants/Tools'
+import fileDownloader from '../fileDownloader'
 import Arrow from '../SketchTools/arrow'
-import Rectangle from '../SketchTools/rectangle'
 import Circle from '../SketchTools/circle'
-import Pan from '../SketchTools/pan'
-import Tool from '../Tools'
 import Eraser from '../SketchTools/eraser'
 import Highlighter from '../SketchTools/highlighter'
+import History from '../SketchTools/history'
+import Line from '../SketchTools/line'
+import Pan from '../SketchTools/pan'
+import Pencil from '../SketchTools/pencil'
+import Rectangle from '../SketchTools/rectangle'
+import Select from '../SketchTools/select'
 import Text from '../SketchTools/text'
 import lines from '../UI/BackgroundImage/images/lines.png'
-import { Snackbar, IconButton } from '@material-ui/core'
 import { CloseIcon } from '../UI/SVG'
-import fileDownloader from '../fileDownloader'
+import { debounce } from '../utils'
 
 const fabric = require('fabric').fabric
 
@@ -197,7 +197,7 @@ class SketchField extends Component {
     canvas.setWidth(newWidth)
     canvas.setHeight(newHeight)
 
-    console.log('scale ', JSON.stringify({prevWidth, newWidth, prevHeight, currentHeight, newHeight, isBiggerThanOld: prevHeight < currentHeight}))
+    console.log('scale ', JSON.stringify({ prevWidth, newWidth, prevHeight, currentHeight, newHeight, isBiggerThanOld: prevHeight < currentHeight }))
 
     const objects = canvas.getObjects()
 
@@ -237,7 +237,7 @@ class SketchField extends Component {
 
     this.scaleElementsAndCanvas(canvas, prevWidth, currentWidth, prevHeight, currentHeight)
 
-  }, 300)
+  }, 1000)
 
   _resizeWithPrevSizies = () => {
     const canvas = this._fc
@@ -246,17 +246,17 @@ class SketchField extends Component {
 
     const currentWidth = this.getSketchWidth()
     const currentHeight = this.getSketchHeight()
-    const prevWidth = defaultValue.canvasWidth
-    const prevHeight = defaultValue.canvasHeight
+    const prevWidth = defaultValue.canvasWidth || currentWidth
+    const prevHeight = defaultValue.canvasHeight || currentHeight
 
     if (defaultValue.background) {
-      this.setBackgroundImage(defaultValue.background.source)
+      this.setBackgroundImage(defaultValue.background.source, defaultValue.background)
     } else {
       this.setBackgroundImage(lines)
     }
 
     this.scaleElementsAndCanvas(canvas, prevWidth, currentWidth, prevHeight, currentHeight)
-    
+
   }
 
   _backgroundColor = (color) => {
@@ -332,14 +332,14 @@ class SketchField extends Component {
   canRedo = () => {
     return this._history.canRedo()
   }
-  
-  print = (filename) => {  
+
+  print = (filename) => {
     const currentWidth = this._fc.getWidth()
     const currentHeight = this._fc.getHeight()
     fileDownloader({
-      filename, 
-      data: this.toDataURL({ format: 'jpeg', quality: 0.8 }), 
-      proportion: currentHeight/currentWidth
+      filename,
+      data: this.toDataURL({ format: 'jpeg', quality: 0.8 }),
+      proportion: currentHeight / currentWidth
     })
   }
 
@@ -350,7 +350,7 @@ class SketchField extends Component {
   saveToJSON(propertiesToInclude) {
     const canvas = this._fc;
     const data = canvas.toJSON(propertiesToInclude)
-  
+
     data.sketchWidth = this.getSketchWidth()
     data.sketchHeight = this.getSketchHeight()
     data.canvasWidth = canvas.getWidth()
@@ -436,7 +436,7 @@ class SketchField extends Component {
   }
 
   setBackgroundImage = (dataUrl, colorCode) => {
-    const params = colorCode? colorCode : { source: dataUrl, repeat: 'repeat' }    
+    const params = dataUrl ? { source: dataUrl, repeat: 'repeat' } : colorCode
     this._fc.setBackgroundColor(params, () => this._fc.renderAll())
   }
 
@@ -593,8 +593,8 @@ class SketchField extends Component {
     // TOOD: if it doesn't exist any elaments => height should be the size of screen
     // TODO: get the lowest element on the canvas and check the position and compare with currentHeight
 
-    const scalePrevHeight = prevHeight * hfactor 
-    const newHeight = scalePrevHeight < currentHeight ? currentHeight: scalePrevHeight
+    const scalePrevHeight = prevHeight * hfactor
+    const newHeight = scalePrevHeight < currentHeight ? currentHeight : scalePrevHeight
 
     return newHeight;
   }
