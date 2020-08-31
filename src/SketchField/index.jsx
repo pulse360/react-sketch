@@ -1,23 +1,23 @@
 // @ts-check
-import React, { Component } from 'react'
+import { IconButton, Snackbar } from '@material-ui/core'
 import PropTypes from 'prop-types'
-import History from '../SketchTools/history'
-import { debounce } from '../utils'
-import Select from '../SketchTools/select'
-import Pencil from '../SketchTools/pencil'
-import Line from '../SketchTools/line'
+import React, { Component } from 'react'
+import Tool from '../Constants/Tools'
+import fileDownloader from '../fileDownloader'
 import Arrow from '../SketchTools/arrow'
-import Rectangle from '../SketchTools/rectangle'
 import Circle from '../SketchTools/circle'
-import Pan from '../SketchTools/pan'
-import Tool from '../Tools'
 import Eraser from '../SketchTools/eraser'
 import Highlighter from '../SketchTools/highlighter'
+import History from '../SketchTools/history'
+import Line from '../SketchTools/line'
+import Pan from '../SketchTools/pan'
+import Pencil from '../SketchTools/pencil'
+import Rectangle from '../SketchTools/rectangle'
+import Select from '../SketchTools/select'
 import Text from '../SketchTools/text'
 import lines from '../UI/BackgroundImage/images/lines.png'
-import { Snackbar, IconButton } from '@material-ui/core'
 import { CloseIcon } from '../UI/SVG'
-import fileDownloader from '../fileDownloader'
+import { debounce } from '../utils'
 
 const fabric = require('fabric').fabric
 
@@ -250,7 +250,7 @@ class SketchField extends Component {
     const prevHeight = defaultValue.canvasHeight || currentHeight
 
     if (defaultValue.background) {
-      this.setBackgroundImage(defaultValue.background.source)
+      this.setBackgroundImage(defaultValue.background.source, defaultValue.background)
     } else {
       this.setBackgroundImage(lines)
     }
@@ -436,8 +436,7 @@ class SketchField extends Component {
   }
 
   setBackgroundImage = (dataUrl, colorCode) => {
-    console.log('set color')
-    const params = colorCode ? colorCode : { source: dataUrl, repeat: 'repeat' }
+    const params = dataUrl ? { source: dataUrl, repeat: 'repeat' } : colorCode
     this._fc.setBackgroundColor(params, () => this._fc.renderAll())
   }
 

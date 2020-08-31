@@ -1,10 +1,11 @@
 /*eslint no-unused-vars: 0, no-console: 0*/
-import React from 'react'
-import './styles.css'
-import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles'
 import color from '@material-ui/core/colors/blueGrey'
-import { SketchField, Appbar,NavigationAndTabs , AddTextDrawer, FillColor, ToolsPanel, StrokeColor } from '../'
-import Tools from '../Tools'
+import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles'
+import React from 'react'
+import { AddTextDrawer, Appbar, FillColor, NavigationAndTabs, SketchField, StrokeColor, ToolsPanel } from '../'
+import TabTypes from '../Constants/TabTypes'
+import Tools from '../Constants/Tools'
+import './styles.css'
 
 class SketchBoard extends React.Component {
   constructor(props) {
@@ -35,7 +36,7 @@ class SketchBoard extends React.Component {
       fullScreen: false,
       sketchValue: isEdit ? initialData.tabs[initialData.currentTabID].data : "",
       currentTabID: isEdit ? initialData.currentTabID : 'page_1',
-      tabs: isEdit ? initialData.tabs : { page_1: { data: "", id: 'page_1', order: 0, type:"note", name: '#1' }},
+      tabs: isEdit ? initialData.tabs : { page_1: { data: "", id: 'page_1', order: 0, type: TabTypes.Note, name: '#1' } },
       activeQuicklyPenID: null,
     }
   }
@@ -106,14 +107,14 @@ class SketchBoard extends React.Component {
       withClose
     )
   }
-  
-  
+
+
   _getCurrentSketchPadTabsValue = (tabs) => {
-    const {currentTabID} = this.state
+    const { currentTabID } = this.state
     return {
-      ...tabs, 
-      [currentTabID]:{
-        ...tabs[currentTabID], 
+      ...tabs,
+      [currentTabID]: {
+        ...tabs[currentTabID],
         data: this._sketch.saveToJSON()
       }
     }
@@ -159,21 +160,21 @@ class SketchBoard extends React.Component {
     this._sketch.removeSelected()
   }
 
-  _scrollUp = () =>{
-    const currentScroll= this._sketch._container.scrollTop || 0
-    let nextScrollPosition = currentScroll-350
-    if(nextScrollPosition<0) nextScrollPosition=0
-    this._sketch._container.scrollTo(0, nextScrollPosition)   
-  }
-  
-  _scrollDown = () =>{  
-    const currentScroll= this._sketch._container.scrollTop || 0
-    const nextScrollPosition =  currentScroll+350
+  _scrollUp = () => {
+    const currentScroll = this._sketch._container.scrollTop || 0
+    let nextScrollPosition = currentScroll - 350
+    if (nextScrollPosition < 0) nextScrollPosition = 0
     this._sketch._container.scrollTo(0, nextScrollPosition)
   }
 
-  
-  addTab = (type="note", callBack) => {
+  _scrollDown = () => {
+    const currentScroll = this._sketch._container.scrollTop || 0
+    const nextScrollPosition = currentScroll + 350
+    this._sketch._container.scrollTo(0, nextScrollPosition)
+  }
+
+
+  addTab = (type = TabTypes.Note, callBack) => {
     const numberOfTabs = Object.keys(this.state.tabs).length;
     if (numberOfTabs === 9) {
       return
@@ -181,26 +182,26 @@ class SketchBoard extends React.Component {
     this.setState(({ tabs }) => {
       const newTab = {
         type,
-        data: "",
-        order: numberOfTabs, 
+        data: (type === TabTypes.Whiteboard) ? { background: 'white' } : {},
+        order: numberOfTabs,
         id: `${type}_${numberOfTabs + 1}`,
         name: `#${numberOfTabs + 1}`,
       }
-      return { 
-        currentTabID: newTab.id, 
+      return {
+        currentTabID: newTab.id,
         sketchValue: newTab.data,
         tabs: {
           ...this._getCurrentSketchPadTabsValue(tabs),
-          [newTab.id]:newTab
+          [newTab.id]: newTab
         }
       }
     }, () => {
-      this._clear() 
+      this._clear()
       callBack && callBack()
     }
     )
   }
-  
+
   onTabClick = (tab) => {
     const tabs = this.state.tabs
     this.setState({
@@ -214,9 +215,9 @@ class SketchBoard extends React.Component {
   }
 
   _createNewPresentationPage = () => {
-    this.addTab('whiteboard', () => this._sketch.setBackgroundImage(null,'white'))
+    this.addTab(TabTypes.Whiteboard)
   }
-  
+
   _onSketchChange = () => {
 
     const prev = this.state.canUndo
@@ -262,7 +263,7 @@ class SketchBoard extends React.Component {
 
   render = () => {
     const isMobile = (/Mobi|Android/i.test(navigator.userAgent));
-  
+
     const theme = createMuiTheme({
       typography: {
         useNextVariants: true,
@@ -286,8 +287,8 @@ class SketchBoard extends React.Component {
             //   data.sketchHeight = this._sketch._container.offsetHeight
             //   this.props.onOpenNewWindow(data)
             // }}
-            
-            print={()=>this._sketch.print(this.props.fileName)}
+
+            print={() => this._sketch.print(this.props.fileName)}
 
             activeQuicklyPenID={this.state.activeQuicklyPenID}
             selectQuicklyPen={(color, width) => {
@@ -412,7 +413,7 @@ class SketchBoard extends React.Component {
             />
             <SketchField
               name='sketch'
-              className={isMobile ? 'canvas-area mobile':'canvas-area'}
+              className={isMobile ? 'canvas-area mobile' : 'canvas-area'}
               ref={(c) => (this._sketch = c)}
               lineColor={this.state.lineColor}
               lineWidth={this.state.lineWidth}
@@ -428,14 +429,14 @@ class SketchBoard extends React.Component {
             />
           </div>
           <NavigationAndTabs
-              addPage={()=>this._sketch.addPage()}
-              scrollDown={this._scrollDown}
-              scrollUp={this._scrollUp}
-              tabs={this.state.tabs}
-              onTabClick={this.onTabClick}
-              onAddTab={()=>this.addTab()}
-              currentTabID={this.state.currentTabID}
-              />
+            addPage={() => this._sketch.addPage()}
+            scrollDown={this._scrollDown}
+            scrollUp={this._scrollUp}
+            tabs={this.state.tabs}
+            onTabClick={this.onTabClick}
+            onAddTab={() => this.addTab()}
+            currentTabID={this.state.currentTabID}
+          />
         </div>
       </MuiThemeProvider>
     )
