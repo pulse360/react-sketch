@@ -237,7 +237,7 @@ class SketchField extends Component {
 
     this.scaleElementsAndCanvas(canvas, prevWidth, currentWidth, prevHeight, currentHeight)
 
-  }, 300)
+  }, 1000)
 
   _resizeWithPrevSizies = () => {
     const canvas = this._fc
