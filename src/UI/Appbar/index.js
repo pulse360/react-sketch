@@ -16,8 +16,7 @@ import StyledButton from '../StyledButton'
 
 const styles = {
   backgroundColor: '#F6F7FB',
-  padding: '0 10px',
-  height: 61,
+  padding: '10px 10px',
   display: 'flex',
   alignItems: 'center',
 }
