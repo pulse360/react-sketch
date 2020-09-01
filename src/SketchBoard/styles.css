@@ -37,8 +37,8 @@ html {
   overflow-x: hidden !important;
 }
 
-.canvas-area.mobile,
-.canvas-area.mobile .canvas-container {
+.canvas-area,
+.canvas-area .canvas-container {
   touch-action: none;
   overflow: hidden;
 }
