@@ -5,6 +5,12 @@
   margin-left: 20px;
 }
 
+@media (max-width: 1199px) {
+  .color-tools {
+    margin-left: 0;
+  }
+}
+
 .color-tools__color-indicator {
   position: absolute;
   bottom: 5px;

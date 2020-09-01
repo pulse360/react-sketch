@@ -1,3 +1,7 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
 body,
 html {
   margin: 0;
@@ -34,7 +38,7 @@ html {
 
 .bottom {
   display: flex;
-  height: calc(100vh - 61px);
+  height: calc(100vh - 60px);
   background-color: #444;
   overflow-y: visible !important;
 }

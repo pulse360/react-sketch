@@ -106,6 +106,12 @@ input[type=range]:focus::-ms-fill-upper {
   -webkit-tap-highlight-color: transparent;
 }
 
+@media (max-width: 1199px) {
+  .slider-wrapper {
+    margin-left: 0;
+  }
+}
+
 .input-wrapper {
   display: flex;
   width: 200px;

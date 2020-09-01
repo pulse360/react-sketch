@@ -4,3 +4,9 @@
   justify-content: center;
   margin-left: 20px;
 }
+
+@media (max-width: 1199px) {
+  .history-tools {
+    margin-left: 0;
+  }
+}

@@ -5,7 +5,7 @@ import './styles.css'
 
 export default function SaveButtons({save, exit, print, notify}) {
   return <div className='save-tools'>
-    <StyledButton title='Exit' onClick={exit} style={{ transform: 'rotate(180deg)', width:'70px' }}>
+    <StyledButton title='Exit' onClick={exit} style={{ transform: 'rotate(180deg)' }}>
       <ExitIcon />
     </StyledButton>
     <StyledButton title='Download as PDF' onClick={print}>
