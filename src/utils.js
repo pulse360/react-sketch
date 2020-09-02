@@ -85,7 +85,6 @@ export function debounce(func, wait, immediate) {
   }
 }
 
-
 // export function useWindowSize() {
 //   const [size, setSize] = useState([0, 0]);
 //   useLayoutEffect(() => {
@@ -98,3 +97,26 @@ export function debounce(func, wait, immediate) {
 //   }, []);
 //   return size;
 // }
+
+export function disableScrolling() {
+  const x = window.scrollX
+  const y = window.scrollY
+
+  console.log('disabled scroll')
+  window.onscroll = function () {
+    console.log('scrolling')
+    window.scrollTo(x, y)
+  }
+
+  document.body.addEventListener('touchmove', _preventDefault, { passive: false })
+}
+
+export function enableScrolling() {
+  window.onscroll = function () {}
+  document.body.removeEventListener('touchmove', _preventDefault, { passive: false })
+}
+
+function _preventDefault(e) {
+  e.preventDefault()
+  console.log('touchmove')
+}

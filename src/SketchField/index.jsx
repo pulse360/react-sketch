@@ -17,7 +17,7 @@ import Select from '../SketchTools/select'
 import Text from '../SketchTools/text'
 import lines from '../UI/BackgroundImage/images/lines.png'
 import { CloseIcon } from '../UI/SVG'
-import { debounce } from '../utils'
+import { debounce, disableScrolling, enableScrolling } from '../utils'
 
 const fabric = require('fabric').fabric
 
@@ -472,6 +472,7 @@ class SketchField extends Component {
   }
 
   componentDidMount = () => {
+    disableScrolling()
     const { tool, undoSteps, defaultValue, backgroundColor } = this.props
     const canvas = (this._fc = new fabric.Canvas(this._canvas))
     canvas.enableRetinaScaling = false
@@ -534,7 +535,10 @@ class SketchField extends Component {
     setTimeout(this._resizeWithPrevSizies, 100)
   }
 
-  componentWillUnmount = () => window.removeEventListener('resize', this._resize)
+  componentWillUnmount = () => {
+    window.removeEventListener('resize', this._resize)
+    enableScrolling()
+  }
 
   componentDidUpdate = (prevProps, prevState) => {
 
