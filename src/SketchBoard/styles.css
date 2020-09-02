@@ -47,7 +47,7 @@ html {
   display: flex;
   height: calc(100vh - 60px);
   background-color: #444;
-  overflow-y: visible !important;
+  overflow-y: hidden !important;
 }
 
 .sketch-toolbar {
