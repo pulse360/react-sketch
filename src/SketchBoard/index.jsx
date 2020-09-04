@@ -6,6 +6,7 @@ import { AddTextDrawer, Appbar, FillColor, NavigationAndTabs, SketchField, Strok
 import TabTypes from '../Constants/TabTypes'
 import Tools from '../Constants/Tools'
 import './styles.css'
+import { debounce } from '../utils'
 
 class SketchBoard extends React.Component {
   constructor(props) {
@@ -81,7 +82,6 @@ class SketchBoard extends React.Component {
         tool: tool,
         enableRemoveSelected: tool === Tools.Select,
         enableCopyPaste: tool === Tools.Select,
-        // lineWidth: 3,
       })
     }
     if (tool !== 'highlighter' && !inQuicklyPen) {
@@ -120,9 +120,7 @@ class SketchBoard extends React.Component {
     }
   }
 
-  _download = () => {
-    // this.props.onSaveCanvas(JSON.stringify(this._sketch.toJSON()))
-  }
+  _download = () => { }
 
   _removeMe = (index) => {
     const drawings = this.state.drawings
@@ -174,7 +172,7 @@ class SketchBoard extends React.Component {
   }
 
 
-  addTab = (type = TabTypes.Note, callBack) => {
+  addTab = debounce((type = TabTypes.Note, callBack) => {
     const numberOfTabs = Object.keys(this.state.tabs).length;
     if (numberOfTabs === 9) {
       return
@@ -200,7 +198,7 @@ class SketchBoard extends React.Component {
       callBack && callBack()
     }
     )
-  }
+  }, 300)
 
   onTabClick = (tab) => {
     const tabs = this.state.tabs
@@ -240,17 +238,9 @@ class SketchBoard extends React.Component {
     if (accepted && accepted.length > 0) {
       const sketch = this._sketch
       const reader = new FileReader()
-      const { stretched, stretchedX, stretchedY, originX, originY } = this.state
       reader.addEventListener(
         'load',
-        () =>
-          sketch.setBackgroundFromDataUrl(reader.result, {
-            // stretched: stretched,
-            // stretchedX: stretchedX,
-            // stretchedY: stretchedY,
-            // originX: originX,
-            // originY: originY,
-          }),
+        () => sketch.setBackgroundFromDataUrl(reader.result, {}),
         false
       )
       reader.readAsDataURL(accepted[0])
@@ -280,14 +270,6 @@ class SketchBoard extends React.Component {
           <Appbar
             onExit={this.props.onExit}
             onNotifyUsers={this.props.onNotifyUsers}
-            // fullScreenHandlerDisabled={this.props.fullScreenHandlerDisabled}
-            // onOpenInNewWindow={() => {
-            //   const data = this._sketch.toJSON()
-            //   data.sketchWidth = this._sketch.state.windowWidth
-            //   data.sketchHeight = this._sketch._container.offsetHeight
-            //   this.props.onOpenNewWindow(data)
-            // }}
-
             print={() => this._sketch.print(this.props.fileName)}
 
             activeQuicklyPenID={this.state.activeQuicklyPenID}
@@ -301,23 +283,8 @@ class SketchBoard extends React.Component {
             changeActiveQuicklyPenID={(id) => {
               this.setState({ activeQuicklyPenID: id })
             }}
-            // getFullScreenStatus={() => {
-            //   this.props.getFullScreenStatus(!this.state.fullScreen)
-            // }}
-            // handleFullScreen={() => {
-            //   this.setState({ fullScreen: !this.state.fullScreen })
-            // }}
-            // fullScreen={this.state.fullScreen}
             fillColor={this.state.fillWithColor ? this.state.fillColor : 'transparent'}
             lineColor={this.state.lineColor}
-            // zoomIn={() => {
-            //   this._sketch.zoom(1.25)
-            //   this._onSketchChange()
-            // }}
-            // zoomOut={() => {
-            //   this._sketch.zoom(0.8)
-            //   this._onSketchChange()
-            // }}
             openPopup={this.openPopup}
             setAnchorEl={(event) => this.setAnchorEl(event)}
             canUndo={this.state.canUndo}
@@ -328,10 +295,6 @@ class SketchBoard extends React.Component {
             redo={this._redo}
             undo={this._undo}
             enableCopyPaste={!this.state.enableCopyPaste}
-            // copyPasteClick={(e) => {
-            //   this._sketch.copy()
-            //   this._sketch.paste()
-            // }}
             colorsOpen={() => this.setState({ expandColors: !this.state.expandColors })}
             presentationPage={this._createNewPresentationPage}
             lineWidth={this.state.lineWidth}
@@ -392,14 +355,6 @@ class SketchBoard extends React.Component {
             }}
             anchorEl={this.state.anchorEl}
           />
-          {/* <BackgroundImage
-            open={this.state.expandBackground}
-            handleOpen={(e) => this.setState({ expandBackground: !this.state.expandBackground })}
-            changeImage={(image)=> this._sketch.setBackgroundImage(image)}
-            anchorEl={this.state.anchorEl}
-            images={this.props.backgroundImages}
-            addBackgroundImage={(img) => this.addBackgroundImage(img)}
-          /> */}
           <div className='bottom sketch-area'>
             <ToolsPanel
               selectedTool={this.state.tool}
@@ -423,7 +378,6 @@ class SketchBoard extends React.Component {
               onChange={this._onSketchChange}
               tool={this.state.tool}
               defaultValue={this.state.sketchValue}
-              // fullScreen={this.state.fullScreen}
               selectTool={() => this._selectTool('select')}
               selectPan={() => this._selectTool('pan')}
             />
