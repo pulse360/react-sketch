@@ -57,7 +57,6 @@ class SketchField extends Component {
   }
 
   state = {
-    // parentWidth: 550,
     action: true,
   }
 
@@ -197,8 +196,6 @@ class SketchField extends Component {
     canvas.setWidth(newWidth)
     canvas.setHeight(newHeight)
 
-    console.log('scale ', JSON.stringify({ prevWidth, newWidth, prevHeight, currentHeight, newHeight, isBiggerThanOld: prevHeight < currentHeight }))
-
     const objects = canvas.getObjects()
 
     for (const i in objects) {
@@ -227,7 +224,6 @@ class SketchField extends Component {
       e.preventDefault()
     }
 
-    console.log('resize')
     const canvas = this._fc
 
     const currentWidth = this.getSketchWidth()
@@ -243,6 +239,8 @@ class SketchField extends Component {
     const canvas = this._fc
 
     const { defaultValue } = this.props
+
+    console.log(this.props)
 
     const currentWidth = this.getSketchWidth()
     const currentHeight = this.getSketchHeight()
@@ -361,8 +359,6 @@ class SketchField extends Component {
 
 
   fromJSON = (json) => {
-
-    console.log('json', json);
     if (!json) return
     const canvas = this._fc
     setTimeout(() => {
@@ -619,8 +615,6 @@ class SketchField extends Component {
 
     return (
       <>
-        {/* <Tappable onTap={this.addPage}> */}
-        {console.log('render')}
         <Snackbar
           anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
           open={showMessage}
@@ -639,7 +633,6 @@ class SketchField extends Component {
             </IconButton>
           }
         />
-        {/* </Tappable> */}
         <div className={className} ref={(c) => (this._container = c)} style={canvasDivStyle} id='container_canvas'>
           <canvas id='canvas' ref={(c) => (this._canvas = c)} style={canvaStyle}>
             Sorry, Canvas HTML5 element is not supported by your browser :(
