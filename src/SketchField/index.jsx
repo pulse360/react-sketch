@@ -172,7 +172,6 @@ class SketchField extends Component {
           const blob = item.getAsFile()
           const reader = new FileReader()
           reader.onloadend = () => {
-            console.log('reader', reader.result)
             this.addImg(reader.result)
             e.preventDefault()
           }
