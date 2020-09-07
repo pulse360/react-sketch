@@ -240,8 +240,6 @@ class SketchField extends Component {
 
     const { defaultValue } = this.props
 
-    console.log(this.props)
-
     const currentWidth = this.getSketchWidth()
     const currentHeight = this.getSketchHeight()
     const prevWidth = defaultValue.canvasWidth || currentWidth
@@ -280,24 +278,26 @@ class SketchField extends Component {
 
   undo = () => {
     const history = this._history
-    const [obj, prevState, currState] = history.getCurrent()
-    history.undo()
-    if (obj.__removed) {
-      this.setState({ action: false }, () => {
-        this._fc.add(obj)
+    if (history.canUndo()) {
+      const [obj, prevState, currState] = history.getCurrent()
+      history.undo()
+      if (obj.__removed) {
+        this.setState({ action: false }, () => {
+          this._fc.add(obj)
+          obj.__version -= 1
+          obj.__removed = false
+        })
+      } else if (obj.__version <= 1) {
+        this._fc.remove(obj)
+      } else {
         obj.__version -= 1
-        obj.__removed = false
-      })
-    } else if (obj.__version <= 1) {
-      this._fc.remove(obj)
-    } else {
-      obj.__version -= 1
-      obj.setOptions(JSON.parse(prevState))
-      obj.setCoords()
-      this._fc.renderAll()
-    }
-    if (this.props.onChange) {
-      this.props.onChange()
+        obj.setOptions(JSON.parse(prevState))
+        obj.setCoords()
+        this._fc.renderAll()
+      }
+      if (this.props.onChange) {
+        this.props.onChange()
+      }
     }
   }
 
@@ -346,7 +346,7 @@ class SketchField extends Component {
   toJSON = (propertiesToInclude) => this._fc.toJSON(propertiesToInclude)
 
   saveToJSON(propertiesToInclude) {
-    const canvas = this._fc;
+    const canvas = this._fc
     const data = canvas.toJSON(propertiesToInclude)
 
     data.sketchWidth = this.getSketchWidth()
@@ -596,7 +596,7 @@ class SketchField extends Component {
     const scalePrevHeight = prevHeight * hfactor
     const newHeight = scalePrevHeight < currentHeight ? currentHeight : scalePrevHeight
 
-    return newHeight;
+    return newHeight
   }
 
   render = () => {
