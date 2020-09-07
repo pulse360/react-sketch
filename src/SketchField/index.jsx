@@ -106,11 +106,11 @@ class SketchField extends Component {
     this._history.keep([obj, state, state])
   }
 
-  _onObjectMoving = () => { }
+  _onObjectMoving = () => {}
 
-  _onObjectScaling = () => { }
+  _onObjectScaling = () => {}
 
-  _onObjectRotating = () => { }
+  _onObjectRotating = () => {}
 
   _onObjectModified = (e) => {
     const obj = e.target
@@ -166,28 +166,24 @@ class SketchField extends Component {
       const items = e.clipboardData.items
       if (!items) return
 
-      let is_image = false
       for (let i = 0; i < items.length; i++) {
-        if (items[i].type.indexOf('image') !== -1) {
-          const blob = items[i].getAsFile()
-          const URLObj = window.URL || window.webkitURL
-          const source = URLObj.createObjectURL(blob)
-          this.addImg(source)
-          is_image = true
+        const item = items[i]
+        if (item.type.indexOf('image') !== -1) {
+          const blob = item.getAsFile()
+          const reader = new FileReader()
+          reader.onloadend = () => {
+            this.addImg(reader.result)
+            e.preventDefault()
+          }
+          reader.readAsDataURL(blob)
+        } else if (item.type.indexOf('text/plain') !== -1) {
+          item.getAsString((text) => this.addText(text, { left: 10, top: 10 }))
         }
-        if (items[i].type.indexOf('text/plain') !== -1) {
-          // TODO: event as global is deprecated
-          this.addText(event.clipboardData.getData('text/plain'), { left: 10, top: 10 })
-        }
-      }
-      if (is_image) {
-        e.preventDefault()
       }
     }
   }
 
   scaleElementsAndCanvas(canvas, prevWidth, currentWidth, prevHeight, currentHeight) {
-
     const wfactor = currentWidth / prevWidth
     const hfactor = wfactor
     const newHeight = this.getNewHeight(prevHeight, currentHeight, hfactor)
@@ -232,7 +228,6 @@ class SketchField extends Component {
     const prevHeight = canvas.getHeight()
 
     this.scaleElementsAndCanvas(canvas, prevWidth, currentWidth, prevHeight, currentHeight)
-
   }, 1000)
 
   _resizeWithPrevSizies = () => {
@@ -252,7 +247,6 @@ class SketchField extends Component {
     }
 
     this.scaleElementsAndCanvas(canvas, prevWidth, currentWidth, prevHeight, currentHeight)
-
   }
 
   _backgroundColor = (color) => {
@@ -337,7 +331,7 @@ class SketchField extends Component {
     fileDownloader({
       filename,
       data: this.toDataURL({ format: 'jpeg', quality: 0.8 }),
-      proportion: currentHeight / currentWidth
+      proportion: currentHeight / currentWidth,
     })
   }
 
@@ -356,7 +350,6 @@ class SketchField extends Component {
 
     return data
   }
-
 
   fromJSON = (json) => {
     if (!json) return
@@ -521,7 +514,6 @@ class SketchField extends Component {
     }
   }
 
-
   setDefaultValue = () => {
     const { defaultValue } = this.props
     const { background, ...data } = defaultValue || {}
@@ -537,7 +529,6 @@ class SketchField extends Component {
   }
 
   componentDidUpdate = (prevProps, prevState) => {
-
     if (this.props.tool !== prevProps.tool) {
       this._selectedTool = this._tools[this.props.tool] || this._tools[Tool.Pencil]
     }
@@ -578,7 +569,6 @@ class SketchField extends Component {
     img.src = dataUrl
   }
 
-
   getSketchWidth() {
     const lowerCanvasElement = document.querySelector('.sketch-area')
     return lowerCanvasElement.clientWidth
@@ -606,11 +596,11 @@ class SketchField extends Component {
     const canvasDivStyle = {
       margin: '0 auto',
       transform: 'translate3d(0,0,1px)',
-      marginTop: -1
+      marginTop: -1,
     }
 
     const canvaStyle = {
-      transform: 'translate3d(0,0,1px)'
+      transform: 'translate3d(0,0,1px)',
     }
 
     return (
