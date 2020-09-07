@@ -1,12 +1,12 @@
 import React from 'react'
 import { SketchBoard } from '../src/index'
 
-import {data} from './dumyData' // dummy data usage
+/* import { data } from './dumyData' */ // dummy data usage
 
-// const data = {
-//   id: null,
-//   json: null,
-// }
+const data = {
+  id: null,
+  json: null,
+}
 
 class SketchFieldDemo extends React.Component {
   componentDidMount = () => {
@@ -31,9 +31,9 @@ class SketchFieldDemo extends React.Component {
       }
     })(console)
   }
-  
+
   render() {
-    return <SketchBoard defaultValue={{...data}} onSaveCanvas={(data)=>console.save(data,'dummy.json')}  />
+    return <SketchBoard defaultValue={{ ...data }} onSaveCanvas={(data) => console.save(data, 'dummy.json')} />
   }
 }
 

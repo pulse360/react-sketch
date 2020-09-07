@@ -118,5 +118,4 @@ export function enableScrolling() {
 
 function _preventDefault(e) {
   e.preventDefault()
-  console.log('touchmove')
 }
