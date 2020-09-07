@@ -1,18 +1,24 @@
+// @ts-check
 /*eslint no-unused-vars: 0, no-console: 0*/
 import color from '@material-ui/core/colors/blueGrey'
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles'
 import React from 'react'
 import { AddTextDrawer, Appbar, FillColor, NavigationAndTabs, SketchField, StrokeColor, ToolsPanel } from '../'
-import TabTypes from '../Constants/TabTypes'
+import defaultTab from '../Constants/Tabs/defaultTab'
+import TabTypes from '../Constants/Tabs/types'
 import Tools from '../Constants/Tools'
+import lines from '../UI/BackgroundImage/images/lines.png'
+import { debounce, uuid4 } from '../utils'
 import './styles.css'
-import { debounce } from '../utils'
+
 
 class SketchBoard extends React.Component {
   constructor(props) {
     super(props)
-    const initialData = props.defaultValue.data || props.defaultValue
-    const isEdit = initialData && initialData.currentTabID
+    const initialData = this._getInitialData(props.defaultValue)
+
+    console.log(JSON.stringify(props.defaultValue))
+    console.log(JSON.stringify(initialData))
 
     this.state = {
       lineWidth: 1,
@@ -35,11 +41,34 @@ class SketchBoard extends React.Component {
       enableCopyPaste: false,
       anchorEl: null,
       fullScreen: false,
-      sketchValue: isEdit ? initialData.tabs[initialData.currentTabID].data : "",
-      currentTabID: isEdit ? initialData.currentTabID : 'page_1',
-      tabs: isEdit ? initialData.tabs : { page_1: { data: "", id: 'page_1', order: 0, type: TabTypes.Note, name: '#1' } },
+      sketchValue: this._getSketchValueByTabId(initialData.tabs, initialData.currentTabID),
+      currentTabID: initialData.currentTabID,
+      tabs: initialData.tabs,
       activeQuicklyPenID: null,
     }
+  }
+
+  _getInitialData = (defaultValue) => {
+    if (defaultValue) {
+      return defaultValue
+    }
+
+    const firstTab = defaultTab
+    // TODO: this can be improved
+    firstTab.data['background'] = this._getBackgroundTabByType(firstTab.type)
+
+    const initialData = {
+      currentTabID: firstTab.id,
+      tabs: {
+        [firstTab.id]: firstTab
+      }
+    }
+
+    return initialData
+  }
+
+  _getSketchValueByTabId = (tabs, tabID) => {
+    return tabs[tabID].data || {}
   }
 
   openPopup = (key) => {
@@ -178,13 +207,15 @@ class SketchBoard extends React.Component {
       return
     }
     this.setState(({ tabs }) => {
+      const data = { background: this._getBackgroundTabByType(type) }
       const newTab = {
         type,
-        data: (type === TabTypes.Whiteboard) ? { background: 'white' } : {},
+        data,
         order: numberOfTabs,
-        id: `${type}_${numberOfTabs + 1}`,
+        id: uuid4(),
         name: `#${numberOfTabs + 1}`,
       }
+
       return {
         currentTabID: newTab.id,
         sketchValue: newTab.data,
@@ -199,6 +230,11 @@ class SketchBoard extends React.Component {
     }
     )
   }, 300)
+
+
+  _getBackgroundTabByType = (type) => {
+    return (type === TabTypes.Whiteboard) ? 'white' : { source: lines, repeat: 'repeat' }
+  }
 
   onTabClick = (tab) => {
     const tabs = this.state.tabs
@@ -383,7 +419,6 @@ class SketchBoard extends React.Component {
             />
           </div>
           <NavigationAndTabs
-            addPage={() => this._sketch.addPage()}
             scrollDown={this._scrollDown}
             scrollUp={this._scrollUp}
             tabs={this.state.tabs}

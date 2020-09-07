@@ -106,11 +106,11 @@ class SketchField extends Component {
     this._history.keep([obj, state, state])
   }
 
-  _onObjectMoving = () => {}
+  _onObjectMoving = () => { }
 
-  _onObjectScaling = () => {}
+  _onObjectScaling = () => { }
 
-  _onObjectRotating = () => {}
+  _onObjectRotating = () => { }
 
   _onObjectModified = (e) => {
     const obj = e.target
@@ -240,11 +240,7 @@ class SketchField extends Component {
     const prevWidth = defaultValue.canvasWidth || currentWidth
     const prevHeight = defaultValue.canvasHeight || currentHeight
 
-    if (defaultValue.background) {
-      this.setBackgroundImage(defaultValue.background.source, defaultValue.background)
-    } else {
-      this.setBackgroundImage(lines)
-    }
+    this.setBackgroundImage(defaultValue.background)
 
     this.scaleElementsAndCanvas(canvas, prevWidth, currentWidth, prevHeight, currentHeight)
   }
@@ -365,11 +361,10 @@ class SketchField extends Component {
 
   clear = (propertiesToInclude) => {
     const discarded = this.toJSON(propertiesToInclude)
-    const background =
-      this._fc.backgroundColor && this._fc.backgroundColor.source && this._fc.backgroundColor.source.currentSrc
+    const background = this.props.defaultValue.background
     this._fc.clear()
     this._history.clear()
-    this.setBackgroundImage(background || lines)
+    this.setBackgroundImage(background)
     return discarded
   }
 
@@ -424,8 +419,7 @@ class SketchField extends Component {
     })
   }
 
-  setBackgroundImage = (dataUrl, colorCode) => {
-    const params = dataUrl ? { source: dataUrl, repeat: 'repeat' } : colorCode
+  setBackgroundImage = (params) => {
     this._fc.setBackgroundColor(params, () => this._fc.renderAll())
   }
 
@@ -470,8 +464,6 @@ class SketchField extends Component {
     canvas.setHeight(this.getSketchHeight())
     this._initTools(canvas)
 
-    // this._backgroundColor(backgroundColor)
-
     const selectedTool = this._tools[tool]
     selectedTool.configureCanvas(this.props)
     this._selectedTool = selectedTool
@@ -506,12 +498,7 @@ class SketchField extends Component {
 
     document.addEventListener('paste', this._onPaste, false)
 
-    if (defaultValue) {
-      this.setDefaultValue()
-    } else {
-      this._resize()
-      this.setBackgroundImage(lines)
-    }
+    this.setDefaultValue()
   }
 
   setDefaultValue = () => {
