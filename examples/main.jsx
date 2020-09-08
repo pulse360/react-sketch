@@ -3,10 +3,7 @@ import { SketchBoard } from '../src/index'
 
 /* import { data } from './dumyData' */ // dummy data usage
 
-const data = {
-  id: null,
-  json: null,
-}
+const data = {}
 
 class SketchFieldDemo extends React.Component {
   componentDidMount = () => {
