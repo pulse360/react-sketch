@@ -49,7 +49,7 @@ class SketchBoard extends React.Component {
   }
 
   _getInitialData = (defaultValue) => {
-    if (defaultValue) {
+    if (Object.keys(defaultValue).length) {
       return defaultValue
     }
 

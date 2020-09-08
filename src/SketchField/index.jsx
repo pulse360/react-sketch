@@ -420,6 +420,8 @@ class SketchField extends Component {
   }
 
   setBackgroundImage = (params) => {
+
+    console.log(params)
     this._fc.setBackgroundColor(params, () => this._fc.renderAll())
   }
 
@@ -507,7 +509,7 @@ class SketchField extends Component {
 
     this.fromJSON(data)
 
-    setTimeout(this._resizeWithPrevSizies, 100)
+    setTimeout(this._resizeWithPrevSizies, 300)
   }
 
   componentWillUnmount = () => {
