@@ -3,7 +3,7 @@
 import color from '@material-ui/core/colors/blueGrey'
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles'
 import React from 'react'
-import { AddTextDrawer, Appbar, FillColor, NavigationAndTabs, SketchField, StrokeColor, ToolsPanel } from '../'
+import { Appbar, FillColor, NavigationAndTabs, SketchField, StrokeColor, ToolsPanel } from '../'
 import defaultTab from '../Constants/Tabs/defaultTab'
 import TabTypes from '../Constants/Tabs/types'
 import Tools from '../Constants/Tools'
@@ -11,14 +11,10 @@ import lines from '../UI/BackgroundImage/images/lines.png'
 import { debounce, uuid4 } from '../utils'
 import './styles.css'
 
-
 class SketchBoard extends React.Component {
   constructor(props) {
     super(props)
     const initialData = this._getInitialData(props.defaultValue)
-
-    console.log(JSON.stringify(props.defaultValue))
-    console.log(JSON.stringify(initialData))
 
     this.state = {
       lineWidth: 1,
@@ -60,8 +56,8 @@ class SketchBoard extends React.Component {
     const initialData = {
       currentTabID: firstTab.id,
       tabs: {
-        [firstTab.id]: firstTab
-      }
+        [firstTab.id]: firstTab,
+      },
     }
 
     return initialData
@@ -130,13 +126,12 @@ class SketchBoard extends React.Component {
       {
         data: {
           currentTabID: this.state.currentTabID,
-          tabs: this._getCurrentSketchPadTabsValue(this.state.tabs)
-        }
+          tabs: this._getCurrentSketchPadTabsValue(this.state.tabs),
+        },
       },
       withClose
     )
   }
-
 
   _getCurrentSketchPadTabsValue = (tabs) => {
     const { currentTabID } = this.state
@@ -144,17 +139,9 @@ class SketchBoard extends React.Component {
       ...tabs,
       [currentTabID]: {
         ...tabs[currentTabID],
-        data: this._sketch.saveToJSON()
-      }
+        data: this._sketch.saveToJSON(),
+      },
     }
-  }
-
-  _download = () => { }
-
-  _removeMe = (index) => {
-    const drawings = this.state.drawings
-    drawings.splice(index, 1)
-    this.setState({ drawings: drawings })
   }
 
   _undo = () => {
@@ -183,10 +170,6 @@ class SketchBoard extends React.Component {
     })
   }
 
-  _removeSelected = () => {
-    this._sketch.removeSelected()
-  }
-
   _scrollUp = () => {
     const currentScroll = this._sketch._container.scrollTop || 0
     let nextScrollPosition = currentScroll - 350
@@ -200,52 +183,56 @@ class SketchBoard extends React.Component {
     this._sketch._container.scrollTo(0, nextScrollPosition)
   }
 
-
   addTab = debounce((type = TabTypes.Note, callBack) => {
-    const numberOfTabs = Object.keys(this.state.tabs).length;
+    const numberOfTabs = Object.keys(this.state.tabs).length
     if (numberOfTabs === 9) {
       return
     }
-    this.setState(({ tabs }) => {
-      const data = { background: this._getBackgroundTabByType(type) }
-      const newTab = {
-        type,
-        data,
-        order: numberOfTabs,
-        id: uuid4(),
-        name: `#${numberOfTabs + 1}`,
-      }
-
-      return {
-        currentTabID: newTab.id,
-        sketchValue: newTab.data,
-        tabs: {
-          ...this._getCurrentSketchPadTabsValue(tabs),
-          [newTab.id]: newTab
+    this.setState(
+      ({ tabs }) => {
+        const data = { background: this._getBackgroundTabByType(type) }
+        const newTab = {
+          type,
+          data,
+          order: numberOfTabs,
+          id: uuid4(),
+          name: `#${numberOfTabs + 1}`,
         }
+
+        return {
+          currentTabID: newTab.id,
+          sketchValue: newTab.data,
+          tabs: {
+            ...this._getCurrentSketchPadTabsValue(tabs),
+            [newTab.id]: newTab,
+          },
+        }
+      },
+      () => {
+        this._clear()
+        callBack && callBack()
       }
-    }, () => {
-      this._clear()
-      callBack && callBack()
-    }
     )
   }, 300)
 
-
   _getBackgroundTabByType = (type) => {
-    return (type === TabTypes.Whiteboard) ? 'white' : { source: lines, repeat: 'repeat' }
+    return type === TabTypes.Whiteboard ? 'white' : { source: lines, repeat: 'repeat' }
   }
 
   onTabClick = (tab) => {
     const tabs = this.state.tabs
-    this.setState({
-      currentTabID: tabs[tab.id].id,
-      sketchValue: tabs[tab.id].data,
-      tabs: this._getCurrentSketchPadTabsValue(tabs)
-    }, () => this.setState({
-      canUndo: this._sketch.canUndo(),
-      canRedo: this._sketch.canRedo(),
-    }))
+    this.setState(
+      {
+        currentTabID: tabs[tab.id].id,
+        sketchValue: tabs[tab.id].data,
+        tabs: this._getCurrentSketchPadTabsValue(tabs),
+      },
+      () =>
+        this.setState({
+          canUndo: this._sketch.canUndo(),
+          canRedo: this._sketch.canRedo(),
+        })
+    )
   }
 
   _createNewPresentationPage = () => {
@@ -253,7 +240,6 @@ class SketchBoard extends React.Component {
   }
 
   _onSketchChange = () => {
-
     const prev = this.state.canUndo
     const now = this._sketch.canUndo()
     if (prev !== now) {
@@ -261,35 +247,7 @@ class SketchBoard extends React.Component {
     }
   }
 
-
-  _addText = () => {
-    this._selectTool('select')
-    this._sketch.addText(this.state.text, { fontSize: 18 })
-    this.setState({
-      expandText: false,
-    })
-  }
-
-  addBackgroundImage = (accepted) => {
-    if (accepted && accepted.length > 0) {
-      const sketch = this._sketch
-      const reader = new FileReader()
-      reader.addEventListener(
-        'load',
-        () => sketch.setBackgroundFromDataUrl(reader.result, {}),
-        false
-      )
-      reader.readAsDataURL(accepted[0])
-
-      this.setState({
-        expandBackground: false,
-      })
-    }
-  }
-
   render = () => {
-    const isMobile = (/Mobi|Android/i.test(navigator.userAgent));
-
     const theme = createMuiTheme({
       typography: {
         useNextVariants: true,
@@ -307,7 +265,6 @@ class SketchBoard extends React.Component {
             onExit={this.props.onExit}
             onNotifyUsers={this.props.onNotifyUsers}
             print={() => this._sketch.print(this.props.fileName)}
-
             activeQuicklyPenID={this.state.activeQuicklyPenID}
             selectQuicklyPen={(color, width) => {
               this.setState({
@@ -326,12 +283,9 @@ class SketchBoard extends React.Component {
             canUndo={this.state.canUndo}
             canRedo={this.state.canRedo}
             save={this._save}
-            download={this._download}
             clear={this._clear}
             redo={this._redo}
             undo={this._undo}
-            enableCopyPaste={!this.state.enableCopyPaste}
-            colorsOpen={() => this.setState({ expandColors: !this.state.expandColors })}
             presentationPage={this._createNewPresentationPage}
             lineWidth={this.state.lineWidth}
             changeLineWidth={(value) => {
@@ -349,13 +303,6 @@ class SketchBoard extends React.Component {
                 window.localStorage.setItem(`${this.state.activeQuicklyPenID}_width`, value)
               }
             }}
-          />
-          <AddTextDrawer
-            open={this.state.expandText}
-            handleOpen={(e) => this.setState({ expandText: !this.state.expandText })}
-            changeText={(e) => this.setState({ text: e.target.value })}
-            text={this.state.text}
-            addText={this._addText}
           />
           <FillColor
             open={this.state.expandFillColor}
@@ -396,15 +343,10 @@ class SketchBoard extends React.Component {
               selectedTool={this.state.tool}
               selectTool={(tool) => this._selectTool(tool)}
               addImage={(image) => this._sketch.addImg(image)}
-              addText={() =>
-                this.setState({
-                  expandText: true,
-                })
-              }
             />
             <SketchField
               name='sketch'
-              className={isMobile ? 'canvas-area mobile' : 'canvas-area'}
+              className='canvas-area'
               ref={(c) => (this._sketch = c)}
               lineColor={this.state.lineColor}
               lineWidth={this.state.lineWidth}

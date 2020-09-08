@@ -1,24 +1,18 @@
+import SketchBoard from './SketchBoard'
 import SketchField from './SketchField'
 import Appbar from './UI/Appbar'
-import AddTextDrawer from './UI/AddTextDrawer'
-import BackgroundImage from './UI/BackgroundImage'
-import ToolsPanel from './UI/ToolsPanel'
-import SketchBoard from './SketchBoard'
-import SaveButtons from './UI/SaveButtons'
-import HistoryButtons from './UI/HistoryButtons'
 import ColorButtons from './UI/ColorButtons'
 import FillColor from './UI/FillColor'
-import StrokeColor from './UI/StrokeColor'
-import ZoomButtons from './UI/ZoomButtons'
-import Slider from './UI/Slider'
+import HistoryButtons from './UI/HistoryButtons'
 import NavigationAndTabs from './UI/NavigationAndTabs'
 import QuicklyPencils from './UI/QuicklyPencils'
-import WindowModeButtons from './UI/WindowModeButtons'
+import SaveButtons from './UI/SaveButtons'
+import Slider from './UI/Slider'
+import StrokeColor from './UI/StrokeColor'
+import ToolsPanel from './UI/ToolsPanel'
 
 export { SketchField }
 export { Appbar }
-export { AddTextDrawer }
-export { BackgroundImage }
 export { SketchBoard }
 export { ToolsPanel }
 export { SaveButtons }
@@ -26,17 +20,13 @@ export { HistoryButtons }
 export { ColorButtons }
 export { FillColor }
 export { StrokeColor }
-export { ZoomButtons }
 export { Slider }
 export { NavigationAndTabs }
 export { QuicklyPencils }
-export { WindowModeButtons }
 
 export default {
   SketchField,
   Appbar,
-  AddTextDrawer,
-  BackgroundImage,
   SketchBoard,
   ToolsPanel,
   SaveButtons,
@@ -44,9 +34,7 @@ export default {
   ColorButtons,
   FillColor,
   StrokeColor,
-  ZoomButtons,
   Slider,
   NavigationAndTabs,
   QuicklyPencils,
-  WindowModeButtons,
 }
