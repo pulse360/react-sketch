@@ -22,7 +22,7 @@ const ToolsPanel = ({ selectTool, addImage, selectedTool }) => {
 
   const triggerUploadDialog = (event) => {
     event.preventDefault()
-    dropzoneAreaElement && dropzoneAreaElement.current  && dropzoneAreaElement.current.open()
+    dropzoneAreaElement && dropzoneAreaElement.open()
   }
 
   return (
