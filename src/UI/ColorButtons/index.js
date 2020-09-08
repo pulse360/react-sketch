@@ -21,9 +21,6 @@ const ColorButtons = ({ setAnchorEl, open, fillColor, lineColor }) => {
         <div className='color-tools__color-indicator' style={{ backgroundColor: lineColor }}></div>
         <StrokeColorIcon />
       </StyledButton>
-      {/* <StyledButton title="Background Image" onClick={(event) => handleClick(event, 'expandBackground')}>
-        <BackgroundImageIcon />
-      </StyledButton> */}
     </div>
   )
 }

@@ -15,7 +15,6 @@ import Pencil from '../SketchTools/pencil'
 import Rectangle from '../SketchTools/rectangle'
 import Select from '../SketchTools/select'
 import Text from '../SketchTools/text'
-import lines from '../UI/BackgroundImage/images/lines.png'
 import { CloseIcon } from '../UI/SVG'
 import { debounce, disableScrolling, enableScrolling } from '../utils'
 
@@ -106,11 +105,11 @@ class SketchField extends Component {
     this._history.keep([obj, state, state])
   }
 
-  _onObjectMoving = () => { }
+  _onObjectMoving = () => {}
 
-  _onObjectScaling = () => { }
+  _onObjectScaling = () => {}
 
-  _onObjectRotating = () => { }
+  _onObjectRotating = () => {}
 
   _onObjectModified = (e) => {
     const obj = e.target
@@ -232,7 +231,6 @@ class SketchField extends Component {
 
   _resizeWithPrevSizies = () => {
     const canvas = this._fc
-
     const { defaultValue } = this.props
 
     const currentWidth = this.getSketchWidth()
@@ -240,30 +238,9 @@ class SketchField extends Component {
     const prevWidth = defaultValue.canvasWidth || currentWidth
     const prevHeight = defaultValue.canvasHeight || currentHeight
 
-    this.setBackgroundImage(defaultValue.background)
-
     this.scaleElementsAndCanvas(canvas, prevWidth, currentWidth, prevHeight, currentHeight)
-  }
 
-  _backgroundColor = (color) => {
-    if (!color) return
-    const canvas = this._fc
-
-    canvas.setBackgroundColor(color, () => canvas.renderAll())
-  }
-
-  zoom = (factor) => {
-    const canvas = this._fc
-    const objects = canvas.getObjects()
-    for (const i in objects) {
-      objects[i].scaleX = objects[i].scaleX * factor
-      objects[i].scaleY = objects[i].scaleY * factor
-      objects[i].left = objects[i].left * factor
-      objects[i].top = objects[i].top * factor
-      objects[i].setCoords()
-    }
-    canvas.renderAll()
-    canvas.calcOffset()
+    this.setBackgroundImage(defaultValue.background)
   }
 
   undo = () => {
@@ -347,7 +324,7 @@ class SketchField extends Component {
     return data
   }
 
-  fromJSON = (json) => {
+  fromJSON = (json, callback) => {
     if (!json) return
     const canvas = this._fc
     setTimeout(() => {
@@ -355,6 +332,8 @@ class SketchField extends Component {
         if (this.props.onChange) {
           this.props.onChange()
         }
+
+        callback && callback()
       })
     }, 100)
   }
@@ -420,8 +399,6 @@ class SketchField extends Component {
   }
 
   setBackgroundImage = (params) => {
-
-    console.log(params)
     this._fc.setBackgroundColor(params, () => this._fc.renderAll())
   }
 
@@ -507,9 +484,7 @@ class SketchField extends Component {
     const { defaultValue } = this.props
     const { background, ...data } = defaultValue || {}
 
-    this.fromJSON(data)
-
-    setTimeout(this._resizeWithPrevSizies, 300)
+    this.fromJSON(data, this._resizeWithPrevSizies)
   }
 
   componentWillUnmount = () => {
@@ -526,8 +501,7 @@ class SketchField extends Component {
     this._selectedTool.configureCanvas(this.props)
 
     if (this.props.defaultValue !== prevProps.defaultValue) {
-      this.fromJSON(this.props.defaultValue)
-      setTimeout(this._resizeWithPrevSizies, 200)
+      this.fromJSON(this.props.defaultValue, this._resizeWithPrevSizies)
     }
   }
 
