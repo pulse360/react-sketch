@@ -1,5 +1,5 @@
 import React from 'react'
-import { CirclePicker } from 'react-color'
+import ColorSelector from '../ColorSelector'
 import { Popover } from '@material-ui/core'
 import './styles.css'
 import { StrokeColorIcon } from '../SVG'
@@ -45,7 +45,7 @@ const StrokeColor = ({ open, handleOpen, changeColor, color, anchorEl }) => {
         <label htmlFor='strokeColor' className='stroke-color__label'>
           Line color
         </label>
-        <CirclePicker id='strokeColor' color={color} onChange={onChangeColor} />
+        <ColorSelector selected={color} onChangeColor={onChangeColor}/>
     </Popover>
   )
 }

@@ -1,5 +1,5 @@
 import React from 'react'
-import { CirclePicker } from 'react-color'
+import ColorSelector from '../ColorSelector'
 import { Popover, FormControlLabel, Switch } from '@material-ui/core'
 import './styles.css'
 import { FillColorIcon } from '../SVG'
@@ -45,7 +45,7 @@ const FillColor = ({ open, handleOpen, changeColor, color, anchorEl, onFillWithC
           )}
           <FillColorIcon />
         </div>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <div className='fill__color-wrapper' style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop:'-15px' }}>
           <label htmlFor='lineColor' className='fill-color__label'>
             Fill color
           </label>
@@ -57,7 +57,7 @@ const FillColor = ({ open, handleOpen, changeColor, color, anchorEl, onFillWithC
           />
         </div>
       </>
-      <CirclePicker id='lineColor' color={color} onChange={onChangeColor} />
+      <ColorSelector selected={color} onChangeColor={onChangeColor}/>
     </Popover>
   )
 }
