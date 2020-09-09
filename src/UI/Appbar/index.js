@@ -22,7 +22,6 @@ const Appbar = ({
   undo,
   lineWidth,
   changeLineWidth,
-  setAnchorEl,
   openPopup,
   fillColor,
   lineColor,
@@ -42,7 +41,7 @@ const Appbar = ({
       selectQuicklyPen={(color, width) => selectQuicklyPen(color, width)}
       activeQuicklyPenID={activeQuicklyPenID}
     />
-    <ColorButtons setAnchorEl={setAnchorEl} open={openPopup} fillColor={fillColor} lineColor={lineColor} />
+    <ColorButtons openPopup={openPopup} fillColor={fillColor} lineColor={lineColor} />
     <StyledButton title='Create a Whiteboard Page' onClick={presentationPage} style={{ marginLeft: '10px' }}>
       <SlideshowIcon />
     </StyledButton>
