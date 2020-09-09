@@ -116,7 +116,6 @@
     "open": "7.1.0",
     "open-browser-webpack-plugin": "0.0.5",
     "postcss-loader": "^3.0.0",
-    "react-color": "^2.14.1",
     "react-dropzone": "7.0.1",
     "react-hot-loader": "^4.3",
     "react-tappable": "1.0.4",
