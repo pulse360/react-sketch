@@ -6,6 +6,7 @@ import { StrokeColorIcon } from '../SVG'
 
 const style = {
   padding: 20,
+  borderTopRightRadius: 0,
   overflowY: 'visible',
   overflowX: 'visible',
 }
@@ -21,11 +22,11 @@ const StrokeColor = ({ open, handleOpen, changeColor, color, anchorEl }) => {
       PaperProps={{ style }}
       anchorOrigin={{
         vertical: 'bottom',
-        horizontal: 'left',
+        horizontal: 'right',
       }}
       transformOrigin={{
         vertical: 'top',
-        horizontal: 40,
+        horizontal: 'right',
       }}
       BackdropProps={{
         backgroundColor: 'black',
