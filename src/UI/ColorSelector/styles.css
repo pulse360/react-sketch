@@ -1,0 +1,34 @@
+.color-selector {
+  width: 252px;
+  flex-wrap: wrap;
+  display: flex;
+  align-self: center;
+  margin-bottom: -14px;
+  margin-left: -14px;
+}
+
+.color-selector button {
+  flex: 1 0 11%;
+  margin: 0px 0px 14px 14px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: transform 0.3s;
+  border-style: solid;
+  outline-width: 0px;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.color-selector button:hover {
+  transform: scale(1.3);
+}
+
+.color-selector button:active {
+  transform: scale(1.3);
+}
+
+.color-selector button.active {
+  transform: scale(1.3);
+  background-color: white;
+}

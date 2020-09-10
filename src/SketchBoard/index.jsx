@@ -67,16 +67,11 @@ class SketchBoard extends React.Component {
     return tabs[tabID].data || {}
   }
 
-  openPopup = (key) => {
+  openPopup = (anchorEl, key) => {
     this.setState(() => ({
+      anchorEl,
       [key]: !this.state[key],
     }))
-  }
-
-  setAnchorEl = (event) => {
-    this.setState({
-      anchorEl: event.currentTarget,
-    })
   }
 
   _selectTool = (tool, inQuicklyPen) => {
@@ -279,7 +274,6 @@ class SketchBoard extends React.Component {
             fillColor={this.state.fillWithColor ? this.state.fillColor : 'transparent'}
             lineColor={this.state.lineColor}
             openPopup={this.openPopup}
-            setAnchorEl={(event) => this.setAnchorEl(event)}
             canUndo={this.state.canUndo}
             canRedo={this.state.canRedo}
             save={this._save}
