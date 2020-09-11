@@ -40,34 +40,12 @@ function makeSketchImagesFromTabs(tabsData) {
   )
 }
 
-function fitContentInPaper(isLandscaped, width, height) {
-  console.log('fitContentInPaper -> isLandscaped, width, height', isLandscaped, width, height)
-
-  let correctionFactor = 1
-  if (isLandscaped && (width > printableHeight || height > printableWidth)) {
-    const shouldCorrectWidth = width - printableHeight > height - printableWidth
-    if (shouldCorrectWidth) {
-      correctionFactor -= (width - printableHeight) / printableHeight
-    } else {
-      correctionFactor -= (height - printableWidth) / printableWidth
-    }
-  } else if (!isLandscaped && (width > printableWidth || height > printableHeight)) {
-    const shouldCorrectWidth = width - printableWidth > height - printableHeight
-    if (shouldCorrectWidth) {
-      correctionFactor -= (width - printableWidth) / printableWidth
-    } else {
-      correctionFactor -= (height - printableHeight) / printableHeight
-    }
-  }
-  return { correctionFactor, correctedWidth: width * correctionFactor, correctedHeight: height * correctionFactor }
-}
-
-function getImagePrintSize(proportion) {
-  const isLandscaped = proportion < a4Proportion
-  const width = isLandscaped ? printableWidth / proportion : printableWidth
-  const height = isLandscaped ? printableWidth : printableWidth * proportion
-  const { correctedWidth, correctedHeight } = fitContentInPaper(isLandscaped, width, height)
-  return { width: correctedWidth, height: correctedHeight }
+// based of https://stackoverflow.com/a/14731922/6569950
+function calculateAspectRatioFit(proportion, srcWidth, srcHeight) {
+  const maxHeight = proportion < a4Proportion ? printableWidth : printableHeight
+  const maxWidth = proportion < a4Proportion ? printableHeight : printableWidth
+  const ratio = Math.min(maxWidth / srcWidth, maxHeight / srcHeight)
+  return { width: srcWidth * ratio, height: srcHeight * ratio }
 }
 
 export default async function download({ filename, tabs }) {
@@ -79,9 +57,9 @@ export default async function download({ filename, tabs }) {
     putOnlyUsedFonts: true,
     floatPrecision: 'smart',
   })
-  images.map(({ image, proportion }, index) => {
-    const { width, height } = getImagePrintSize(proportion)
-    console.log('download - (proportion, width, height) ->', proportion, width, height)
+  images.map(({ image, proportion, width: imageWidth, height: imageHeight }, index) => {
+    const { width, height } = calculateAspectRatioFit(proportion, imageWidth, imageHeight)
+    console.log('download - (proportion, width, height) ->', proportion, width, height, imageWidth, imageHeight)
     pdf.addImage(image, 'JPEG', 10, 10, width, height)
     if (index !== images.length - 1) {
       pdf.addPage(format, images[index + 1].proportion < a4Proportion ? 'l' : 'p')
