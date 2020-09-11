@@ -10,6 +10,7 @@ import Tools from '../Constants/Tools'
 import lines from '../UI/BackgroundImage/images/lines.png'
 import { debounce, uuid4 } from '../utils'
 import './styles.css'
+import download from '../fileDownloader'
 
 class SketchBoard extends React.Component {
   constructor(props) {
@@ -259,7 +260,12 @@ class SketchBoard extends React.Component {
           <Appbar
             onExit={this.props.onExit}
             onNotifyUsers={this.props.onNotifyUsers}
-            print={() => this._sketch.print(this.props.fileName)}
+            print={() =>
+              download({
+                filename: this.props.fileName,
+                tabs: this._getCurrentSketchPadTabsValue(this.state.tabs),
+              })
+            }
             activeQuicklyPenID={this.state.activeQuicklyPenID}
             selectQuicklyPen={(color, width) => {
               this.setState({
