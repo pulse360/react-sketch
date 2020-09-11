@@ -298,13 +298,17 @@ class SketchField extends Component {
     return this._history.canRedo()
   }
 
-  print = (filename) => {
-    const currentWidth = this._fc.getWidth()
-    const currentHeight = this._fc.getHeight()
+  printCurrent = (filename) => {
+    const id = new Date().getTime()
     fileDownloader({
       filename,
-      data: this.toDataURL({ format: 'jpeg', quality: 0.8 }),
-      proportion: currentHeight / currentWidth,
+      tabs: {
+        [id]: {
+          id,
+          data: this.toDataURL({ format: 'jpeg', quality: 0.8 }),
+          proportion: this._fc.getHeight() / this._fc.getWidth(),
+        },
+      },
     })
   }
 
