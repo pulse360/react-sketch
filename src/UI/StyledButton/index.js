@@ -1,6 +1,5 @@
 import { Tooltip } from '@material-ui/core'
 import React from 'react'
-import Tappable from 'react-tappable'
 import './styles.css'
 
 const StyledButton = ({
@@ -22,13 +21,17 @@ const StyledButton = ({
   const customStyling = disabled ? { pointerEvents: 'none', ...style } : style
 
   return (
-    <Tappable onTap={onClick}>
       <Tooltip title={title} arrow disableFocusListener placement={tooltipPlace} style={customStyling}>
-        <button type='button' className={className} disabled={disabled}>
+        <button 
+          type='button' 
+          className={className} 
+          disabled={disabled}
+          onClick={onClick}
+          onTouchStart={onClick}
+        >
           {children}
         </button>
       </Tooltip>
-    </Tappable>
   )
 }
 

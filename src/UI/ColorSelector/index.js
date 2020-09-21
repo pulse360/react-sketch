@@ -1,5 +1,4 @@
 import React from 'react'
-import Tappable from 'react-tappable'
 import './styles.css'
 
 const colors = [
@@ -12,10 +11,12 @@ const ColorSelector = ({ selected, onChangeColor }) => {
   return <div className="color-selector">
     { 
       colors.map(hex=>
-        <Tappable onTap={()=>onChangeColor({hex})} key={hex} >
           <button className={selected===hex?' active':''} 
-          style={{backgroundColor: selected===hex? 'white':hex, borderColor:hex }} ></button>
-        </Tappable>
+            key={hex}
+            onClick={()=>onChangeColor({hex})}
+            onTouchStart={()=>onChangeColor({hex})}
+            style={{backgroundColor: selected===hex? 'white':hex, borderColor:hex }} >
+          </button>
       ) 
     }
   </div>

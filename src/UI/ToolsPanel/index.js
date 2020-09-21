@@ -1,7 +1,6 @@
 import { Tooltip } from '@material-ui/core'
 import React from 'react'
 import DropZone from 'react-dropzone'
-import Tappable from 'react-tappable'
 import StyledButton from '../StyledButton'
 import {
   AddTextIcon,
@@ -61,13 +60,14 @@ const ToolsPanel = ({ selectTool, addImage, selectedTool }) => {
       <StyledButton onClick={() => selectTool('text')} selectedTool={selectedTool} tool='text' title='Add Text'>
         <AddTextIcon />
       </StyledButton>
-      <Tappable onTap={triggerUploadDialog}>
         <Tooltip title='Add Image' placement='right'>
           <DropZone
             ref={(dropzoneRef) => (dropzoneAreaElement = dropzoneRef)}
             accept='image/*'
             multiple={false}
             className='drop-area-images'
+            onClick={triggerUploadDialog}
+            onTouchStart={triggerUploadDialog}
             onDrop={(file) => {
               const reader = new FileReader()
               reader.onloadend = () => {
@@ -81,7 +81,6 @@ const ToolsPanel = ({ selectTool, addImage, selectedTool }) => {
             <PastImageIcon />
           </DropZone>
         </Tooltip>
-      </Tappable>
       <StyledButton
         onClick={() => selectTool('eraser')}
         selectedTool={selectedTool}
