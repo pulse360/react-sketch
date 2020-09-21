@@ -19,10 +19,7 @@ A Sketch tool for React based applications, backed-up by [FabricJS](http://fabri
   ```
 
 - And finally, install the dependencies (we use yarn, tested with node versions 10+) to be good to go.
-
-> ### Warning
->
-> When installing the dependencies and building, if it fails with a bunch of `node-gyp` errors (in the Canvas build) it will probably still work. Weird stuff
+  > **Warning:** When installing the dependencies and building, if it fails with a bunch of `node-gyp` errors (in the Canvas build) it will probably still work. Weird stuff
 
 
 ### Development Builds
