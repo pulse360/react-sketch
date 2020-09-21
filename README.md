@@ -11,7 +11,7 @@ A Sketch tool for React based applications, backed-up by [FabricJS](http://fabri
                  libgif-dev librsvg2-dev xdg-utils --fix-missing
   ```
 
-- And Update `.bashrc` or `.zshrc` (this might not be necessary in a unix SO, test it without this)
+- And Update `.bashrc` or `.zshrc` (this might not be necessary in a unix SO, you might be able to skip this)
 
   ```sh
    export DISPLAY=$(awk '/nameserver / {print $2; exit}' /etc/resolv.conf 2>/dev/null):0
