@@ -18,11 +18,7 @@ A Sketch tool for React based applications, backed-up by [FabricJS](http://fabri
    export LIBGL_ALWAYS_INDIRECT=1
   ```
 
-Then install the dependencies (Tested with node versions 10,12) to be good to go.
-
-```sh
-yarn
-```
+- And finally, install the dependencies (we use yarn, tested with node versions 10+) to be good to go.
 
 > ### Warning
 >
@@ -37,7 +33,6 @@ There's 3 commands currently:
 - `yarn build` is the production build, you can link it to your project (`yarn link`) to try it out
 - `yarn build:light` is the human readable build.... currently not working!
 - EXTRA: You can check the original version demo [here](http://tbolis.github.io/showcase/react-sketch/)
-
 
 
 ## Issues
