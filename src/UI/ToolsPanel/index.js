@@ -1,6 +1,6 @@
 import { Tooltip } from '@material-ui/core'
-import React from 'react'
-import DropZone from 'react-dropzone'
+import React, { createRef } from 'react'
+import Dropzone from 'react-dropzone'
 import Tappable from 'react-tappable'
 import StyledButton from '../StyledButton'
 import {
@@ -18,12 +18,7 @@ import {
 import './styles.css'
 
 const ToolsPanel = ({ selectTool, addImage, selectedTool }) => {
-  let dropzoneAreaElement = null
-
-  const triggerUploadDialog = (event) => {
-    event.preventDefault()
-    dropzoneAreaElement && dropzoneAreaElement.open()
-  }
+  const dropzoneRef = createRef()
 
   return (
     <div className='sketch-toolbar left'>
@@ -61,25 +56,38 @@ const ToolsPanel = ({ selectTool, addImage, selectedTool }) => {
       <StyledButton onClick={() => selectTool('text')} selectedTool={selectedTool} tool='text' title='Add Text'>
         <AddTextIcon />
       </StyledButton>
-      <Tappable onTap={triggerUploadDialog}>
+      <Tappable
+        onTap={(event) => {
+          event.preventDefault()
+          if (dropzoneRef.current) {
+            dropzoneRef.current.open()
+          }
+        }}
+      >
         <Tooltip title='Add Image' placement='right'>
-          <DropZone
-            ref={(dropzoneRef) => (dropzoneAreaElement = dropzoneRef)}
+          <Dropzone
+            noClick
+            noKeyboard
+            ref={dropzoneRef}
             accept='image/*'
             multiple={false}
             className='drop-area-images'
             onDrop={(file) => {
               const reader = new FileReader()
               reader.onloadend = () => {
-                const b64 = reader.result
-                addImage(b64)
+                addImage(reader.result)
+                selectTool('select')
               }
-
               reader.readAsDataURL(file[0])
             }}
           >
-            <PastImageIcon />
-          </DropZone>
+            {({ getRootProps, getInputProps }) => (
+              <StyledButton {...getRootProps({ className: 'tooltip-dropzone' })} tool='file'>
+                <input style={{ display: 'hidden' }} {...getInputProps()} />
+                <PastImageIcon />
+              </StyledButton>
+            )}
+          </Dropzone>
         </Tooltip>
       </Tappable>
       <StyledButton

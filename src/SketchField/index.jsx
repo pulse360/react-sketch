@@ -35,7 +35,7 @@ class SketchField extends Component {
     widthCorrection: PropTypes.number,
     heightCorrection: PropTypes.number,
     onChange: PropTypes.func,
-    defaultValue: PropTypes.string,
+    defaultValue: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
     width: PropTypes.number,
     height: PropTypes.number,
     className: PropTypes.string,
