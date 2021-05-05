@@ -2,7 +2,6 @@ import React from 'react'
 import { Popover } from '@material-ui/core'
 import './styles.css'
 import { BackgroundImageIcon } from '../SVG'
-import {useDropzone} from 'react-dropzone';
 
 import lines from './images/lines.png'
 import white from './images/white.png'
@@ -36,7 +35,6 @@ const devImages = [
 ]
 
 const BackgroundImage = ({ open, handleOpen, anchorEl, changeImage, images = devImages, addBackgroundImage }) => {
-  const { getRootProps, getInputProps } = useDropzone({ accept: 'image/*' })
   const handleClick = (image) => {
     changeImage(image)
     handleOpen()
@@ -84,9 +82,17 @@ const BackgroundImage = ({ open, handleOpen, anchorEl, changeImage, images = dev
           multiple={false}
           className='background-image__template'
           onDrop={(img) => addBackgroundImage(img)}
-          {...getRootProps({ className: 'bg-dropzone' })}
         >
-          <input style={{ display: 'hidden' }} {...getInputProps()} />+
+          {/* <input
+            style={{ display: 'none' }}
+            type='file'
+            name='file'
+            ref={dropzoneRef}
+            onChange={(event) => {
+              addBackgroundImage(event.target.files[0])
+              // TODO: Implement - Copy from ToolsPanel Logic
+            }}
+          /> */}
         </div>
       </>
     </Popover>

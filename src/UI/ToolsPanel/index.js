@@ -1,6 +1,5 @@
 import { Tooltip } from '@material-ui/core'
 import React, { createRef } from 'react'
-import Dropzone from 'react-dropzone'
 import Tappable from 'react-tappable'
 import StyledButton from '../StyledButton'
 import {
@@ -60,34 +59,33 @@ const ToolsPanel = ({ selectTool, addImage, selectedTool }) => {
         onTap={(event) => {
           event.preventDefault()
           if (dropzoneRef.current) {
-            dropzoneRef.current.open()
+            dropzoneRef.current.click()
           }
         }}
       >
         <Tooltip title='Add Image' placement='right'>
-          <Dropzone
-            noClick
-            noKeyboard
+          <>
+          <StyledButton tool='file' title='Add Image'>
+            <PastImageIcon />
+          </StyledButton>
+          <input
+            style={{ display: 'none' }}
+            type='file'
+            name='file'
+            accept="image/*"
             ref={dropzoneRef}
-            accept='image/*'
-            multiple={false}
-            className='drop-area-images'
-            onDrop={(file) => {
+            onChange={(event) => {
               const reader = new FileReader()
               reader.onloadend = () => {
                 addImage(reader.result)
                 selectTool('select')
               }
-              reader.readAsDataURL(file[0])
+              reader.readAsDataURL(event.target.files[0])
             }}
-          >
-            {({ getRootProps, getInputProps }) => (
-              <StyledButton {...getRootProps({ className: 'tooltip-dropzone' })} tool='file'>
-                <input style={{ display: 'hidden' }} {...getInputProps()} />
-                <PastImageIcon />
-              </StyledButton>
-            )}
-          </Dropzone>
+          />
+
+
+          </>
         </Tooltip>
       </Tappable>
       <StyledButton
