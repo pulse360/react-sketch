@@ -1,6 +1,5 @@
 // @ts-check
 import { IconButton, Snackbar } from '@material-ui/core'
-import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import Tool from '../Constants/Tools'
 import fileDownloader from '../fileDownloader'
