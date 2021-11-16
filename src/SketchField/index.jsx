@@ -21,27 +21,6 @@ import { debounce, disableScrolling, enableScrolling } from '../utils'
 const fabric = require('fabric').fabric
 
 class SketchField extends Component {
-  static propTypes = {
-    lineColor: PropTypes.string,
-    lineWidth: PropTypes.number,
-    fillColor: PropTypes.string,
-    backgroundColor: PropTypes.string,
-    opacity: PropTypes.number,
-    undoSteps: PropTypes.number,
-    tool: PropTypes.string,
-    imageFormat: PropTypes.string,
-    value: PropTypes.object,
-    forceValue: PropTypes.bool,
-    widthCorrection: PropTypes.number,
-    heightCorrection: PropTypes.number,
-    onChange: PropTypes.func,
-    defaultValue: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-    width: PropTypes.number,
-    height: PropTypes.number,
-    className: PropTypes.string,
-    style: PropTypes.object,
-  }
-
   static defaultProps = {
     lineColor: 'black',
     lineWidth: 10,
