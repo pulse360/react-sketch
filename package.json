@@ -35,7 +35,7 @@
     "analyze": "source-map-explorer 'dist/*' --html > analyzer-result.html"
   },
   "engines": {
-    "node": ">= 14"
+    "node": ">= 12"
   },
   "lint-staged": {
     "*.{js,jsx,css,md}": [
