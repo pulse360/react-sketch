@@ -4,7 +4,6 @@ const webpack = require('webpack')
 const WebpackDevServer = require('webpack-dev-server')
 const DefinePlugin = require('webpack/lib/DefinePlugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const OpenBrowserPlugin = require('open-browser-webpack-plugin')
 const NamedModulesPlugin = require('webpack/lib/NamedModulesPlugin')
 const NoEmitOnErrorsPlugin = require('webpack/lib/NoEmitOnErrorsPlugin')
 const HotModuleReplacementPlugin = require('webpack/lib/HotModuleReplacementPlugin')
@@ -46,7 +45,7 @@ const config = {
     lazy: false,
     port: port,
     hot: true,
-    disableHostCheck: true
+    disableHostCheck: true,
   },
   module: {
     rules: [
@@ -66,13 +65,6 @@ const config = {
           limit: 8192,
         },
       },
-      // {
-      //   test: /\.(jpe?g|png|gif|svg)$/,
-      //   loader: 'file-loader',
-      //   options: {
-      //     outputPath: 'assets',
-      //   },
-      // },
     ],
   },
   plugins: [
@@ -93,11 +85,10 @@ const config = {
         NODE_ENV: JSON.stringify('development'),
       },
     }),
-    new OpenBrowserPlugin({ url: 'http://localhost:' + port }),
   ],
 }
 
-new WebpackDevServer(webpack(config), config.devServer).listen(port, '0.0.0.0', function(err) {
+new WebpackDevServer(webpack(config), config.devServer).listen(port, '0.0.0.0', function (err) {
   err && console.log(err)
   console.log('Serving from http://localhost:' + port)
 })
