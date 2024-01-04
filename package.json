@@ -24,7 +24,7 @@
   "main": "./dist",
   "types": "./types/index.d.ts",
   "scripts": {
-    "start": "node webpack/server.js",
+    "start": "node --openssl-legacy-provider webpack/server.js",
     "build:watch": "NODE_ENV=development webpack --mode development --config webpack/library.cfg.dev.js --watch",
     "build": "rm -rf ./dist && NODE_ENV=production webpack --mode production --config webpack/library.cfg.js",
     "lint": "eslint ./src",
@@ -121,8 +121,8 @@
     "webpack-dev-server": "^3.11.0"
   },
   "dependencies": {
-    "react": "16.14.0",
-    "react-dom": "16.14.0",
+    "react": "17.0.2",
+    "react-dom": "17.0.2",
     "react-icons-kit": "^1.3.1"
   }
 }

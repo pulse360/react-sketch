@@ -5,9 +5,9 @@ object-assign
 */
 
 /*!
-  Copyright (c) 2017 Jed Watson.
-  Licensed under the MIT License (MIT), see
-  http://jedwatson.github.io/classnames
+	Copyright (c) 2018 Jed Watson.
+	Licensed under the MIT License (MIT), see
+	http://jedwatson.github.io/classnames
 */
 
 /*!
@@ -32,6 +32,8 @@ object-assign
  */
 
 /*! Fabric.js Copyright 2008-2015, Printio (Juriy Zaytsev, Maxim Chernyak) */
+
+/*! ieee754. BSD-3-Clause License. Feross Aboukhadijeh <https://feross.org/opensource> */
 
 /**
     * CSS Vendor prefix detection and property feature testing.
@@ -174,7 +176,7 @@ object-assign
    * ====================================================================
    */
 
-/** @license React v0.19.1
+/** @license React v0.20.2
  * scheduler.production.min.js
  *
  * Copyright (c) Facebook, Inc. and its affiliates.
@@ -192,7 +194,7 @@ object-assign
  * LICENSE file in the root directory of this source tree.
  */
 
-/** @license React v16.14.0
+/** @license React v17.0.2
  * react-dom.production.min.js
  *
  * Copyright (c) Facebook, Inc. and its affiliates.
@@ -201,7 +203,7 @@ object-assign
  * LICENSE file in the root directory of this source tree.
  */
 
-/** @license React v16.14.0
+/** @license React v17.0.2
  * react.production.min.js
  *
  * Copyright (c) Facebook, Inc. and its affiliates.
